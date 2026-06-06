@@ -1,0 +1,56 @@
+@use 'abstracts' as *;
+
+.shell {
+  position: relative;
+  inline-size: 100%;
+  block-size: clamp(420px, 60vh, 680px);
+  border-radius: radius('lg');
+  overflow: hidden;
+  background: var(--bg-inset);
+  border: 1px solid var(--border-default);
+  box-shadow: var(--shadow-sm);
+}
+
+.placeholder,
+.empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+  letter-spacing: 0.04em;
+}
+
+/* ─── price-pill marker ──────────────────────────────────────────────── */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: space('1') space('3');
+  background: var(--color-primary);
+  color: var(--text-inverse);
+  border: 2px solid var(--color-accent);
+  border-radius: radius('pill');
+  font-family: $font-display;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  transform-origin: 50% 100%;
+  transition:
+    transform $transition-fast,
+    background-color $transition-fast,
+    color $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    transform: scale(1.08);
+    background: var(--color-accent);
+    color: var(--color-primary);
+    z-index: 1;
+  }
+}

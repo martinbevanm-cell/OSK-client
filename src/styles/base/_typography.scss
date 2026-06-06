@@ -1,0 +1,69 @@
+@use '../abstracts' as *;
+
+// Base document styling — colors come ONLY from theme tokens.
+html {
+  font-family: $font-sans;
+  font-size: 100%;
+}
+
+body {
+  background: token('bg-page');
+  color: token('text-primary');
+  font-size: 1rem;
+  transition:
+    background-color $transition-base,
+    color $transition-base;
+}
+
+h1,
+h2,
+h3 {
+  font-family: $font-display;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: token('text-primary');
+}
+
+h1 {
+  font-size: clamp(2rem, 1.4rem + 3vw, 3.5rem);
+}
+
+h2 {
+  font-size: clamp(1.6rem, 1.2rem + 1.8vw, 2.4rem);
+}
+
+h3 {
+  font-size: clamp(1.25rem, 1.05rem + 1vw, 1.6rem);
+}
+
+h4,
+h5,
+h6 {
+  font-family: $font-sans;
+  font-weight: 600;
+  color: token('text-primary');
+}
+
+p {
+  color: token('text-secondary');
+}
+
+small {
+  color: token('text-muted');
+  font-size: 0.85rem;
+}
+
+a {
+  color: token('color-primary');
+  transition: color $transition-fast;
+
+  &:hover {
+    color: token('color-primary-hover');
+  }
+}
+
+::selection {
+  background: token('color-accent');
+  color: token('text-inverse');
+}

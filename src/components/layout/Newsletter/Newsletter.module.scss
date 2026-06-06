@@ -1,0 +1,127 @@
+@use 'abstracts' as *;
+
+.section {
+  background: var(--bg-inset);
+  border-block-start: 1px solid var(--border-default);
+  border-block-end: 1px solid var(--border-default);
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: space('5');
+  align-items: center;
+  max-inline-size: container('default');
+  margin-inline: auto;
+  padding-block: space('7');
+  padding-inline: clamp(#{space('4')}, 4vw, #{space('6')});
+
+  @include respond('md') {
+    grid-template-columns: 1.1fr 1fr;
+    gap: space('7');
+  }
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+  max-inline-size: 56ch;
+}
+
+.eyebrow {
+  @include eyebrow-section;
+}
+
+.title {
+  margin: 0;
+  font-family: $font-display;
+  font-size: clamp(1.6rem, 1.1rem + 1.6vw, 2.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.sub {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: space('3');
+
+  @include respond('sm') {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: space('1');
+
+  @include respond('sm') {
+    grid-column: 1 / 2;
+  }
+}
+
+.fieldLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.04em;
+}
+
+.input {
+  padding: space('3') space('4');
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('md');
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  min-block-size: 48px;
+  transition:
+    border-color $transition-fast,
+    box-shadow $transition-fast;
+
+  &::placeholder {
+    color: var(--text-muted);
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--ring-focus);
+  }
+
+  &[aria-invalid='true'] {
+    border-color: var(--color-danger);
+  }
+}
+
+.error {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-danger);
+  grid-column: 1 / -1;
+}
+
+.hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  grid-column: 1 / -1;
+
+  a {
+    color: var(--color-primary);
+    text-decoration: underline;
+
+    &:hover {
+      color: var(--color-primary-hover);
+    }
+  }
+}

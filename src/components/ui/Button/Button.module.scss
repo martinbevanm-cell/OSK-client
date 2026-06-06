@@ -1,0 +1,116 @@
+@use 'abstracts' as *;
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: space('2');
+  border-radius: radius('md');
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background-color $transition-fast,
+    border-color $transition-fast,
+    color $transition-fast,
+    transform $transition-fast;
+
+  @include focus-ring;
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+.fullWidth {
+  inline-size: 100%;
+}
+
+/* sizes */
+.sm {
+  padding: space('2') space('3');
+  font-size: 0.8125rem;
+}
+
+.md {
+  padding: space('3') space('5');
+  font-size: 0.9375rem;
+}
+
+.lg {
+  padding: space('4') space('6');
+  font-size: 1rem;
+}
+
+/* variants — colors strictly from button tokens */
+.primary {
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-fg);
+  border: 1px solid transparent;
+
+  &:focus-visible,
+  &:active:not(:disabled) {
+    color: var(--btn-primary-fg);
+  }
+
+  &:hover:not(:disabled) {
+    background: var(--btn-primary-hover);
+    color: var(--btn-primary-fg);
+  }
+}
+
+.secondary {
+  background: var(--btn-secondary-bg);
+  color: var(--btn-secondary-fg);
+  border: 1px solid var(--border-strong);
+
+  &:focus-visible,
+  &:active:not(:disabled) {
+    color: var(--btn-secondary-fg);
+  }
+
+  &:hover:not(:disabled) {
+    background: var(--btn-secondary-hover);
+    color: var(--btn-secondary-fg);
+  }
+}
+
+.ghost {
+  background: var(--btn-ghost-bg);
+  color: var(--btn-ghost-fg);
+  border: 1px solid transparent;
+
+  &:focus-visible,
+  &:active:not(:disabled) {
+    color: var(--btn-ghost-fg);
+  }
+
+  &:hover:not(:disabled) {
+    background: var(--btn-ghost-hover);
+    color: var(--btn-ghost-fg);
+  }
+}
+
+.danger {
+  background: var(--btn-danger-bg);
+  color: var(--btn-danger-fg);
+  border: 1px solid transparent;
+
+  &:focus-visible,
+  &:active:not(:disabled) {
+    color: var(--btn-danger-fg);
+  }
+
+  &:hover:not(:disabled) {
+    background: var(--btn-danger-hover);
+    color: var(--btn-danger-fg);
+  }
+}

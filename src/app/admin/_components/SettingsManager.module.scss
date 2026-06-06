@@ -1,0 +1,356 @@
+@use 'abstracts' as *;
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  gap: space('5');
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+}
+
+.eyebrow {
+  @include eyebrow-section;
+}
+
+.title {
+  margin: 0;
+  font-family: $font-display;
+  font-size: clamp(1.65rem, 1.3rem + 1.6vw, 2.2rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.sub {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  max-inline-size: 70ch;
+}
+
+.muted {
+  margin: 0;
+  padding: space('6');
+  text-align: center;
+  color: var(--text-muted);
+  background: var(--bg-card);
+  border: 1px dashed var(--border-strong);
+  border-radius: radius('lg');
+}
+
+.tabBar {
+  display: inline-flex;
+  gap: 4px;
+  align-self: flex-start;
+  padding: 4px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('pill');
+  box-shadow: var(--shadow-sm);
+}
+
+.tab {
+  padding: space('2') space('4');
+  border: none;
+  background: transparent;
+  border-radius: radius('pill');
+  color: var(--text-secondary);
+  font-family: $font-display;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition:
+    background-color $transition-fast,
+    color $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    color: var(--text-primary);
+  }
+}
+
+.tabActive {
+  background: var(--color-primary);
+  color: var(--text-inverse);
+
+  &:hover {
+    color: var(--text-inverse);
+  }
+}
+
+/* ─── form ───────────────────────────────────────────────────────────── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: space('5');
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: space('3');
+  padding: space('5') space('6');
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('xl');
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline: space('5');
+    block-size: 3px;
+    background: linear-gradient(90deg, var(--color-accent), transparent);
+  }
+}
+
+.sectionTitle {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.sectionHint {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  max-inline-size: 64ch;
+}
+
+.fieldLabel {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+}
+
+.textareaField {
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+}
+
+.textarea {
+  inline-size: 100%;
+  min-block-size: 220px;
+  padding: space('3');
+  border-radius: radius('md');
+  border: 1px solid var(--border-strong);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  resize: vertical;
+  transition:
+    border-color $transition-fast,
+    box-shadow $transition-fast;
+
+  &::placeholder {
+    color: var(--text-muted);
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--ring-focus);
+  }
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: space('3');
+
+  @include respond('sm') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.grid3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: space('3');
+
+  @include respond('sm') {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ─── theme picker ───────────────────────────────────────────────────── */
+.themeGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: space('3');
+
+  @include respond('sm') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include respond('lg') {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.themeCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+  padding: space('4');
+  background: var(--bg-card);
+  border: 2px solid var(--border-default);
+  border-radius: radius('lg');
+  cursor: pointer;
+  text-align: start;
+  transition:
+    border-color $transition-fast,
+    transform $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+  }
+}
+
+.themeCardOn {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-soft);
+}
+
+.themePreview {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: 30px 30px;
+  gap: 2px;
+  border-radius: radius('md');
+  overflow: hidden;
+  /* Each card gets the *target* theme class applied, so its tokens
+   * resolve to that theme's palette regardless of the active theme. */
+  background: var(--bg-page);
+  border: 1px solid var(--border-default);
+}
+
+.swatchBg {
+  grid-column: 1 / -1;
+  background: var(--bg-page);
+}
+
+.swatchPrimary {
+  background: var(--color-primary);
+}
+
+.swatchAccent {
+  background: var(--color-accent);
+}
+
+.swatchCard {
+  background: var(--bg-card);
+}
+
+.themeName {
+  font-family: $font-display;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.themeTagline {
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+}
+
+.activeBadge {
+  position: absolute;
+  inset-block-start: space('2');
+  inset-inline-end: space('2');
+  padding: 2px space('2');
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--color-primary);
+  color: var(--text-inverse);
+  border-radius: radius('pill');
+}
+
+/* ─── logo ───────────────────────────────────────────────────────────── */
+.logoRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: space('3');
+  align-items: start;
+
+  @include respond('md') {
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: space('5');
+  }
+}
+
+.logoPreview {
+  inline-size: 120px;
+  block-size: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-inset);
+  border: 1px solid var(--border-default);
+  border-radius: radius('lg');
+  overflow: hidden;
+}
+
+.logoImg {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+}
+
+.logoPlaceholder {
+  font-family: $font-display;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-primary);
+}
+
+.logoControls {
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+  min-inline-size: 0;
+}
+
+.removeBtn {
+  align-self: flex-start;
+  padding: 0;
+  background: transparent;
+  border: none;
+  color: var(--color-danger);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* ─── footer actions ─────────────────────────────────────────────────── */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: space('3');
+}

@@ -1,0 +1,543 @@
+@use 'abstracts' as *;
+
+/* ──────────────────────────────────────────────────────────────────────
+ * PropertyExplorer — shared by Buy / Rent / Commercial / Plots
+ *  ▸ Editorial header (eyebrow + display title + subtitle)
+ *  ▸ Toolbar: result count + kind tabs (left) | Beds + Sort + Clear (right)
+ *  ▸ Token-themed dropdowns via the local ListingDropdown primitive
+ * ────────────────────────────────────────────────────────────────────── */
+
+.explorer {
+  max-inline-size: container('default');
+  margin-inline: auto;
+  padding-block: space('7') space('9');
+  padding-inline: clamp(#{space('4')}, 4vw, #{space('6')});
+}
+
+/* ─── header ─────────────────────────────────────────────────────────── */
+.head {
+  margin-block-end: space('5');
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: space('2');
+  margin: 0;
+  padding: space('1') space('3');
+  background: var(--color-primary-soft);
+  border-radius: radius('pill');
+  color: var(--color-primary);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.eyebrowDot {
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+.title {
+  margin: 0;
+  font-family: $font-display;
+  font-size: clamp(1.85rem, 1.3rem + 2vw, 2.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.subtitle {
+  margin: 0;
+  max-inline-size: 60ch;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* ─── toolbar ────────────────────────────────────────────────────────── */
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: space('3');
+  margin-block-end: space('5');
+  padding-block: space('4');
+  border-block: 1px solid var(--divider);
+
+  @include respond('md') {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: space('4');
+  }
+}
+
+.toolbarLeft {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: space('3');
+  min-inline-size: 0;
+}
+
+/* The right side of the toolbar.
+ * Sub-structure:
+ *   .toolbarRight
+ *     ├── .toolbarFilters   ← country, beds, sort, clear chip (wraps)
+ *     └── .toolbarView      ← grid/map switch (anchored to the very end)
+ * Auto margin pushes the view switch to the end so adding/removing the
+ * "Clear filters" chip never bumps the view switch off the line. */
+.toolbarRight {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: space('3');
+  inline-size: 100%;
+
+  @include respond('md') {
+    inline-size: auto;
+    flex: 1;
+    justify-content: flex-end;
+  }
+}
+
+.toolbarFilters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: space('2');
+  min-block-size: 44px;
+}
+
+.toolbarView {
+  margin-inline-start: auto;
+}
+
+/* "Worldwide" replacement pill shown when worldwide mode is on. Sits in
+ * the same toolbar slot the CountrySelect would occupy, matches the same
+ * 44px height as the other dropdown triggers, and acts as the one-click
+ * way back to the single-country view. */
+.worldwidePill {
+  display: inline-flex;
+  align-items: center;
+  gap: space('2');
+  min-block-size: 44px;
+  padding: 0 space('4');
+  background: var(--color-primary-soft);
+  border: 1px solid var(--color-primary);
+  border-radius: radius('pill');
+  color: var(--color-primary);
+  cursor: pointer;
+  transition:
+    background-color $transition-fast,
+    border-color $transition-fast;
+
+  &:hover {
+    background: var(--color-primary);
+    color: var(--text-inverse);
+
+    .worldwidePillLabel {
+      color: var(--text-inverse);
+      opacity: 0.7;
+    }
+  }
+
+  @include focus-ring;
+}
+
+.worldwidePillIcon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.worldwidePillText {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+}
+
+.worldwidePillLabel {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  opacity: 0.7;
+}
+
+.worldwidePillValue {
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* Compact country pill inside the toolbar — same height as ListingDropdown
+ * triggers so the toolbar stays visually aligned. */
+.countryControl {
+  min-inline-size: 12rem;
+}
+
+.count {
+  font-family: $font-display;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+
+  &::after {
+    content: '';
+  }
+}
+
+.toolbarSep {
+  display: none;
+  inline-size: 1px;
+  block-size: 22px;
+  background: var(--border-default);
+
+  @include respond('md') {
+    display: block;
+  }
+}
+
+/* ─── kind tabs ──────────────────────────────────────────────────────── */
+.tabs {
+  display: inline-flex;
+  gap: 2px;
+  padding: 4px;
+  background: var(--bg-inset);
+  border-radius: radius('pill');
+}
+
+.tab {
+  padding: space('2') space('4');
+  background: transparent;
+  border: none;
+  border-radius: radius('pill');
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color $transition-fast,
+    color $transition-fast,
+    box-shadow $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    color: var(--text-primary);
+  }
+}
+
+.tabActive {
+  background: var(--bg-card);
+  color: var(--color-primary);
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+/* ─── dropdown option lists (rendered inside ListingDropdown panels) ── */
+.optionList {
+  list-style: none;
+  margin: 0;
+  padding: space('1');
+}
+
+.option {
+  inline-size: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: space('3');
+  padding: space('2') space('3');
+  background: transparent;
+  border: none;
+  border-radius: radius('md');
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: start;
+  cursor: pointer;
+  transition:
+    background-color $transition-fast,
+    color $transition-fast;
+
+  &:hover {
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+  }
+
+  &:focus-visible {
+    outline: none;
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+  }
+}
+
+.optionActive {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* ─── view toggle (grid / map) ───────────────────────────────────────── */
+.viewToggle {
+  display: inline-flex;
+  gap: 2px;
+  padding: 4px;
+  background: var(--bg-inset);
+  border-radius: radius('pill');
+  margin-inline-start: space('1');
+}
+
+.viewBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: space('2');
+  padding: space('2') space('3');
+  background: transparent;
+  border: none;
+  border-radius: radius('pill');
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color $transition-fast,
+    color $transition-fast,
+    box-shadow $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    color: var(--text-primary);
+  }
+
+  span {
+    @media (max-width: 540px) {
+      display: none;
+    }
+  }
+}
+
+.viewBtnActive {
+  background: var(--bg-card);
+  color: var(--color-primary);
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+/* ─── clear button ───────────────────────────────────────────────────── */
+/* Visually a chip — height matches the .trigger min-block-size in
+ * ListingDropdown so the toolbar row stays on the same baseline whether
+ * Clear filters is rendered or not. */
+.clearBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: space('1');
+  min-block-size: 44px;
+  padding: 0 space('4');
+  background: transparent;
+  border: 1px solid var(--border-default);
+  border-radius: radius('pill');
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color $transition-fast,
+    background-color $transition-fast,
+    border-color $transition-fast;
+
+  &::before {
+    content: '×';
+    font-size: 1.1rem;
+    line-height: 1;
+    color: var(--text-muted);
+  }
+
+  &:hover {
+    color: var(--color-danger);
+    border-color: var(--color-danger);
+    background: var(--color-danger-soft);
+
+    &::before {
+      color: var(--color-danger);
+    }
+  }
+
+  @include focus-ring;
+}
+
+/* ─── grid ───────────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: space('5');
+
+  @include respond('sm') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond('lg') {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.gridBusy {
+  opacity: 0.6;
+  transition: opacity $transition-base;
+}
+
+.skeleton {
+  block-size: 380px;
+  border-radius: radius('lg');
+  background: linear-gradient(
+    100deg,
+    var(--bg-inset) 30%,
+    var(--bg-elevated) 50%,
+    var(--bg-inset) 70%
+  );
+  background-size: 200% 100%;
+
+  @include motion-safe {
+    animation: shimmer 1.4s ease-in-out infinite;
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* ─── empty / error state ────────────────────────────────────────────── */
+.state {
+  padding: space('8') space('4');
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+  align-items: center;
+}
+
+/* Country-specific empty state — same layout, slightly richer styling
+ * (border + tinted background) so it reads as a deliberate moment, not
+ * an error. */
+.stateCountry {
+  gap: space('3');
+  padding: space('9') space('5');
+  background: var(--bg-inset);
+  border: 1px dashed var(--border-default);
+  border-radius: radius('xl');
+  max-inline-size: 32rem;
+  margin-inline: auto;
+}
+
+.stateIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 3.5rem;
+  block-size: 3.5rem;
+  border-radius: 50%;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.stateTitle {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.stateMsg {
+  margin: 0;
+  max-inline-size: 40ch;
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+}
+
+.stateActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: space('3');
+  margin-block-start: space('2');
+}
+
+.inlineClear {
+  margin-inline: space('1');
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--color-primary);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--color-primary-hover);
+  }
+
+  @include focus-ring;
+}
+
+/* Worldwide-mode banner — sits above results so the user knows their
+ * country filter is currently relaxed. Same tone as the toolbar so it
+ * feels persistent, not alarming. */
+.worldwideBanner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: space('3');
+  margin-block-end: space('4');
+  padding: space('3') space('4');
+  background: var(--color-primary-soft);
+  border: 1px solid var(--color-primary);
+  border-radius: radius('md');
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+
+  strong {
+    font-weight: 600;
+  }
+}
+
+/* ─── pagination ─────────────────────────────────────────────────────── */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: space('4');
+  margin-block-start: space('7');
+}
+
+.pageInfo {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}

@@ -1,0 +1,112 @@
+@use 'abstracts' as *;
+
+/* ──────────────────────────────────────────────────────────────────────
+ * OSK hero — centered editorial heading + search filter.
+ * Background is built from two radial blooms that resolve to soft theme
+ * tokens. No opacity overrides — every visible color is solid token-tuned.
+ * ────────────────────────────────────────────────────────────────────── */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: clamp(#{space('7')}, 7vw, #{space('9')})
+    clamp(#{space('7')}, 7vw, #{space('9')});
+  background: var(--bg-page);
+}
+
+/* ─── background layers ──────────────────────────────────────────────── */
+.bgLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.bgGradientA {
+  position: absolute;
+  inset-block-start: -25%;
+  inset-inline-start: -15%;
+  inline-size: 65%;
+  block-size: 65%;
+  background: radial-gradient(closest-side, var(--color-primary-soft), transparent 70%);
+}
+
+.bgGradientB {
+  position: absolute;
+  inset-block-end: -25%;
+  inset-inline-end: -15%;
+  inline-size: 55%;
+  block-size: 55%;
+  background: radial-gradient(closest-side, var(--bg-inset), transparent 70%);
+}
+
+/* ─── container ──────────────────────────────────────────────────────── */
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(#{space('6')}, 4vw, #{space('7')});
+  max-inline-size: 1100px;
+  margin-inline: auto;
+  padding-inline: space('4');
+  text-align: center;
+}
+
+/* ─── copy column ────────────────────────────────────────────────────── */
+.copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: space('4');
+  max-inline-size: 780px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: space('2');
+  padding: space('1') space('3');
+  background: var(--color-primary-soft);
+  border-radius: radius('pill');
+  color: var(--color-primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.eyebrowDot {
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.heading {
+  margin: 0;
+  font-family: $font-display;
+  font-size: clamp(2.4rem, 1.3rem + 4.5vw, 4.75rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+
+  em {
+    font-style: italic;
+    background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 100%);
+    background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+}
+
+.sub {
+  margin: 0;
+  max-inline-size: 56ch;
+  font-size: clamp(1rem, 0.9rem + 0.3vw, 1.125rem);
+  line-height: 1.65;
+  color: var(--text-secondary);
+}

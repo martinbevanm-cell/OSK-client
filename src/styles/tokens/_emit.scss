@@ -1,0 +1,18 @@
+@use 'sass:map';
+@use 'contract';
+
+/// Emit a theme map as CSS custom properties, validating it against the
+/// token contract first. Call inside a theme selector:
+///
+///   .theme-foo { @include emit.theme($foo-map); }
+///
+@mixin theme($map) {
+  @each $name in contract.$token-contract {
+    @if not map.has-key($map, $name) {
+      @warn 'Theme is missing required token `#{$name}` — see tokens/_contract.scss.';
+    }
+  }
+  @each $name, $value in $map {
+    --#{$name}: #{$value};
+  }
+}

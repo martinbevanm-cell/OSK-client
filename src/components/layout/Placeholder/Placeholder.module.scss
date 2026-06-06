@@ -1,0 +1,33 @@
+@use 'abstracts' as *;
+
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: space('3');
+  max-width: container('narrow');
+  margin-inline: auto;
+  padding: space('9') space('4');
+  text-align: center;
+}
+
+.phase {
+  padding: space('1') space('3');
+  border-radius: radius('pill');
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: clamp(1.8rem, 1.4rem + 2vw, 2.6rem);
+  color: var(--text-primary);
+}
+
+.description {
+  max-inline-size: 48ch;
+  color: var(--text-muted);
+}

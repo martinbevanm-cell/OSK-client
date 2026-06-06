@@ -1,0 +1,33 @@
+@use '../abstracts' as *;
+
+/* ─── skip-to-content ────────────────────────────────────────────────── */
+/* Keyboard users land on this first; click/Enter jumps focus to <main>.
+ * Visually hidden until focused, then animates in as a real pill. */
+.skip-link {
+  position: fixed;
+  inset-block-start: space('3');
+  inset-inline-start: space('3');
+  z-index: 1000;
+  padding: space('2') space('4');
+  background: var(--color-primary);
+  color: var(--text-inverse);
+  border-radius: radius('pill');
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transform: translateY(-200%);
+  transition: transform $transition-fast;
+
+  &:focus-visible {
+    transform: translateY(0);
+    outline: none;
+    box-shadow: 0 0 0 3px var(--ring-focus);
+  }
+}
+
+/* When focus moves to <main> via the skip-link, suppress its default
+ * focus ring — the user just navigated, they don't need an outline. */
+main:focus {
+  outline: none;
+}

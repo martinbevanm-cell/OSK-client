@@ -1,0 +1,334 @@
+@use 'abstracts' as *;
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  gap: space('5');
+}
+
+/* ─── head ───────────────────────────────────────────────────────────── */
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: space('3');
+  align-items: flex-start;
+}
+
+.headCopy {
+  display: flex;
+  flex-direction: column;
+  gap: space('1');
+}
+
+.eyebrow {
+  @include eyebrow-section;
+}
+
+.title {
+  margin: 0;
+  font-family: $font-display;
+  font-size: clamp(1.65rem, 1.3rem + 1.6vw, 2.2rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.sub {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+}
+
+/* ─── filters ────────────────────────────────────────────────────────── */
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: space('3');
+  padding: space('4') space('5');
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('lg');
+}
+
+.filterRow {
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+
+  @include respond('sm') {
+    flex-direction: row;
+    align-items: center;
+    gap: space('4');
+  }
+}
+
+.filterLabel {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  min-inline-size: 4rem;
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: space('2');
+}
+
+.pill {
+  padding: space('2') space('3');
+  background: var(--bg-inset);
+  border: 1px solid transparent;
+  border-radius: radius('pill');
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color $transition-fast,
+    color $transition-fast,
+    border-color $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    color: var(--text-primary);
+  }
+}
+
+.pillActive {
+  background: var(--color-primary);
+  color: var(--text-inverse);
+  font-weight: 600;
+}
+
+/* ─── states ─────────────────────────────────────────────────────────── */
+.state {
+  margin: 0;
+  padding: space('7');
+  text-align: center;
+  color: var(--text-muted);
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('lg');
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: space('2');
+  padding: space('8') space('4');
+  text-align: center;
+  background: var(--bg-card);
+  border: 1px dashed var(--border-strong);
+  border-radius: radius('lg');
+}
+
+.emptyTitle {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 1.2rem;
+  color: var(--text-primary);
+}
+
+.emptyMsg {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+}
+
+/* ─── list ───────────────────────────────────────────────────────────── */
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+}
+
+.busy {
+  opacity: 0.7;
+  transition: opacity $transition-base;
+}
+
+.row {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('lg');
+  overflow: hidden;
+  transition: border-color $transition-fast;
+
+  &:hover {
+    border-color: var(--color-primary);
+  }
+}
+
+.rowOpen {
+  border-color: var(--color-primary);
+}
+
+.rowHead {
+  inline-size: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: space('3');
+  align-items: center;
+  padding: space('4') space('5');
+  background: transparent;
+  border: none;
+  text-align: start;
+  cursor: pointer;
+  color: inherit;
+
+  @include focus-ring;
+}
+
+.rowMain {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-inline-size: 0;
+}
+
+.rowName {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.rowMeta {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.statusPill {
+  padding: 2px space('2');
+  border-radius: radius('pill');
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.status_new {
+  background: var(--badge-new-bg);
+  color: var(--badge-new-fg);
+}
+
+.status_contacted {
+  background: var(--badge-resale-bg);
+  color: var(--badge-resale-fg);
+}
+
+.status_callback_requested {
+  background: var(--badge-featured-bg);
+  color: var(--badge-featured-fg);
+}
+
+.status_closed {
+  background: var(--badge-sold-bg);
+  color: var(--badge-sold-fg);
+}
+
+.caret {
+  inline-size: 22px;
+  block-size: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--bg-inset);
+  color: var(--text-secondary);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* ─── expanded body ──────────────────────────────────────────────────── */
+.rowBody {
+  display: flex;
+  flex-direction: column;
+  gap: space('3');
+  padding: space('4') space('5') space('5');
+  border-block-start: 1px solid var(--divider);
+  background: var(--bg-inset);
+
+  p {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 5.5rem 1fr;
+    gap: space('3');
+    font-size: 0.9375rem;
+    color: var(--text-primary);
+  }
+}
+
+.bodyLabel {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  align-self: center;
+}
+
+.link {
+  color: var(--color-primary);
+  text-decoration: none;
+
+  &:hover { text-decoration: underline; }
+}
+
+.message {
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: space('3');
+  margin-block-start: space('1');
+}
+
+.statusSelect {
+  display: grid;
+  grid-template-columns: 5.5rem auto;
+  gap: space('3');
+  align-items: center;
+
+  select {
+    padding: space('2') space('3');
+    border-radius: radius('md');
+    background: var(--bg-card);
+    border: 1px solid var(--border-default);
+    color: var(--text-primary);
+    font-size: 0.875rem;
+
+    &:focus-visible {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px var(--ring-focus);
+    }
+  }
+}
+
+/* ─── pager ──────────────────────────────────────────────────────────── */
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: space('4');
+}
+
+.pageInfo {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}

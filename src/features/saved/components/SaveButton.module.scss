@@ -1,0 +1,52 @@
+@use 'abstracts' as *;
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: space('2');
+  inline-size: 40px;
+  block-size: 40px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: 50%;
+  color: var(--text-secondary);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition:
+    background-color $transition-fast,
+    border-color $transition-fast,
+    color $transition-fast,
+    transform $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    transform: translateY(-1px);
+  }
+}
+
+.inline {
+  inline-size: auto;
+  block-size: auto;
+  padding: space('2') space('4');
+  border-radius: radius('pill');
+}
+
+.active {
+  background: var(--badge-featured-bg);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+
+  &:hover {
+    background: var(--badge-featured-bg);
+    color: var(--color-accent);
+  }
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}

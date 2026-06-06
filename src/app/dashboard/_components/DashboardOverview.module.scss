@@ -1,0 +1,207 @@
+@use 'abstracts' as *;
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  gap: space('6');
+}
+
+/* ─── head ───────────────────────────────────────────────────────────── */
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+}
+
+.eyebrow {
+  @include eyebrow-section;
+}
+
+.title {
+  margin: 0;
+  font-family: $font-display;
+  font-size: clamp(1.65rem, 1.3rem + 1.6vw, 2.2rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.sub {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+/* ─── stats grid ─────────────────────────────────────────────────────── */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  background: var(--divider);
+  border: 1px solid var(--border-default);
+  border-radius: radius('lg');
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+
+  @include respond('md') {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: space('1');
+  padding: space('4') space('5');
+  background: var(--bg-card);
+  text-decoration: none;
+  color: inherit;
+  transition: background-color $transition-fast;
+
+  &[href]:hover {
+    background: var(--color-primary-soft);
+  }
+
+  @include focus-ring;
+}
+
+.statLabel {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.statValue {
+  margin: 0;
+  font-family: $font-display;
+  font-size: clamp(1.4rem, 1rem + 1vw, 1.8rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-primary);
+}
+
+/* ─── card grid ──────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: space('4');
+
+  @include respond('lg') {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: space('3');
+  padding: space('5');
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('lg');
+  box-shadow: var(--shadow-sm);
+}
+
+.cardHead {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: space('1') space('3');
+  align-items: end;
+}
+
+.cardEyebrow {
+  @include eyebrow-section;
+  grid-column: 1 / -1;
+}
+
+.cardTitle {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.cardLink {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--color-primary-hover);
+  }
+}
+
+/* ─── list rows ──────────────────────────────────────────────────────── */
+.list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: space('3');
+  padding: space('3') 0;
+  border-block-end: 1px solid var(--divider);
+
+  &:last-child {
+    border-block-end: 0;
+  }
+}
+
+.rowMain {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-inline-size: 0;
+}
+
+.rowTitle {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rowMeta {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.price {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+.muted {
+  margin: 0;
+  padding: space('4') 0;
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+}
+
+.inlineLink {
+  color: var(--color-primary);
+  text-decoration: underline;
+
+  &:hover {
+    color: var(--color-primary-hover);
+  }
+}

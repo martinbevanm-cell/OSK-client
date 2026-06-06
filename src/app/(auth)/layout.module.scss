@@ -1,0 +1,44 @@
+@use 'abstracts' as *;
+
+.wrap {
+  display: flex;
+  justify-content: center;
+  padding: space('8') space('4') space('9');
+  background:
+    radial-gradient(circle at 50% 0%, var(--color-primary-soft), transparent 60%),
+    var(--bg-page);
+}
+
+.card {
+  inline-size: 100%;
+  max-inline-size: 440px;
+  padding: space('7');
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('lg');
+  @include elevation('lg');
+}
+
+.brand {
+  display: block;
+  margin-block-end: space('5');
+  font-family: $font-display;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-align: center;
+  color: var(--text-primary);
+}
+
+.title {
+  font-size: 1.6rem;
+  text-align: center;
+  color: var(--text-primary);
+}
+
+.subtitle {
+  margin-block: space('1') space('5');
+  text-align: center;
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+}

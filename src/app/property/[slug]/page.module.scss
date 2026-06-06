@@ -1,0 +1,393 @@
+@use 'abstracts' as *;
+
+/* ──────────────────────────────────────────────────────────────────────
+ * Property detail layout
+ *  ▸ Breadcrumbs strip
+ *  ▸ Full-width PropertyGallery
+ *  ▸ Two-column body: main content (lede + sections) | sticky contact card
+ * The "lede" (title/locality/meta/price) sits in the main column as plain
+ * typography — no card wrapper — so it reads like editorial copy. Every
+ * color resolves to a theme token.
+ * ────────────────────────────────────────────────────────────────────── */
+
+.page {
+  max-inline-size: container('default');
+  margin-inline: auto;
+  padding-block: space('5') space('9');
+  padding-inline: clamp(#{space('4')}, 4vw, #{space('6')});
+}
+
+/* ─── breadcrumbs ────────────────────────────────────────────────────── */
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: space('2');
+  margin-block-end: space('4');
+  font-size: 0.8125rem;
+}
+
+.crumb {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+.crumbSep {
+  color: var(--border-strong);
+}
+
+.crumbActive {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* ─── 2-col layout (below the gallery) ───────────────────────────────── */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: space('6');
+  margin-block-start: space('6');
+
+  @include respond('lg') {
+    grid-template-columns: minmax(0, 1fr) 360px;
+    align-items: start;
+  }
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: space('7');
+  min-inline-size: 0;
+}
+
+/* ─── lede (title / locality / meta / price) — plain typography ─────── */
+.lede {
+  display: flex;
+  flex-direction: column;
+  gap: space('3');
+  padding-block-end: space('5');
+  border-block-end: 1px solid var(--divider);
+}
+
+.ledeLocality {
+  display: inline-flex;
+  align-items: center;
+  gap: space('2');
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.ledeDot {
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+.ledeTitle {
+  margin: 0;
+  font-family: $font-display;
+  font-size: clamp(1.6rem, 1.1rem + 1.8vw, 2.4rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.ledeBottom {
+  display: flex;
+  flex-direction: column;
+  gap: space('4');
+  margin-block-start: space('2');
+
+  @include respond('md') {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: space('5');
+  }
+}
+
+.ledeMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: space('2') space('5');
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+
+  li {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
+  }
+
+  strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+}
+
+.ledePriceBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-start;
+
+  @include respond('md') {
+    align-items: flex-end;
+  }
+}
+
+.priceLabel {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.price {
+  margin: 0;
+  font-family: $font-display;
+  font-size: clamp(1.85rem, 1.3rem + 2vw, 2.6rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--color-primary);
+}
+
+.priceUnit {
+  font-size: 0.5em;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+/* ─── content blocks ─────────────────────────────────────────────────── */
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: space('4');
+}
+
+.blockHeader {
+  display: flex;
+  flex-direction: column;
+  gap: space('1');
+}
+
+.blockEyebrow {
+  @include eyebrow-section;
+}
+
+.blockTitle {
+  margin: 0;
+  font-family: $font-display;
+  font-size: clamp(1.5rem, 1.2rem + 0.8vw, 1.85rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+/* Key facts grid */
+.facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  background: var(--divider);
+  border: 1px solid var(--border-default);
+  border-radius: radius('lg');
+  overflow: hidden;
+
+  @include respond('md') {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.fact {
+  display: flex;
+  flex-direction: column;
+  gap: space('1');
+  padding: space('4');
+  background: var(--bg-card);
+  min-inline-size: 0;
+}
+
+.factLabel {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.factValue {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Description */
+.description {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  white-space: pre-line;
+  max-inline-size: 70ch;
+}
+
+/* Amenities */
+.amenities {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: space('2');
+
+  @include respond('sm') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include respond('lg') {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.amenity {
+  display: flex;
+  align-items: center;
+  gap: space('3');
+  padding: space('3') space('4');
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('md');
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  transition: border-color $transition-fast;
+
+  &:hover {
+    border-color: var(--color-primary);
+  }
+}
+
+.amenityCheck {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 24px;
+  block-size: 24px;
+  border-radius: 50%;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.locationLead {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+}
+
+/* ─── sticky contact rail ────────────────────────────────────────────── */
+.aside {
+  display: flex;
+  flex-direction: column;
+  scroll-margin-block-start: space('5');
+
+  @include respond('lg') {
+    position: sticky;
+    inset-block-start: space('5');
+  }
+}
+
+.contactCard {
+  display: flex;
+  flex-direction: column;
+  gap: space('4');
+  padding: space('5');
+  border-radius: radius('xl');
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  @include elevation('lg');
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: space('5');
+    inset-inline-end: space('5');
+    block-size: 3px;
+    background: linear-gradient(
+      90deg,
+      var(--color-accent),
+      transparent
+    );
+  }
+}
+
+.contactHeader {
+  display: flex;
+  flex-direction: column;
+  gap: space('1');
+}
+
+.contactBadge {
+  align-self: flex-start;
+  padding: space('1') space('3');
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  border-radius: radius('pill');
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.contactTitle {
+  margin: space('2') 0 0;
+  font-family: $font-display;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.contactNote {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.contactFootnote {
+  display: flex;
+  align-items: center;
+  gap: space('2');
+  padding-block-start: space('3');
+  border-block-start: 1px solid var(--divider);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+
+  svg {
+    color: var(--color-success);
+    flex-shrink: 0;
+  }
+}

@@ -1,0 +1,282 @@
+@use 'abstracts' as *;
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  gap: space('5');
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+}
+
+.eyebrow {
+  @include eyebrow-section;
+}
+
+.title {
+  margin: 0;
+  font-family: $font-display;
+  font-size: clamp(1.65rem, 1.3rem + 1.6vw, 2.2rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.sub {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  max-inline-size: 70ch;
+}
+
+.muted {
+  margin: 0;
+  padding: space('6');
+  text-align: center;
+  color: var(--text-muted);
+  background: var(--bg-card);
+  border: 1px dashed var(--border-strong);
+  border-radius: radius('lg');
+}
+
+/* ─── tabs ───────────────────────────────────────────────────────────── */
+.tabs {
+  display: inline-flex;
+  gap: 2px;
+  padding: 4px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('pill');
+  align-self: flex-start;
+}
+
+.tab {
+  padding: space('2') space('4');
+  background: transparent;
+  border: none;
+  border-radius: radius('pill');
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition:
+    background-color $transition-fast,
+    color $transition-fast;
+
+  &:hover {
+    color: var(--text-primary);
+  }
+}
+
+.tabOn {
+  background: var(--color-primary);
+  color: var(--text-inverse);
+}
+
+/* ─── list ───────────────────────────────────────────────────────────── */
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: space('3');
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  grid-template-areas:
+    'media copy'
+    'actions actions';
+  gap: space('3') space('4');
+  align-items: center;
+  padding: space('3') space('4');
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('lg');
+  transition: border-color $transition-fast;
+
+  @include respond('md') {
+    grid-template-columns: 120px minmax(0, 1fr) auto;
+    grid-template-areas: 'media copy actions';
+    padding: space('3') space('5');
+  }
+}
+
+.rowFeatured {
+  border-color: var(--color-accent);
+  background: linear-gradient(
+    90deg,
+    var(--color-accent-soft, var(--bg-inset)) 0%,
+    var(--bg-card) 40%
+  );
+}
+
+.media {
+  grid-area: media;
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  border-radius: radius('md');
+  overflow: hidden;
+  background: var(--bg-inset);
+
+  @include focus-ring;
+}
+
+.thumb {
+  object-fit: cover;
+}
+
+.copy {
+  grid-area: copy;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-inline-size: 0;
+}
+
+.meta {
+  margin: 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+.type {
+  text-transform: capitalize;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.itemTitle {
+  font-family: $font-display;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+.price {
+  margin: space('1') 0 0;
+  font-family: $font-display;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.actions {
+  grid-area: actions;
+  display: flex;
+  align-items: center;
+  gap: space('3');
+  justify-self: flex-end;
+}
+
+.featuredBadge {
+  padding: 2px space('2');
+  background: var(--color-accent);
+  color: var(--text-inverse);
+  border-radius: radius('pill');
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ─── toggle switch ──────────────────────────────────────────────────── */
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: space('2');
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggleInput {
+  position: absolute;
+  opacity: 0;
+  inline-size: 0;
+  block-size: 0;
+}
+
+.toggleTrack {
+  position: relative;
+  display: inline-block;
+  inline-size: 38px;
+  block-size: 22px;
+  background: var(--border-strong);
+  border-radius: radius('pill');
+  transition: background-color $transition-fast;
+
+  .toggleInput:checked + & {
+    background: var(--color-primary);
+  }
+}
+
+.toggleThumb {
+  position: absolute;
+  inset-block-start: 2px;
+  inset-inline-start: 2px;
+  inline-size: 18px;
+  block-size: 18px;
+  background: var(--bg-card);
+  border-radius: 50%;
+  transition: transform $transition-fast;
+
+  .toggleInput:checked + .toggleTrack & {
+    transform: translateX(16px);
+  }
+}
+
+.toggleLabel {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+}
+
+/* ─── pager ──────────────────────────────────────────────────────────── */
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: space('4');
+}
+
+.pageBtn {
+  padding: space('2') space('4');
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('pill');
+  color: var(--text-primary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color $transition-fast;
+
+  @include focus-ring;
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-primary);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.pageInfo {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}

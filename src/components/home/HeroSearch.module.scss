@@ -1,0 +1,345 @@
+@use 'abstracts' as *;
+
+/* ──────────────────────────────────────────────────────────────────────
+ * HeroSearch layout
+ *  ▸ Pill tabs (Buy / Rent / New Projects) above the card
+ *  ▸ Card row 1: City | Location | Search button
+ *  ▸ Card row 2: Property-type tabs + Price + Area; sub-type chips below
+ * All colors via tokens. Layout numbers (px, rem, vw) are not colors.
+ * ────────────────────────────────────────────────────────────────────── */
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  inline-size: 100%;
+  max-inline-size: 920px;
+  margin-inline: auto;
+}
+
+/* ─── pill tabs ──────────────────────────────────────────────────────── */
+.tabs {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('pill');
+  box-shadow: var(--shadow-sm);
+  margin-block-end: space('4');
+}
+
+.tab {
+  padding: space('2') space('5');
+  border: none;
+  background: transparent;
+  border-radius: radius('pill');
+  color: var(--text-secondary);
+  font-family: $font-display;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition:
+    background-color $transition-fast,
+    color $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    color: var(--text-primary);
+  }
+
+  @media (max-width: 480px) {
+    padding: space('2') space('3');
+    font-size: 0.875rem;
+  }
+}
+
+.tabActive {
+  background: var(--color-primary);
+  color: var(--text-inverse);
+  font-weight: 600;
+
+  &:hover {
+    color: var(--text-inverse);
+  }
+}
+
+/* ─── card ───────────────────────────────────────────────────────────── */
+.card {
+  inline-size: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('xl');
+  box-shadow: var(--shadow-lg);
+  overflow: visible;
+}
+
+/* ─── row 1: country + city + location + search ───────────────────────── */
+.row1 {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-end-start-radius: 0;
+  border-end-end-radius: 0;
+
+  @include respond('md') {
+    /* Country + City + Location + Submit — tighter columns than the
+     * old 3-cell layout but the Location field still gets the most room. */
+    grid-template-columns:
+      minmax(10rem, 0.95fr)
+      minmax(10rem, 0.95fr)
+      minmax(12rem, 1.6fr)
+      auto;
+  }
+}
+
+.row1Cell {
+  /* Cells separated by hairline dividers — vertical on md+, horizontal stacked otherwise. */
+  &:not(:last-child) {
+    border-block-end: 1px solid var(--divider);
+  }
+
+  @include respond('md') {
+    &:not(:last-child) {
+      border-block-end: 0;
+      border-inline-end: 1px solid var(--divider);
+    }
+  }
+}
+
+/* Round the outer corners of the first and last cell so they hug the card edge. */
+.row1 > .row1Cell:first-child {
+  border-start-start-radius: radius('xl');
+
+  @media (max-width: #{breakpoint('md') - 1px}) {
+    border-start-end-radius: radius('xl');
+  }
+}
+
+.row1 > :last-child {
+  @include respond('md') {
+    border-start-end-radius: radius('xl');
+  }
+}
+
+/* ─── location input cell ────────────────────────────────────────────── */
+.location {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  padding: space('2') space('4');
+  min-block-size: 64px;
+  background: var(--bg-card);
+  cursor: text;
+  transition: background-color $transition-fast;
+
+  &:hover,
+  &:focus-within {
+    background: var(--color-primary-soft);
+  }
+}
+
+.locationInvalid {
+  .locationShell {
+    border-color: var(--color-danger);
+  }
+}
+
+.locationLabel {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.locationShell {
+  display: flex;
+  align-items: center;
+  gap: space('2');
+  padding-block: space('1');
+  border-block-end: 1px solid transparent;
+  transition: border-color $transition-fast;
+}
+
+.locationIcon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.locationInput {
+  flex: 1;
+  min-inline-size: 0;
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 500;
+
+  &::placeholder {
+    color: var(--text-muted);
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.fieldError {
+  margin-block-start: space('1');
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-danger);
+}
+
+/* ─── submit button ──────────────────────────────────────────────────── */
+.submit {
+  inline-size: 100%;
+  min-block-size: 64px;
+  padding-inline: space('6');
+  border-radius: 0;
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-fg);
+  font-family: $font-display;
+  letter-spacing: 0.06em;
+  gap: space('2');
+
+  &:hover:not(:disabled) {
+    background: var(--btn-primary-hover);
+  }
+
+  @include respond('md') {
+    inline-size: auto;
+    padding-inline: space('7');
+  }
+}
+
+/* ─── row 2: property type + ranges + chips ──────────────────────────── */
+.row2 {
+  display: flex;
+  flex-direction: column;
+  gap: space('4');
+  padding: space('5') space('4');
+  border-block-start: 1px solid var(--divider);
+  background: var(--bg-card);
+  border-end-start-radius: radius('xl');
+  border-end-end-radius: radius('xl');
+}
+
+.typeRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: space('3');
+  align-items: center;
+
+  @include respond('md') {
+    grid-template-columns: auto 1fr;
+  }
+}
+
+/* iOS-segmented-style property-type tabs */
+.typeTabs {
+  display: inline-flex;
+  gap: 2px;
+  padding: 4px;
+  background: var(--bg-inset);
+  border-radius: radius('pill');
+  align-self: flex-start;
+
+  @media (max-width: 480px) {
+    inline-size: 100%;
+    justify-content: space-between;
+  }
+}
+
+.typeTab {
+  padding: space('2') space('4');
+  background: transparent;
+  border: none;
+  border-radius: radius('pill');
+  color: var(--text-secondary);
+  font-family: $font-display;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color $transition-fast,
+    color $transition-fast,
+    box-shadow $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    color: var(--text-primary);
+  }
+
+  @media (max-width: 480px) {
+    flex: 1;
+    padding-inline: space('2');
+    font-size: 0.8125rem;
+  }
+}
+
+.typeTabActive {
+  background: var(--bg-card);
+  color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
+  font-weight: 600;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+/* Price + Area dropdowns — pushed right on desktop */
+.ranges {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: space('2');
+
+  @include respond('md') {
+    justify-self: end;
+    min-inline-size: 24rem;
+  }
+}
+
+/* Sub-type chips */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: space('2');
+}
+
+.chip {
+  padding: space('2') space('3');
+  background: transparent;
+  border: 1px solid var(--border-default);
+  border-radius: radius('pill');
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color $transition-fast,
+    border-color $transition-fast,
+    color $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    border-color: var(--color-primary);
+    color: var(--text-primary);
+  }
+}
+
+.chipActive {
+  background: var(--color-primary-soft);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  font-weight: 600;
+}

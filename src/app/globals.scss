@@ -1,0 +1,3 @@
+// Single global stylesheet entry. Pulls in the theme token classes + base
+// styles. Component styling lives in co-located *.module.scss files.
+@use 'index';

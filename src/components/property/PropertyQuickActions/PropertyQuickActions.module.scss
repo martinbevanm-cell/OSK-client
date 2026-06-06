@@ -1,0 +1,209 @@
+@use 'abstracts' as *;
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: space('2');
+  align-items: center;
+}
+
+.action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: space('2');
+  padding: space('3') space('4');
+  min-block-size: 48px;
+  border-radius: radius('pill');
+  border: 1px solid var(--border-default);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition:
+    background-color $transition-fast,
+    border-color $transition-fast,
+    color $transition-fast,
+    transform $transition-fast;
+
+  @include focus-ring;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+.icon {
+  inline-size: 18px;
+  block-size: 18px;
+}
+
+/* ─── Save ───────────────────────────────────────────────────────────── */
+.save {
+  color: var(--text-secondary);
+
+  &:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    background: var(--badge-featured-bg);
+  }
+}
+
+.saveActive {
+  background: var(--badge-featured-bg);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+
+  &:hover {
+    background: var(--badge-featured-bg);
+    color: var(--color-accent);
+  }
+}
+
+/* ─── WhatsApp — uses the success token so it themes per palette ─────── */
+.whatsapp {
+  background: var(--color-success);
+  border-color: var(--color-success);
+  color: var(--text-inverse);
+
+  &:hover:not(:disabled) {
+    background: var(--color-success);
+    filter: brightness(0.95);
+  }
+}
+
+/* ─── Call ───────────────────────────────────────────────────────────── */
+.callWrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.call {
+  background: var(--btn-primary-bg);
+  border-color: var(--btn-primary-bg);
+  color: var(--btn-primary-fg);
+
+  &:hover:not(:disabled) {
+    background: var(--btn-primary-hover);
+    border-color: var(--btn-primary-hover);
+  }
+}
+
+/* Desktop popover with the phone number */
+.callPopover {
+  position: absolute;
+  inset-block-start: calc(100% + #{space('2')});
+  inset-inline-end: 0;
+  z-index: z('dropdown');
+  min-inline-size: 260px;
+  max-inline-size: calc(100vw - #{space('5')});
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+  padding: space('4');
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: radius('lg');
+  box-shadow: var(--shadow-lg);
+  animation: cp-in $transition-base both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes cp-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.callEyebrow {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.phoneLink {
+  font-family: $font-display;
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+.callHint {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.callRow {
+  display: flex;
+  gap: space('2');
+  margin-block-start: space('2');
+}
+
+.callPrimary,
+.callSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: space('2');
+  padding: space('2') space('3');
+  border-radius: radius('md');
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color $transition-fast,
+    color $transition-fast,
+    border-color $transition-fast;
+
+  @include focus-ring;
+}
+
+.callPrimary {
+  flex: 1;
+  background: var(--btn-primary-bg);
+  border: 1px solid var(--btn-primary-bg);
+  color: var(--btn-primary-fg);
+  text-decoration: none;
+
+  &:hover {
+    background: var(--btn-primary-hover);
+    border-color: var(--btn-primary-hover);
+  }
+}
+
+.callSecondary {
+  background: transparent;
+  border: 1px solid var(--border-default);
+  color: var(--text-primary);
+
+  &:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+}

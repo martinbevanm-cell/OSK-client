@@ -1,0 +1,50 @@
+@use 'abstracts' as *;
+
+.section {
+  max-inline-size: container('default');
+  margin-inline: auto;
+  padding-block: space('6');
+  padding-inline: clamp(#{space('4')}, 4vw, #{space('6')});
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  background: var(--divider);
+  border: 1px solid var(--border-default);
+  border-radius: radius('lg');
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+
+  @include respond('md') {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  gap: space('1');
+  padding: space('4') space('5');
+  background: var(--bg-card);
+  min-inline-size: 0;
+}
+
+.value {
+  font-family: $font-display;
+  font-size: clamp(1.5rem, 1rem + 1.5vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+.label {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}

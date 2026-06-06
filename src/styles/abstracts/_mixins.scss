@@ -1,0 +1,98 @@
+@use 'sass:map';
+@use 'breakpoints' as bp;
+@use 'scale';
+@use 'functions' as fn;
+
+/// Mobile-first media query. Usage: @include respond('lg') { ... }
+@mixin respond($name) {
+  $value: map.get(bp.$breakpoints, $name);
+  @if $value == null {
+    @error 'respond(): unknown breakpoint `#{$name}`.';
+  }
+  @media (min-width: $value) {
+    @content;
+  }
+}
+
+/// Themed elevation. Levels: sm | md | lg.
+@mixin elevation($level: 'md') {
+  box-shadow: var(--shadow-#{$level});
+}
+
+/// Accessible, token-driven focus ring.
+@mixin focus-ring {
+  outline: none;
+
+  &:focus-visible {
+    box-shadow: 0 0 0 3px var(--ring-focus);
+  }
+}
+
+/// Standard surface card.
+@mixin card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: fn.radius('lg');
+}
+
+/// Centered, max-width content container.
+@mixin container($size: 'default') {
+  width: 100%;
+  max-width: fn.container($size);
+  margin-inline: auto;
+  padding-inline: fn.space('4');
+}
+
+/// Multi-line truncation.
+@mixin line-clamp($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/// Respect reduced-motion for any animated block.
+@mixin motion-safe {
+  @media (prefers-reduced-motion: no-preference) {
+    @content;
+  }
+}
+
+/// Page-level eyebrow chip. One per page, sits above a hero/title.
+/// Example: <span class="eyebrow">American Real Estate, Curated</span>
+@mixin eyebrow-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: fn.space('2');
+  padding: fn.space('1') fn.space('3');
+  background: var(--color-primary-soft);
+  border-radius: fn.radius('pill');
+  color: var(--color-primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/// Section-level eyebrow with a leading 2.5rem gold rule.
+/// Used multiple times per page above section titles.
+/// Example: <span class="sectionEyebrow">Hand-picked</span>
+@mixin eyebrow-section {
+  display: inline-flex;
+  align-items: center;
+  gap: fn.space('3');
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+
+  &::before {
+    content: '';
+    display: inline-block;
+    inline-size: 2.5rem;
+    block-size: 2px;
+    background: var(--color-accent);
+    border-radius: fn.radius('pill');
+  }
+}

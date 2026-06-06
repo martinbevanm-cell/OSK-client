@@ -1,0 +1,435 @@
+@use 'abstracts' as *;
+
+// ─── Header shell ─────────────────────────────────────────────────────────────
+
+.header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: z('sticky');
+  background: color-mix(in srgb, var(--bg-card) 92%, transparent);
+  border-block-end: 1px solid color-mix(in srgb, var(--border-default) 70%, transparent);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--border-default) 40%, transparent),
+    0 8px 32px -8px color-mix(in srgb, var(--text-primary) 8%, transparent);
+
+  @supports (backdrop-filter: blur(1px)) {
+    backdrop-filter: blur(20px) saturate(180%);
+  }
+}
+
+// When the drawer is open, swap to a fully opaque background so links read
+// cleanly against page content scrolling underneath.
+.headerOpen {
+  background: var(--bg-card);
+}
+
+// ─── Inner row ────────────────────────────────────────────────────────────────
+
+.inner {
+  display: flex;
+  align-items: center;
+  inline-size: 100%;
+  max-width: container('wide');
+  margin-inline: auto;
+  padding-inline: space('5');
+  block-size: 64px;
+  gap: 0;
+}
+
+// ─── Brand / Logo ─────────────────────────────────────────────────────────────
+
+.brand {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  text-decoration: none;
+  flex-shrink: 0;
+  line-height: 1;
+
+  @include focus-ring;
+
+  @include motion-safe {
+    transition: opacity $transition-fast;
+  }
+
+  &:hover { opacity: 0.75; }
+}
+
+.brandName {
+  font-family: $font-sans;
+  font-size: 1.1875rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--text-primary);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.brandRule {
+  display: block;
+  inline-size: 100%;
+  block-size: 2px;
+  margin-block: 4px;
+  background: linear-gradient(
+    to right,
+    var(--text-primary) 50%,
+    var(--color-primary) 50%
+  );
+  border-radius: radius('pill');
+}
+
+.brandSub {
+  font-family: $font-sans;
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  line-height: 1;
+}
+
+.brandLogo {
+  display: block;
+  block-size: 32px;
+  max-inline-size: 160px;
+  object-fit: contain;
+}
+
+// ─── Primary nav ──────────────────────────────────────────────────────────────
+
+.nav {
+  display: none;
+  align-items: center;
+  gap: space('1');
+  margin-inline-start: space('7');
+
+  @include respond('lg') {
+    display: flex;
+  }
+}
+
+.link {
+  position: relative;
+  font-family: $font-sans;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: space('2') space('3');
+  border-radius: radius('sm');
+  white-space: nowrap;
+
+  @include focus-ring;
+
+  @include motion-safe {
+    transition:
+      color $transition-fast,
+      background $transition-fast;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset-block-end: 4px;
+    inset-inline-start: space('3');
+    inset-inline-end: space('3');
+    block-size: 1.5px;
+    background: var(--color-primary);
+    border-radius: radius('pill');
+    transform: scaleX(0);
+    transform-origin: left;
+
+    @include motion-safe {
+      transition: transform $transition-base;
+    }
+  }
+
+  &:hover {
+    color: var(--text-primary);
+    background: color-mix(in srgb, var(--color-primary) 6%, transparent);
+
+    &::after { transform: scaleX(1); }
+  }
+}
+
+// Active route — keep the underline + tint permanent
+.linkActive {
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+
+  &::after { transform: scaleX(1); }
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+// ─── Actions ──────────────────────────────────────────────────────────────────
+
+.actions {
+  display: none;
+  align-items: center;
+  gap: space('2');
+  margin-inline-start: auto;
+
+  @include respond('lg') {
+    display: flex;
+  }
+}
+
+.sep {
+  display: block;
+  inline-size: 1px;
+  block-size: 22px;
+  background: var(--border-default);
+  opacity: 0.5;
+  margin-inline: space('1');
+  flex-shrink: 0;
+}
+
+/* Primary "Add property" CTA — pill with icon. Lives in .actions so it
+ * only shows on lg+ alongside the rest of the right-hand cluster. Sized
+ * to feel like an obvious action without dominating the bar. */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: space('2');
+  padding: 0 space('4');
+  block-size: 38px;
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-fg);
+  border: 1px solid var(--btn-primary-bg);
+  border-radius: radius('pill');
+  font-family: $font-sans;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+
+  @include focus-ring;
+
+  @include motion-safe {
+    transition:
+      background-color $transition-fast,
+      border-color $transition-fast,
+      transform $transition-fast;
+  }
+
+  &:hover {
+    background: var(--btn-primary-hover);
+    border-color: var(--btn-primary-hover);
+    transform: translateY(-1px);
+    color: var(--btn-primary-fg);
+  }
+
+  &:focus-visible {
+    color: var(--btn-primary-fg);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// ─── Hamburger (3 bars → X when open) ─────────────────────────────────────────
+
+.ham {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  padding: space('2');
+  margin-inline-start: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: radius('sm');
+  inline-size: 40px;
+  block-size: 40px;
+  position: relative;
+
+  @include focus-ring;
+
+  @include respond('lg') {
+    display: none;
+  }
+
+  span {
+    display: block;
+    block-size: 1.75px;
+    border-radius: radius('pill');
+    background: var(--text-primary);
+    transform-origin: center;
+
+    @include motion-safe {
+      transition:
+        transform $transition-base,
+        opacity $transition-fast,
+        inline-size $transition-fast,
+        background $transition-fast;
+    }
+
+    &:nth-child(1) { inline-size: 22px; }
+    &:nth-child(2) { inline-size: 22px; }
+    &:nth-child(3) { inline-size: 14px; }
+  }
+
+  &:hover span { background: var(--color-primary); }
+}
+
+// Morph into X when the drawer is open
+.hamOpen {
+  span {
+    background: var(--color-primary);
+
+    &:nth-child(1) {
+      inline-size: 22px;
+      transform: translateY(7px) rotate(45deg);
+    }
+    &:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+    &:nth-child(3) {
+      inline-size: 22px;
+      transform: translateY(-7px) rotate(-45deg);
+    }
+  }
+}
+
+// ─── Mobile drawer ────────────────────────────────────────────────────────────
+
+.drawer {
+  display: none;
+  flex-direction: column;
+  padding: space('3') space('5') space('5');
+  border-block-start: 1px solid color-mix(in srgb, var(--border-default) 60%, transparent);
+  background: var(--bg-card);
+}
+
+.drawer.drawerOpen {
+  display: flex;
+  max-block-size: calc(100dvh - 64px);
+  overflow-y: auto;
+
+  @include motion-safe {
+    animation: drawer-in $transition-base both;
+  }
+}
+
+@keyframes drawer-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Drawer is mobile-only — force-hide on lg+ regardless of state
+@include respond('lg') {
+  .drawer,
+  .drawer.drawerOpen {
+    display: none;
+  }
+}
+
+.drawerLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: $font-sans;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: space('3') space('3');
+  border-block-end: 1px solid color-mix(in srgb, var(--border-default) 50%, transparent);
+  border-radius: 0;
+
+  @include focus-ring;
+
+  @include motion-safe {
+    transition:
+      color $transition-fast,
+      background $transition-fast,
+      padding-inline-start $transition-fast;
+  }
+
+  &:last-of-type { border-block-end: none; }
+
+  &:hover {
+    color: var(--text-primary);
+    background: color-mix(in srgb, var(--color-primary) 5%, transparent);
+    padding-inline-start: space('4');
+  }
+}
+
+.drawerLinkActive {
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+  font-weight: 600;
+  padding-inline-start: space('4');
+
+  /* trailing chevron to mark the current page */
+  &::after {
+    content: '›';
+    color: var(--color-primary);
+    font-size: 1.2rem;
+    margin-inline-start: space('2');
+  }
+
+  &:hover {
+    color: var(--color-primary);
+    padding-inline-start: space('4');
+  }
+}
+
+/* Add-property CTA inside the mobile drawer. Visually distinct from the
+ * link list — full-width pill in the primary palette, with a generous
+ * tap target. Sits right after the nav links so it's the first thing the
+ * thumb reaches when the drawer opens. */
+.drawerCta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: space('2');
+  margin-block-start: space('4');
+  padding: space('3') space('4');
+  min-block-size: 48px;
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-fg);
+  border-radius: radius('lg');
+  font-family: $font-sans;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+
+  @include focus-ring;
+
+  @include motion-safe {
+    transition: background-color $transition-fast;
+  }
+
+  &:hover {
+    background: var(--btn-primary-hover);
+  }
+}
+
+.drawerActions {
+  display: flex;
+  align-items: center;
+  gap: space('3');
+  margin-block-start: space('4');
+  padding-block-start: space('3');
+  border-block-start: 1px solid color-mix(in srgb, var(--border-default) 50%, transparent);
+}

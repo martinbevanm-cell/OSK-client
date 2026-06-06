@@ -1,0 +1,21 @@
+{
+  "extends": ["stylelint-config-standard-scss"],
+  "rules": {
+    "scss/dollar-variable-pattern": null,
+    "selector-class-pattern": null,
+    "custom-property-empty-line-before": null,
+    "comment-empty-line-before": null
+  },
+  "overrides": [
+    {
+      "files": ["src/**/*.scss"],
+      "excludedFiles": ["src/styles/tokens/**"],
+      "rules": {
+        "color-no-hex": [true, { "message": "No hex colors outside tokens/. Use var(--token)." }],
+        "declaration-property-value-disallowed-list": {
+          "/.*/": ["/rgba?\\(/", "/hsla?\\(/"]
+        }
+      }
+    }
+  ]
+}

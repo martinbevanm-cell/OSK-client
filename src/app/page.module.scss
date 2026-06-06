@@ -1,0 +1,65 @@
+@use 'abstracts' as *;
+
+.section {
+  max-inline-size: container('default');
+  margin-inline: auto;
+  padding-block: space('8');
+  padding-inline: clamp(#{space('4')}, 4vw, #{space('6')});
+}
+
+.sectionHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: space('4');
+  margin-block-end: space('6');
+  flex-wrap: wrap;
+}
+
+.sectionTitles {
+  display: flex;
+  flex-direction: column;
+  gap: space('1');
+}
+
+.sectionEyebrow {
+  @include eyebrow-section;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-family: $font-display;
+  font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.seeAll {
+  display: inline-flex;
+  align-items: center;
+  gap: space('1');
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: var(--color-primary-hover);
+  }
+}
+
+.featured {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: space('5');
+
+  @include respond('sm') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond('lg') {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

@@ -1,0 +1,79 @@
+@use 'abstracts' as *;
+
+.link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: space('2');
+  inline-size: 40px;
+  block-size: 40px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition:
+    background-color $transition-fast,
+    border-color $transition-fast,
+    color $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    background: var(--badge-featured-bg);
+  }
+}
+
+.inline {
+  inline-size: auto;
+  block-size: auto;
+  padding: space('2') space('4');
+  border-radius: radius('pill');
+  border-color: var(--border-default);
+  background: var(--bg-card);
+  font-size: 0.9375rem;
+  font-weight: 500;
+
+  &:hover {
+    background: var(--badge-featured-bg);
+  }
+}
+
+.label {
+  font-weight: 600;
+}
+
+.active {
+  color: var(--color-accent);
+  background: var(--badge-featured-bg);
+  border-color: var(--color-accent);
+}
+
+.badge {
+  position: absolute;
+  inset-block-start: -4px;
+  inset-inline-end: -4px;
+  min-inline-size: 18px;
+  block-size: 18px;
+  padding-inline: 5px;
+  border-radius: radius('pill');
+  background: var(--color-primary);
+  color: var(--text-inverse);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  box-shadow: 0 0 0 2px var(--bg-card);
+}
+
+.inline .badge {
+  position: static;
+  margin-inline-start: space('1');
+  box-shadow: none;
+}

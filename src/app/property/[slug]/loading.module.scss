@@ -1,0 +1,101 @@
+@use 'abstracts' as *;
+
+.shell {
+  max-inline-size: container('default');
+  margin-inline: auto;
+  padding-block: space('5') space('9');
+  padding-inline: clamp(#{space('4')}, 4vw, #{space('6')});
+}
+
+.crumbs {
+  display: flex;
+  gap: space('2');
+  margin-block-end: space('4');
+}
+
+.crumb {
+  display: block;
+  inline-size: 4.5rem;
+  block-size: 0.875rem;
+  border-radius: radius('pill');
+  background: var(--bg-inset);
+  @include motion-safe { animation: shimmer 1.4s ease-in-out infinite; }
+}
+
+.gallery {
+  display: block;
+  inline-size: 100%;
+  block-size: clamp(320px, 38vw, 480px);
+  border-radius: radius('lg');
+  background: linear-gradient(
+    100deg,
+    var(--bg-inset) 30%,
+    var(--bg-elevated) 50%,
+    var(--bg-inset) 70%
+  );
+  background-size: 200% 100%;
+  @include motion-safe { animation: shimmer 1.4s ease-in-out infinite; }
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: space('6');
+  margin-block-start: space('6');
+
+  @include respond('lg') {
+    grid-template-columns: minmax(0, 1fr) 360px;
+    align-items: start;
+  }
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: space('6');
+  min-inline-size: 0;
+}
+
+.lede {
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+  padding-block-end: space('5');
+  border-block-end: 1px solid var(--divider);
+}
+
+.bar {
+  display: block;
+  block-size: 1rem;
+  border-radius: radius('pill');
+  background: linear-gradient(
+    100deg,
+    var(--bg-inset) 30%,
+    var(--bg-elevated) 50%,
+    var(--bg-inset) 70%
+  );
+  background-size: 200% 100%;
+  @include motion-safe { animation: shimmer 1.4s ease-in-out infinite; }
+}
+
+.block {
+  block-size: 220px;
+  border-radius: radius('lg');
+  background: var(--bg-inset);
+  @include motion-safe { animation: shimmer 1.4s ease-in-out infinite; }
+}
+
+.aside {
+  block-size: 380px;
+  border-radius: radius('xl');
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  box-shadow: var(--shadow-sm);
+  @include motion-safe { animation: shimmer 1.4s ease-in-out infinite; }
+}
+
+@keyframes shimmer {
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
+}

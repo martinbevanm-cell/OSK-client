@@ -1,0 +1,178 @@
+@use 'abstracts' as *;
+
+.section {
+  max-inline-size: container('default');
+  margin-inline: auto;
+  padding-block: space('8');
+  padding-inline: clamp(#{space('4')}, 4vw, #{space('6')});
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+  margin-block-end: space('6');
+  max-inline-size: 720px;
+}
+
+.eyebrow {
+  @include eyebrow-section;
+}
+
+.title {
+  margin: 0;
+  font-family: $font-display;
+  font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+
+  em {
+    font-style: italic;
+    background: linear-gradient(
+      90deg,
+      var(--color-primary) 0%,
+      var(--color-accent) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+}
+
+.sub {
+  margin: 0;
+  max-inline-size: 60ch;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+}
+
+/* ─── card grid ──────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: space('4');
+
+  @include respond('sm') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond('lg') {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('lg');
+  overflow: hidden;
+  transition:
+    transform $transition-base,
+    border-color $transition-base,
+    box-shadow $transition-base;
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-primary);
+    @include elevation('lg');
+  }
+
+  @include focus-ring;
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--bg-inset);
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+  transition: transform $transition-slow;
+
+  .card:hover & {
+    @include motion-safe {
+      transform: scale(1.05);
+    }
+  }
+}
+
+.scrim {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline: 0;
+  block-size: 50%;
+  background: linear-gradient(
+    to top,
+    var(--bg-overlay) 0%,
+    transparent 100%
+  );
+  opacity: 0.65;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: space('1');
+  padding: space('4') space('5') space('5');
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: space('2');
+}
+
+.cityName {
+  margin: 0;
+  display: inline-flex;
+  align-items: baseline;
+  gap: space('2');
+  font-family: $font-display;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.state {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.arrow {
+  color: var(--color-primary);
+  font-size: 1.1rem;
+  transition: transform $transition-fast;
+
+  .card:hover & {
+    transform: translateX(3px);
+  }
+}
+
+.blurb {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+.listings {
+  margin: space('1') 0 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}

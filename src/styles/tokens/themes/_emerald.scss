@@ -1,0 +1,75 @@
+@use '../emit';
+
+// THEME: Emerald — deep emerald primary, warm gold accent, light neutral page.
+$emerald: (
+  'color-primary': #1f5d4c,
+  'color-primary-hover': #27705c,
+  'color-primary-active': #184a3c,
+  'color-primary-soft': #e2efe9,
+  'color-secondary': #4f5b54,
+  'color-secondary-hover': #5f6c64,
+  'color-accent': #c79a4b,
+
+  'color-success': #2f7d5b,
+  'color-success-soft': #e3f1ea,
+  'color-warning': #b07d2a,
+  'color-warning-soft': #f5ecd8,
+  'color-danger': #b23b34,
+  'color-danger-soft': #f6e1df,
+  'color-info': #2f6f9e,
+  'color-info-soft': #e1edf5,
+
+  'bg-page': #f5f6f3,
+  'bg-card': #ffffff,
+  'bg-elevated': #ffffff,
+  'bg-overlay': rgba(16, 28, 24, 0.55),
+  'bg-inset': #ecefe9,
+
+  'text-primary': #16201c,
+  'text-secondary': #3e4843,
+  'text-muted': #6a736d,
+  'text-inverse': #f5f6f3,
+
+  'border-default': #e0e4dd,
+  'border-strong': #c8cfc6,
+  'divider': #e8ebe5,
+
+  'btn-primary-bg': var(--color-primary),
+  'btn-primary-fg': #ffffff,
+  'btn-primary-hover': var(--color-primary-hover),
+  'btn-secondary-bg': #ffffff,
+  'btn-secondary-fg': var(--color-primary),
+  'btn-secondary-hover': var(--color-primary-soft),
+  'btn-ghost-bg': transparent,
+  'btn-ghost-fg': var(--color-primary),
+  'btn-ghost-hover': var(--color-primary-soft),
+  'btn-danger-bg': var(--color-danger),
+  'btn-danger-fg': #ffffff,
+  'btn-danger-hover': #99332d,
+
+  'badge-new-bg': #e2efe9,
+  'badge-new-fg': #1f5d4c,
+  'badge-resale-bg': #eef0ec,
+  'badge-resale-fg': #3e4843,
+  'badge-featured-bg': #f3e7cd,
+  'badge-featured-fg': #8a6b2f,
+  'badge-sold-bg': #e9ebe6,
+  'badge-sold-fg': #6a736d,
+
+  'chart-1': #1f5d4c,
+  'chart-2': #c79a4b,
+  'chart-3': #2f6f9e,
+  'chart-4': #6a8f3c,
+  'chart-5': #b07d2a,
+  'chart-6': #7d6b9e,
+
+  'shadow-sm': 0 1px 2px rgba(16, 28, 24, 0.06),
+  'shadow-md': 0 8px 24px -8px rgba(16, 28, 24, 0.16),
+  'shadow-lg': 0 24px 48px -12px rgba(16, 28, 24, 0.24),
+  'glow-accent': 0 0 0 transparent,
+  'ring-focus': rgba(31, 93, 76, 0.4),
+);
+
+.theme-emerald {
+  @include emit.theme($emerald);
+}

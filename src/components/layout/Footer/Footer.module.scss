@@ -1,0 +1,107 @@
+@use 'abstracts' as *;
+
+.footer {
+  margin-block-start: space('9');
+  background: var(--bg-card);
+  border-block-start: 1px solid var(--border-default);
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: space('6');
+  max-width: container('wide');
+  margin-inline: auto;
+  padding: space('8') space('4');
+
+  @include respond('md') {
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+  }
+}
+
+.brand {
+  font-family: $font-display;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--text-primary);
+}
+
+.logo {
+  display: block;
+  max-block-size: 44px;
+  max-inline-size: 180px;
+  object-fit: contain;
+}
+
+.tagline {
+  margin-block-start: space('2');
+  max-inline-size: 32ch;
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+}
+
+.brandCol {
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-block-start: space('3');
+  font-style: normal;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.contactLine {
+  line-height: 1.5;
+}
+
+.contactLink {
+  margin-block-start: space('1');
+  font-weight: 500;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+}
+
+.colTitle {
+  margin-block-end: space('1');
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.link {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  transition: color $transition-fast;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+.bar {
+  border-block-start: 1px solid var(--divider);
+  padding: space('4');
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}

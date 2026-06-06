@@ -1,0 +1,131 @@
+@use 'abstracts' as *;
+
+.section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  max-inline-size: container('default');
+  margin-inline: auto;
+  padding-block: space('8');
+  padding-inline: clamp(#{space('4')}, 4vw, #{space('6')});
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset-block-start: -30%;
+    inset-inline-end: -10%;
+    inline-size: 40%;
+    block-size: 60%;
+    background: radial-gradient(
+      closest-side,
+      var(--color-primary-soft),
+      transparent 70%
+    );
+    z-index: -1;
+    pointer-events: none;
+  }
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+  margin-block-end: space('6');
+  max-inline-size: 720px;
+}
+
+.eyebrow {
+  @include eyebrow-section;
+}
+
+.title {
+  margin: 0;
+  font-family: $font-display;
+  font-size: clamp(1.75rem, 1.2rem + 1.8vw, 2.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+
+  em {
+    font-style: italic;
+    background: linear-gradient(
+      90deg,
+      var(--color-primary) 0%,
+      var(--color-accent) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+}
+
+.sub {
+  margin: 0;
+  max-inline-size: 60ch;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+}
+
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: space('4');
+
+  @include respond('sm') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond('lg') {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+  padding: space('5');
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('lg');
+  transition:
+    border-color $transition-fast,
+    transform $transition-fast;
+
+  &:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+  }
+}
+
+.iconWrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 40px;
+  block-size: 40px;
+  border-radius: radius('md');
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  margin-block-end: space('2');
+}
+
+.cardTitle {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.cardCopy {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}

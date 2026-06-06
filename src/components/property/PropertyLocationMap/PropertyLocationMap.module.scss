@@ -1,0 +1,139 @@
+@use 'abstracts' as *;
+
+.shell {
+  position: relative;
+  inline-size: 100%;
+  aspect-ratio: 16 / 9;
+  min-block-size: 260px;
+  max-block-size: 380px;
+  border-radius: radius('lg');
+  overflow: hidden;
+  background: var(--bg-inset);
+  border: 1px solid var(--border-default);
+  box-shadow: var(--shadow-sm);
+}
+
+.placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-inset);
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+}
+
+/* ─── pin marker ─────────────────────────────────────────────────────── */
+.marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-2px);
+  cursor: default;
+}
+
+.pinBody {
+  fill: var(--color-primary);
+  stroke: var(--color-accent);
+  stroke-width: 1.5;
+}
+
+.pinDot {
+  fill: var(--color-accent);
+}
+
+/* ─── floating caption chip ──────────────────────────────────────────── */
+.caption {
+  position: absolute;
+  inset-block-end: space('3');
+  inset-inline-start: space('3');
+  display: inline-flex;
+  align-items: center;
+  gap: space('2');
+  padding: space('2') space('3');
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('pill');
+  box-shadow: var(--shadow-md);
+  color: var(--text-primary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.captionDot {
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+/* ─── "open in maps" link ────────────────────────────────────────────── */
+.directions {
+  position: absolute;
+  inset-block-end: space('3');
+  inset-inline-end: space('3');
+  display: inline-flex;
+  align-items: center;
+  gap: space('2');
+  padding: space('2') space('3');
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('pill');
+  box-shadow: var(--shadow-md);
+  color: var(--text-primary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background-color $transition-fast,
+    color $transition-fast,
+    border-color $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--text-inverse);
+  }
+}
+
+/* ─── MapLibre chrome theming (scoped globals) ───────────────────────── */
+.shell :global(.maplibregl-ctrl-group) {
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('md');
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.shell :global(.maplibregl-ctrl-group) button {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border-block-end: 1px solid var(--divider);
+}
+
+.shell :global(.maplibregl-ctrl-group) button:last-child {
+  border-block-end: 0;
+}
+
+.shell :global(.maplibregl-ctrl-group) button:hover {
+  background-color: var(--color-primary-soft);
+}
+
+.shell :global(.maplibregl-ctrl-attrib) {
+  background: var(--bg-card);
+  color: var(--text-muted);
+  font-size: 0.6875rem;
+}
+
+.shell :global(.maplibregl-ctrl-attrib) a {
+  color: var(--text-secondary);
+}
+
+.shell :global(.maplibregl-ctrl-attrib-button) {
+  background-color: var(--bg-card);
+}

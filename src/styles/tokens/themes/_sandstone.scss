@@ -1,0 +1,75 @@
+@use '../emit';
+
+// THEME: Sandstone — terracotta/clay primary, warm amber accent, sand page.
+$sandstone: (
+  'color-primary': #b4593a,
+  'color-primary-hover': #c56a4a,
+  'color-primary-active': #9a4a2f,
+  'color-primary-soft': #f3e3da,
+  'color-secondary': #6b5d52,
+  'color-secondary-hover': #7c6d61,
+  'color-accent': #d99a4e,
+
+  'color-success': #5a7d3f,
+  'color-success-soft': #ebf0e1,
+  'color-warning': #b07d2a,
+  'color-warning-soft': #f5ecd8,
+  'color-danger': #a83a30,
+  'color-danger-soft': #f4e0dd,
+  'color-info': #3f7390,
+  'color-info-soft': #e3edf1,
+
+  'bg-page': #f6f0e8,
+  'bg-card': #fffdf9,
+  'bg-elevated': #fffdf9,
+  'bg-overlay': rgba(40, 28, 20, 0.55),
+  'bg-inset': #efe6da,
+
+  'text-primary': #2a211a,
+  'text-secondary': #564b41,
+  'text-muted': #8a7d70,
+  'text-inverse': #f6f0e8,
+
+  'border-default': #e7dccb,
+  'border-strong': #d4c5af,
+  'divider': #ece2d4,
+
+  'btn-primary-bg': var(--color-primary),
+  'btn-primary-fg': #fffdf9,
+  'btn-primary-hover': var(--color-primary-hover),
+  'btn-secondary-bg': #fffdf9,
+  'btn-secondary-fg': var(--color-primary),
+  'btn-secondary-hover': var(--color-primary-soft),
+  'btn-ghost-bg': transparent,
+  'btn-ghost-fg': var(--color-primary),
+  'btn-ghost-hover': var(--color-primary-soft),
+  'btn-danger-bg': var(--color-danger),
+  'btn-danger-fg': #fffdf9,
+  'btn-danger-hover': #8f3128,
+
+  'badge-new-bg': #ebf0e1,
+  'badge-new-fg': #4c6a35,
+  'badge-resale-bg': #f3e3da,
+  'badge-resale-fg': #9a4a2f,
+  'badge-featured-bg': #f6e6c8,
+  'badge-featured-fg': #9a7327,
+  'badge-sold-bg': #ece4d7,
+  'badge-sold-fg': #8a7d70,
+
+  'chart-1': #b4593a,
+  'chart-2': #d99a4e,
+  'chart-3': #5a7d3f,
+  'chart-4': #3f7390,
+  'chart-5': #8a6b9e,
+  'chart-6': #c2843f,
+
+  'shadow-sm': 0 1px 2px rgba(40, 28, 20, 0.07),
+  'shadow-md': 0 8px 24px -8px rgba(40, 28, 20, 0.18),
+  'shadow-lg': 0 24px 48px -12px rgba(40, 28, 20, 0.26),
+  'glow-accent': 0 0 0 transparent,
+  'ring-focus': rgba(180, 89, 58, 0.4),
+);
+
+.theme-sandstone {
+  @include emit.theme($sandstone);
+}

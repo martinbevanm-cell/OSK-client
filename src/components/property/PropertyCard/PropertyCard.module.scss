@@ -1,0 +1,148 @@
+@use 'abstracts' as *;
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('lg');
+  transition:
+    transform $transition-base,
+    box-shadow $transition-base,
+    border-color $transition-base;
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-strong);
+    @include elevation('lg');
+  }
+}
+
+.save {
+  position: absolute;
+  inset-block-start: space('3');
+  inset-inline-end: space('3');
+  z-index: 2;
+}
+
+.media {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  background: var(--bg-inset);
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+  transition: transform $transition-slow;
+
+  .card:hover & {
+    @include motion-safe {
+      transform: scale(1.05);
+    }
+  }
+}
+
+.badges {
+  position: absolute;
+  inset-block-start: space('3');
+  inset-inline-start: space('3');
+  display: flex;
+  flex-wrap: wrap;
+  gap: space('2');
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: space('1');
+  padding: space('4');
+}
+
+.price {
+  font-family: $font-display;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.title {
+  font-family: $font-sans;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  @include line-clamp(1);
+
+  a:hover {
+    color: var(--color-primary);
+  }
+}
+
+.location {
+  display: flex;
+  flex-direction: column;
+  gap: space('1');
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.locationLine {
+  display: block;
+}
+
+/* Country chip — flag + full name, sits under the locality line so the
+ * card carries both the neighborhood and the country at a glance. Uses
+ * a subtle pill so it doesn't compete with price/title. */
+.country {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: space('2');
+  padding: 0.125rem space('2');
+  background: var(--bg-inset);
+  border: 1px solid var(--border-default);
+  border-radius: radius('pill');
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+}
+
+.countryFlag {
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.countryName {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-inline-size: 14rem;
+}
+
+.specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: space('3');
+  margin-block-start: space('2');
+  padding-block-start: space('3');
+  border-block-start: 1px solid var(--divider);
+  list-style: none;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+.type {
+  margin-inline-start: auto;
+  text-transform: capitalize;
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.contact {
+  padding: 0 space('4') space('4');
+  margin-block-start: auto;
+}

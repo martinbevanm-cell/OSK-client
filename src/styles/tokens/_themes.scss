@@ -1,0 +1,7 @@
+// Emits all four theme classes. Order matters: luxe-light also binds :root
+// as the default, so every later theme class must follow it to win on
+// equal specificity when applied to <html>.
+@use 'themes/luxe-light';
+@use 'themes/luxe-dark';
+@use 'themes/emerald';
+@use 'themes/sandstone';

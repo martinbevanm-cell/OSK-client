@@ -1,0 +1,130 @@
+@use 'abstracts' as *;
+
+.page {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 70vh;
+  padding-block: space('8');
+  padding-inline: clamp(#{space('4')}, 4vw, #{space('6')});
+  background: var(--bg-page);
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.bloomA {
+  position: absolute;
+  inset-block-start: -25%;
+  inset-inline-start: -15%;
+  inline-size: 65%;
+  block-size: 65%;
+  background: radial-gradient(
+    closest-side,
+    var(--color-primary-soft),
+    transparent 70%
+  );
+}
+
+.bloomB {
+  position: absolute;
+  inset-block-end: -25%;
+  inset-inline-end: -15%;
+  inline-size: 55%;
+  block-size: 55%;
+  background: radial-gradient(
+    closest-side,
+    var(--bg-inset),
+    transparent 70%
+  );
+}
+
+.content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: space('4');
+  max-inline-size: 600px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: space('2');
+  margin: 0;
+  padding: space('1') space('3');
+  background: var(--color-primary-soft);
+  border-radius: radius('pill');
+  color: var(--color-primary);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.eyebrowDot {
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+.title {
+  margin: 0;
+  font-family: $font-display;
+  font-size: clamp(2.25rem, 1.4rem + 3.5vw, 3.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+
+  em {
+    font-style: italic;
+    background: linear-gradient(
+      90deg,
+      var(--color-primary) 0%,
+      var(--color-accent) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+}
+
+.sub {
+  margin: 0;
+  max-inline-size: 50ch;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: space('4');
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-block-start: space('2');
+}
+
+.ghost {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}

@@ -1,0 +1,115 @@
+@use 'abstracts' as *;
+
+.region {
+  position: fixed;
+  inset-block-end: clamp(#{space('4')}, 4vw, #{space('6')});
+  inset-inline-end: clamp(#{space('4')}, 4vw, #{space('6')});
+  z-index: z('toast');
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+  max-inline-size: min(420px, calc(100vw - #{space('5')}));
+  pointer-events: none;
+}
+
+.toast {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: space('3');
+  padding: space('3') space('4');
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: radius('lg');
+  box-shadow: var(--shadow-lg);
+  pointer-events: auto;
+  position: relative;
+  overflow: hidden;
+
+  /* leading colored stripe driven by the kind class */
+  &::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    inline-size: 3px;
+    background: var(--toast-accent);
+  }
+
+  @include motion-safe {
+    animation: t-in $transition-base both;
+  }
+}
+
+@keyframes t-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 26px;
+  block-size: 26px;
+  border-radius: 50%;
+  background: var(--toast-icon-bg);
+  color: var(--toast-icon-fg);
+  flex-shrink: 0;
+}
+
+.message {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--text-primary);
+  word-break: break-word;
+}
+
+.close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 24px;
+  block-size: 24px;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition:
+    background-color $transition-fast,
+    color $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    background: var(--bg-inset);
+    color: var(--text-primary);
+  }
+}
+
+/* ─── kind variants (drive the local CSS variables above) ───────────── */
+.kind_success {
+  --toast-accent: var(--color-success);
+  --toast-icon-bg: var(--color-success-soft);
+  --toast-icon-fg: var(--color-success);
+}
+
+.kind_error {
+  --toast-accent: var(--color-danger);
+  --toast-icon-bg: var(--color-danger-soft);
+  --toast-icon-fg: var(--color-danger);
+}
+
+.kind_info {
+  --toast-accent: var(--color-info);
+  --toast-icon-bg: var(--color-info-soft);
+  --toast-icon-fg: var(--color-info);
+}

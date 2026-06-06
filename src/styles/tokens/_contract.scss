@@ -1,0 +1,79 @@
+// ─────────────────────────────────────────────────────────────────────────
+// TOKEN CONTRACT
+// The canonical list of every themed token. EVERY theme must define EVERY
+// name below. `emit.theme()` validates a theme map against this list and
+// @warns on any omission, so themes can never silently drift.
+//
+// Components consume these ONLY as `var(--<name>)` (or `token('<name>')`).
+// Raw color values are permitted in this folder and nowhere else.
+// ─────────────────────────────────────────────────────────────────────────
+
+$token-contract: (
+  // Brand
+  'color-primary',
+  'color-primary-hover',
+  'color-primary-active',
+  'color-primary-soft',
+  'color-secondary',
+  'color-secondary-hover',
+  'color-accent',
+  // Status
+  'color-success',
+  'color-success-soft',
+  'color-warning',
+  'color-warning-soft',
+  'color-danger',
+  'color-danger-soft',
+  'color-info',
+  'color-info-soft',
+  // Surfaces
+  'bg-page',
+  'bg-card',
+  'bg-elevated',
+  'bg-overlay',
+  'bg-inset',
+  // Text
+  'text-primary',
+  'text-secondary',
+  'text-muted',
+  'text-inverse',
+  // Lines
+  'border-default',
+  'border-strong',
+  'divider',
+  // Buttons
+  'btn-primary-bg',
+  'btn-primary-fg',
+  'btn-primary-hover',
+  'btn-secondary-bg',
+  'btn-secondary-fg',
+  'btn-secondary-hover',
+  'btn-ghost-bg',
+  'btn-ghost-fg',
+  'btn-ghost-hover',
+  'btn-danger-bg',
+  'btn-danger-fg',
+  'btn-danger-hover',
+  // Status badges
+  'badge-new-bg',
+  'badge-new-fg',
+  'badge-resale-bg',
+  'badge-resale-fg',
+  'badge-featured-bg',
+  'badge-featured-fg',
+  'badge-sold-bg',
+  'badge-sold-fg',
+  // Chart palette
+  'chart-1',
+  'chart-2',
+  'chart-3',
+  'chart-4',
+  'chart-5',
+  'chart-6',
+  // Effects
+  'shadow-sm',
+  'shadow-md',
+  'shadow-lg',
+  'glow-accent',
+  'ring-focus'
+);

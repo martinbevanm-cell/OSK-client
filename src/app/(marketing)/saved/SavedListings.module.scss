@@ -1,0 +1,114 @@
+@use 'abstracts' as *;
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: space('3');
+  padding-block: space('4');
+  border-block: 1px solid var(--divider);
+  margin-block-end: space('5');
+}
+
+.count {
+  font-family: $font-display;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.clear {
+  padding: space('2') space('3');
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: radius('pill');
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    color $transition-fast,
+    background-color $transition-fast;
+
+  &:hover {
+    color: var(--color-danger);
+    background: var(--color-danger-soft);
+  }
+
+  @include focus-ring;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: space('5');
+
+  @include respond('sm') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond('lg') {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ─── empty state ────────────────────────────────────────────────────── */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: space('3');
+  padding: space('8') space('4');
+  background: var(--bg-card);
+  border: 1px dashed var(--border-strong);
+  border-radius: radius('lg');
+}
+
+.emptyIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 56px;
+  block-size: 56px;
+  border-radius: 50%;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.emptyTitle {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.emptyMsg {
+  margin: 0;
+  max-inline-size: 46ch;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.emptyActions {
+  display: flex;
+  align-items: center;
+  gap: space('4');
+  margin-block-start: space('2');
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.emptyGhost {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}

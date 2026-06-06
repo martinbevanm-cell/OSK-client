@@ -1,0 +1,258 @@
+@use 'abstracts' as *;
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  gap: space('5');
+}
+
+/* ─── head ───────────────────────────────────────────────────────────── */
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: space('3');
+  align-items: flex-start;
+
+  @include respond('md') {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: space('5');
+  }
+}
+
+.headCopy {
+  display: flex;
+  flex-direction: column;
+  gap: space('1');
+}
+
+.eyebrow {
+  @include eyebrow-section;
+}
+
+.title {
+  margin: 0;
+  font-family: $font-display;
+  font-size: clamp(1.65rem, 1.3rem + 1.6vw, 2.2rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.sub {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+}
+
+/* ─── states ─────────────────────────────────────────────────────────── */
+.state {
+  margin: 0;
+  padding: space('7');
+  text-align: center;
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('lg');
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: space('3');
+  padding: space('8') space('4');
+  background: var(--bg-card);
+  border: 1px dashed var(--border-strong);
+  border-radius: radius('lg');
+}
+
+.emptyTitle {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 1.2rem;
+  color: var(--text-primary);
+}
+
+.emptyMsg {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+}
+
+/* ─── table-ish layout ───────────────────────────────────────────────── */
+.table {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('lg');
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.busy {
+  opacity: 0.7;
+  transition: opacity $transition-base;
+}
+
+.tableHead {
+  display: none;
+  padding: space('3') space('5');
+  background: var(--bg-inset);
+  border-block-end: 1px solid var(--divider);
+
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+
+  @include respond('md') {
+    display: grid;
+    grid-template-columns: 2.4fr 1fr 1fr 1fr auto;
+    gap: space('3');
+    align-items: center;
+  }
+}
+
+.rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: space('2') space('3');
+  padding: space('4') space('5');
+  border-block-end: 1px solid var(--divider);
+
+  &:last-child { border-block-end: 0; }
+
+  @include respond('md') {
+    grid-template-columns: 2.4fr 1fr 1fr 1fr auto;
+    align-items: center;
+    gap: space('3');
+  }
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  min-inline-size: 0;
+}
+
+.cellListing {
+  grid-column: 1 / -1;
+  min-inline-size: 0;
+
+  @include respond('md') {
+    grid-column: 1 / 2;
+  }
+}
+
+.cellAction {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: space('3');
+  flex-wrap: wrap;
+  grid-column: 1 / -1;
+  margin-block-start: space('1');
+
+  @include respond('md') {
+    grid-column: auto;
+    margin-block-start: 0;
+  }
+}
+
+.cellLabel {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+
+  @include respond('md') {
+    display: none;
+  }
+}
+
+.listingTitle {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.25;
+}
+
+.listingLink {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+.listingMeta {
+  margin: 2px 0 0;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.price {
+  font-family: $font-display;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.viewLink {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+
+  &:hover { color: var(--color-primary-hover); }
+}
+
+/* Prominent pay CTA used on `awaiting-payment` rows. */
+.payLink {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.875rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--btn-primary-fg);
+  background: var(--btn-primary-bg);
+  border-radius: radius('md');
+  text-decoration: none;
+
+  &:hover {
+    background: var(--btn-primary-hover);
+  }
+}
+
+/* ─── pager ──────────────────────────────────────────────────────────── */
+.pager {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: space('4');
+}
+
+.pageInfo {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}

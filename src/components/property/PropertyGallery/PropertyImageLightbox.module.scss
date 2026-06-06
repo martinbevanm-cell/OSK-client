@@ -1,0 +1,200 @@
+@use 'abstracts' as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: z('modal');
+  background: var(--bg-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: space('5') space('4');
+  backdrop-filter: blur(10px);
+  animation: lb-in $transition-base both;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes lb-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ─── top bar ────────────────────────────────────────────────────────── */
+.bar {
+  position: absolute;
+  inset-block-start: space('4');
+  inset-inline: space('4');
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1;
+  pointer-events: none;
+
+  > * {
+    pointer-events: auto;
+  }
+}
+
+.counter {
+  padding: space('2') space('4');
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: radius('pill');
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  box-shadow: var(--shadow-sm);
+}
+
+.iconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 44px;
+  block-size: 44px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: 50%;
+  color: var(--text-primary);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition:
+    background-color $transition-fast,
+    color $transition-fast;
+
+  &:hover {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--text-inverse);
+  }
+
+  @include focus-ring;
+}
+
+/* ─── side nav arrows ────────────────────────────────────────────────── */
+.nav {
+  position: absolute;
+  inset-block-start: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 52px;
+  block-size: 52px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: 50%;
+  color: var(--text-primary);
+  cursor: pointer;
+  z-index: 1;
+  box-shadow: var(--shadow-md);
+  transition:
+    background-color $transition-fast,
+    color $transition-fast;
+
+  &:hover {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--text-inverse);
+  }
+
+  @include focus-ring;
+
+  @media (max-width: 480px) {
+    inline-size: 44px;
+    block-size: 44px;
+  }
+}
+
+.navPrev {
+  inset-inline-start: space('4');
+}
+
+.navNext {
+  inset-inline-end: space('4');
+}
+
+/* ─── image stage ────────────────────────────────────────────────────── */
+.stage {
+  position: relative;
+  inline-size: 100%;
+  max-inline-size: 1400px;
+  block-size: calc(100dvh - 220px);
+  max-block-size: 80vh;
+
+  @media (max-width: 768px) {
+    block-size: calc(100dvh - 200px);
+    max-block-size: 78dvh;
+  }
+}
+
+.stageImg {
+  object-fit: contain;
+}
+
+/* ─── thumbnail strip ────────────────────────────────────────────────── */
+.strip {
+  position: absolute;
+  inset-block-end: space('4');
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: space('2');
+  padding: space('2');
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: radius('md');
+  box-shadow: var(--shadow-md);
+  max-inline-size: min(760px, calc(100vw - #{space('5')}));
+  overflow-x: auto;
+  scrollbar-color: var(--border-strong) transparent;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    block-size: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: radius('pill');
+  }
+
+  @media (max-width: 540px) {
+    display: none;
+  }
+}
+
+.stripItem {
+  position: relative;
+  inline-size: 72px;
+  block-size: 54px;
+  background: var(--bg-inset);
+  border: 2px solid transparent;
+  border-radius: radius('sm');
+  overflow: hidden;
+  padding: 0;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color $transition-fast;
+
+  &:hover {
+    border-color: var(--border-strong);
+  }
+
+  @include focus-ring;
+}
+
+.stripItemActive {
+  border-color: var(--color-accent);
+}
+
+.stripImg {
+  object-fit: cover;
+}

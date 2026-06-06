@@ -1,0 +1,10 @@
+// ─────────────────────────────────────────────────────────────────────────
+// GLOBAL STYLESHEET BUNDLE
+// Imported exactly once, by app/globals.scss. Emits the theme token classes
+// and base element styling. Component SCSS modules must NOT import this —
+// they use `@use 'abstracts' as *;` (vars/mixins only, zero CSS output).
+// ─────────────────────────────────────────────────────────────────────────
+@use 'tokens/themes';
+@use 'base/reset';
+@use 'base/typography';
+@use 'base/a11y';

@@ -1,0 +1,29 @@
+@use 'sass:map';
+@use 'breakpoints' as bp;
+@use 'scale';
+
+/// Resolve a themed color token to its CSS custom property.
+/// Usage: color: token('text-primary');
+@function token($name) {
+  @return var(--#{$name});
+}
+
+@function space($key) {
+  @return map.get(scale.$space, $key);
+}
+
+@function radius($key) {
+  @return map.get(scale.$radius, $key);
+}
+
+@function z($key) {
+  @return map.get(scale.$z, $key);
+}
+
+@function container($key) {
+  @return map.get(scale.$container, $key);
+}
+
+@function breakpoint($key) {
+  @return map.get(bp.$breakpoints, $key);
+}

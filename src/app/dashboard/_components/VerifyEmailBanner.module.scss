@@ -1,0 +1,91 @@
+@use 'abstracts' as *;
+
+.banner {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    'icon copy'
+    'button button';
+  gap: space('3') space('4');
+  align-items: center;
+  padding: space('4') space('5');
+  background: var(--color-warning-soft, var(--bg-inset));
+  border: 1px solid var(--color-warning, var(--border-strong));
+  border-radius: radius('lg');
+
+  @include respond('sm') {
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: 'icon copy button';
+  }
+}
+
+.icon {
+  grid-area: icon;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 36px;
+  block-size: 36px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  color: var(--color-warning, var(--color-primary));
+  flex-shrink: 0;
+}
+
+.copy {
+  grid-area: copy;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-inline-size: 0;
+}
+
+.title {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.sub {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+
+  strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+}
+
+.button {
+  grid-area: button;
+  justify-self: flex-start;
+  padding: space('2') space('4');
+  background: var(--bg-card);
+  border: 1px solid var(--color-warning, var(--border-strong));
+  border-radius: radius('pill');
+  color: var(--color-warning, var(--color-primary));
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition:
+    background-color $transition-fast,
+    color $transition-fast,
+    opacity $transition-fast;
+
+  @include focus-ring;
+
+  &:hover:not(:disabled) {
+    background: var(--color-warning, var(--color-primary));
+    color: var(--text-inverse);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}

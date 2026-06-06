@@ -1,0 +1,356 @@
+@use 'abstracts' as *;
+
+.page {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  max-inline-size: container('default');
+  margin-inline: auto;
+  padding-block: space('8') space('9');
+  padding-inline: clamp(#{space('4')}, 4vw, #{space('6')});
+}
+
+/* ─── background blooms ──────────────────────────────────────────────── */
+.bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.bloomA {
+  position: absolute;
+  inset-block-start: -25%;
+  inset-inline-start: -15%;
+  inline-size: 60%;
+  block-size: 60%;
+  background: radial-gradient(
+    closest-side,
+    var(--color-primary-soft),
+    transparent 70%
+  );
+}
+
+.bloomB {
+  position: absolute;
+  inset-block-end: -25%;
+  inset-inline-end: -15%;
+  inline-size: 55%;
+  block-size: 55%;
+  background: radial-gradient(
+    closest-side,
+    var(--bg-inset),
+    transparent 70%
+  );
+}
+
+/* ─── head ───────────────────────────────────────────────────────────── */
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: space('4');
+  margin-block-end: space('8');
+  max-inline-size: 760px;
+  margin-inline: auto;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: space('2');
+  margin: 0;
+  padding: space('1') space('3');
+  background: var(--color-primary-soft);
+  border-radius: radius('pill');
+  color: var(--color-primary);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.eyebrowDot {
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+.title {
+  margin: 0;
+  font-family: $font-display;
+  font-size: clamp(2.25rem, 1.4rem + 3.5vw, 3.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+
+  em {
+    font-style: italic;
+    background: linear-gradient(
+      90deg,
+      var(--color-primary) 0%,
+      var(--color-accent) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+}
+
+.sub {
+  margin: 0;
+  max-inline-size: 56ch;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+}
+
+.headActions {
+  display: flex;
+  align-items: center;
+  gap: space('4');
+  margin-block-start: space('2');
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ghost {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+/* ─── steps ──────────────────────────────────────────────────────────── */
+.steps {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: space('4');
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  margin-block-end: space('8');
+
+  @include respond('md') {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+  padding: space('5');
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('lg');
+  transition:
+    border-color $transition-fast,
+    transform $transition-fast;
+
+  &:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+  }
+
+  /* gold accent ribbon at top */
+  &::before {
+    content: '';
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: space('5');
+    inset-inline-end: space('5');
+    block-size: 2px;
+    background: linear-gradient(
+      90deg,
+      var(--color-accent),
+      transparent
+    );
+  }
+}
+
+.stepHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: space('3');
+  margin-block-end: space('2');
+}
+
+.stepNum {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 40px;
+  block-size: 40px;
+  border-radius: radius('pill');
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-family: $font-display;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.stepIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-accent);
+}
+
+.stepTitle {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.stepCopy {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+/* ─── features ───────────────────────────────────────────────────────── */
+.features {
+  margin-block-end: space('8');
+  display: flex;
+  flex-direction: column;
+  gap: space('5');
+}
+
+.featuresHead {
+  display: flex;
+  flex-direction: column;
+  gap: space('1');
+}
+
+.sectionEyebrow {
+  @include eyebrow-section;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: space('2');
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  @include respond('sm') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond('lg') {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: space('3');
+  padding: space('3') space('4');
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('md');
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.featureCheck {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 22px;
+  block-size: 22px;
+  border-radius: 50%;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+/* ─── CTA ────────────────────────────────────────────────────────────── */
+.cta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: space('3');
+  padding: space('6');
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('xl');
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: space('5');
+    inset-inline-end: space('5');
+    block-size: 3px;
+    background: linear-gradient(
+      90deg,
+      var(--color-accent),
+      transparent
+    );
+  }
+
+  @include respond('md') {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: space('5');
+  }
+}
+
+.ctaCopy {
+  display: flex;
+  flex-direction: column;
+  gap: space('1');
+  max-inline-size: 50ch;
+}
+
+.ctaTitle {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.ctaSub {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+}
+
+.ctaActions {
+  display: flex;
+  gap: space('3');
+  flex-shrink: 0;
+  align-items: center;
+  flex-wrap: wrap;
+}

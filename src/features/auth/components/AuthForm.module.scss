@@ -1,0 +1,112 @@
+@use 'abstracts' as *;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: space('4');
+}
+
+.row {
+  display: grid;
+  gap: space('3');
+
+  @include respond('sm') {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.selectField {
+  display: flex;
+  flex-direction: column;
+  gap: space('1');
+}
+
+.label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.select {
+  inline-size: 100%;
+  padding: space('3');
+  border-radius: radius('sm');
+  border: 1px solid var(--border-strong);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+
+  &:focus-visible {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--ring-focus);
+  }
+}
+
+.inlineLink {
+  align-self: flex-end;
+  margin-block-start: calc(-1 * #{space('2')});
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-primary);
+
+  &:hover {
+    color: var(--color-primary-hover);
+  }
+}
+
+.alt {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+
+  a {
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+}
+
+.notice {
+  padding: space('4');
+  border-radius: radius('md');
+  background: var(--color-success-soft);
+  color: var(--color-success);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: space('3');
+  padding: space('5') 0;
+  text-align: center;
+}
+
+.statusError {
+  color: var(--color-danger);
+}
+
+.statusOk {
+  color: var(--color-success);
+}
+
+/* Inline server-error banner at the top of auth forms. */
+.errorBanner {
+  display: flex;
+  align-items: flex-start;
+  gap: space('3');
+  padding: space('3') space('4');
+  background: var(--color-danger-soft);
+  border: 1px solid var(--color-danger);
+  border-radius: radius('md');
+  color: var(--color-danger);
+  font-size: 0.875rem;
+  line-height: 1.45;
+
+  svg {
+    flex-shrink: 0;
+    margin-block-start: 2px;
+  }
+}

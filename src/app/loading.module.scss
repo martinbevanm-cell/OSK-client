@@ -1,0 +1,70 @@
+@use 'abstracts' as *;
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  gap: space('5');
+  min-block-size: 50vh;
+  max-inline-size: container('default');
+  margin-inline: auto;
+  padding-block: space('7');
+  padding-inline: clamp(#{space('4')}, 4vw, #{space('6')});
+}
+
+.brandRow {
+  display: flex;
+  align-items: center;
+  gap: space('2');
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.dot {
+  inline-size: 8px;
+  block-size: 8px;
+  border-radius: 50%;
+  background: var(--color-accent);
+
+  @include motion-safe {
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
+}
+
+.label {
+  color: var(--text-muted);
+}
+
+.bars {
+  display: flex;
+  flex-direction: column;
+  gap: space('3');
+}
+
+.bar {
+  block-size: 110px;
+  border-radius: radius('lg');
+  background: linear-gradient(
+    100deg,
+    var(--bg-inset) 30%,
+    var(--bg-elevated) 50%,
+    var(--bg-inset) 70%
+  );
+  background-size: 200% 100%;
+
+  @include motion-safe {
+    animation: shimmer 1.4s ease-in-out infinite;
+  }
+}
+
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to   { background-position: -200% 0; }
+}

@@ -1,0 +1,153 @@
+@use 'abstracts' as *;
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  gap: space('5');
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+}
+
+.eyebrow {
+  @include eyebrow-section;
+}
+
+.title {
+  margin: 0;
+  font-family: $font-display;
+  font-size: clamp(1.65rem, 1.3rem + 1.6vw, 2.2rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.sub {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+}
+
+.muted {
+  margin: 0;
+  padding: space('6');
+  text-align: center;
+  color: var(--text-muted);
+  background: var(--bg-card);
+  border: 1px dashed var(--border-strong);
+  border-radius: radius('lg');
+}
+
+/* ─── metric grid ────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: space('3');
+
+  @include respond('sm') {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include respond('lg') {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.card,
+.cardLink {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: space('1');
+  padding: space('5');
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('lg');
+  color: inherit;
+  text-decoration: none;
+  transition:
+    border-color $transition-fast,
+    transform $transition-fast;
+}
+
+.cardLink {
+  cursor: pointer;
+
+  @include focus-ring;
+
+  &:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+  }
+}
+
+.cardLabel {
+  margin: 0;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.cardValue {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.cardHint {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+.cardArrow {
+  position: absolute;
+  inset-block-start: space('4');
+  inset-inline-end: space('5');
+  color: var(--color-primary);
+  font-size: 1.1rem;
+  transition: transform $transition-fast;
+
+  .cardLink:hover & {
+    transform: translateX(2px);
+  }
+}
+
+/* ─── tips ───────────────────────────────────────────────────────────── */
+.tipsCard {
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+  padding: space('5');
+  background: var(--bg-inset);
+  border: 1px solid var(--border-default);
+  border-radius: radius('lg');
+}
+
+.tipsTitle {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.tipsList {
+  list-style: disc;
+  margin: 0;
+  padding-inline-start: space('5');
+  display: flex;
+  flex-direction: column;
+  gap: space('1');
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}

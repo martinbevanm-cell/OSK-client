@@ -1,0 +1,450 @@
+@use 'abstracts' as *;
+
+/* ─────────────────────────────────────────────────────────────────────────
+ * "Get the OSK App" poster.
+ * 3-column on desktop: copy + badges | phone | QR.
+ * On md it drops the QR off to the side; on small it stacks.
+ * ──────────────────────────────────────────────────────────────────────── */
+
+.section {
+  /* Tighter than the other home sections — this poster is dense, the
+   * heavy padding made it dominate the page. Lighter on mobile so the
+   * stack doesn't push other sections way down the fold. */
+  padding-block: space('5');
+  padding-inline: clamp(#{space('4')}, 4vw, #{space('6')});
+  background:
+    radial-gradient(
+      circle at 80% 20%,
+      color-mix(in srgb, var(--color-primary) 12%, transparent),
+      transparent 55%
+    ),
+    var(--bg-page);
+  overflow: hidden;
+
+  @include respond('md') {
+    padding-block: space('7');
+  }
+}
+
+.shell {
+  max-inline-size: container('default');
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: space('4');
+  align-items: center;
+
+  @include respond('md') {
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: space('6');
+  }
+
+  @include respond('lg') {
+    /* copy | phone | qr */
+    grid-template-columns: 1.1fr 0.85fr auto;
+    gap: space('6');
+  }
+}
+
+/* ─── copy column ─────────────────────────────────────────────────────── */
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: space('3');
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: space('2');
+  padding: space('1') space('3');
+  background: var(--color-primary-soft);
+  border-radius: radius('pill');
+  color: var(--color-primary);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.eyebrowDot {
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+.title {
+  margin: 0;
+  font-family: $font-display;
+  /* One step down from the previous clamp so the heading sits
+   * proportionally to the smaller section. */
+  font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--color-primary);
+}
+
+.sub {
+  margin: 0;
+  max-inline-size: 52ch;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+/* ─── store badges ────────────────────────────────────────────────────── */
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: space('2');
+  margin-block-start: space('2');
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: space('2');
+  padding: space('2') space('3');
+  min-block-size: 46px;
+  background: var(--text-primary);
+  color: var(--text-inverse);
+  border: 1px solid var(--text-primary);
+  border-radius: radius('md');
+  text-decoration: none;
+  transition:
+    transform $transition-fast,
+    background-color $transition-fast,
+    box-shadow $transition-fast;
+  box-shadow: var(--shadow-sm);
+
+  &:hover {
+    transform: translateY(-2px);
+    background: color-mix(in srgb, var(--text-primary) 88%, var(--color-primary));
+    box-shadow: var(--shadow-md);
+  }
+
+  @include focus-ring;
+
+  @include respond('md') {
+    gap: space('3');
+    padding: space('2') space('4');
+    min-block-size: 52px;
+    border-radius: radius('lg');
+  }
+}
+
+.badgeIcon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-inverse);
+}
+
+.badgeText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.badgeKicker {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  opacity: 0.78;
+}
+
+.badgeName {
+  font-family: $font-display;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* ─── phone mockup ─────────────────────────────────────────────────── */
+.phone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1200px;
+}
+
+.phoneFrame {
+  position: relative;
+  /* Mobile-first: a small frame (~9.5rem wide, ~20rem tall at 9:19) so
+   * the poster fits on a phone screen without bullying the rest of the
+   * page. Scales up to ~15rem on desktop. */
+  inline-size: clamp(9.5rem, 32vw, 15rem);
+  aspect-ratio: 9 / 19;
+  border-radius: 1.75rem;
+  background: var(--text-primary);
+  padding: 8px;
+  box-shadow:
+    0 20px 40px -22px color-mix(in srgb, var(--text-primary) 60%, transparent),
+    0 8px 18px -8px color-mix(in srgb, var(--text-primary) 30%, transparent),
+    inset 0 0 0 2px color-mix(in srgb, var(--text-primary) 70%, transparent);
+  transform: rotate(-4deg);
+
+  @include respond('md') {
+    transform: rotate(-6deg);
+    border-radius: 2.25rem;
+    padding: 10px;
+  }
+}
+
+.phoneNotch {
+  position: absolute;
+  inset-block-start: 10px;
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+  inline-size: 38%;
+  block-size: 14px;
+  background: var(--text-primary);
+  border-radius: radius('pill');
+  z-index: 1;
+
+  @include respond('md') {
+    inset-block-start: 14px;
+    block-size: 18px;
+  }
+}
+
+.phoneScreen {
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+  border-radius: 1.4rem;
+  background: var(--bg-card);
+  padding: space('4') space('2') space('3');
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+  overflow: hidden;
+
+  @include respond('md') {
+    border-radius: 1.85rem;
+    padding: space('5') space('3') space('4');
+  }
+}
+
+.phoneStatus {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-block-start: 4px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.phoneIcons { display: inline-flex; align-items: center; gap: 4px; }
+
+.phoneSignal,
+.phoneWifi,
+.phoneBattery {
+  display: inline-block;
+  background: var(--text-primary);
+}
+.phoneSignal { inline-size: 10px; block-size: 8px; clip-path: polygon(0 100%,20% 100%,20% 70%,0 70%,35% 100%,50% 100%,50% 50%,35% 50%,65% 100%,80% 100%,80% 25%,65% 25%,90% 100%,100% 100%,100% 0,90% 0); }
+.phoneWifi { inline-size: 10px; block-size: 8px; border-radius: 50% 50% 0 0; }
+.phoneBattery { inline-size: 16px; block-size: 8px; border-radius: 2px; }
+
+.phoneHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-block-start: space('1');
+}
+
+.phoneBrand {
+  font-family: $font-display;
+  font-size: 0.875rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: var(--text-primary);
+}
+
+.phoneBrandSub {
+  margin-block-start: 2px;
+  font-size: 0.4375rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.phoneTabs {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  background: var(--bg-inset);
+  border-radius: radius('pill');
+  font-size: 0.6rem;
+  align-self: flex-start;
+}
+
+.phoneTab,
+.phoneTabActive {
+  padding: 2px space('2');
+  color: var(--text-secondary);
+  border-radius: radius('pill');
+}
+
+.phoneTabActive {
+  background: var(--color-primary);
+  color: var(--text-inverse);
+  font-weight: 600;
+}
+
+.phoneSearch {
+  display: flex;
+  align-items: center;
+  gap: space('2');
+  padding: space('2') space('3');
+  background: var(--bg-inset);
+  border: 1px solid var(--border-default);
+  border-radius: radius('pill');
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+}
+
+.phoneCards {
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+  margin-block-start: space('1');
+}
+
+.phoneCard {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: radius('md');
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.phoneCardImg {
+  inline-size: 100%;
+  aspect-ratio: 16 / 9;
+  background:
+    linear-gradient(
+      135deg,
+      var(--color-primary-soft) 0%,
+      color-mix(in srgb, var(--color-accent) 30%, var(--bg-inset)) 100%
+    );
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset-block-end: 18%;
+    inset-inline-start: 50%;
+    transform: translateX(-50%);
+    inline-size: 26%;
+    block-size: 40%;
+    background: var(--bg-card);
+    clip-path: polygon(50% 0, 100% 40%, 100% 100%, 0 100%, 0 40%);
+    opacity: 0.55;
+  }
+}
+
+.phoneCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: space('2') space('3');
+}
+
+.phoneCardPrice {
+  font-family: $font-display;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.phoneCardMeta {
+  font-size: 0.625rem;
+  color: var(--text-muted);
+}
+
+/* ─── QR column ───────────────────────────────────────────────────────── */
+.qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: space('2');
+
+  /* On md viewports the QR slides under the phone column to avoid a
+   * cramped 3-up row. lg+ uses the auto column. */
+  grid-column: 1 / -1;
+
+  @include respond('md') {
+    grid-column: auto;
+  }
+
+  @include respond('lg') {
+    align-items: flex-start;
+  }
+}
+
+.qrCopy {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.4;
+
+  @include respond('md') {
+    font-size: 0.9375rem;
+  }
+}
+
+.qrArrow {
+  font-size: 1.1rem;
+  color: var(--color-accent);
+  line-height: 1;
+  align-self: center;
+
+  @include respond('md') {
+    font-size: 1.4rem;
+  }
+}
+
+.qrTile {
+  padding: space('2');
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('md');
+  box-shadow: var(--shadow-sm);
+  inline-size: 6.5rem;
+  block-size: 6.5rem;
+  /* Inject the QR colour via currentColor so it stays readable in every
+   * theme. The qrcode lib emits paths with `fill="#000"` which we
+   * override here using a CSS attribute selector inside the wrapper. */
+  color: var(--text-primary);
+
+  @include respond('md') {
+    inline-size: 8.5rem;
+    block-size: 8.5rem;
+  }
+
+  svg {
+    inline-size: 100%;
+    block-size: 100%;
+    display: block;
+  }
+
+  /* Force the QR paths to use the text token rather than the hex the
+   * library emits. Works whether the SVG has explicit `fill="#000"` on
+   * <path> elements or relies on the rect background. */
+  svg [fill='#000000'],
+  svg [fill='#000'],
+  svg path,
+  svg rect:not(:first-of-type) {
+    fill: currentColor;
+  }
+}

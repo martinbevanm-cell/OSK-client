@@ -1,0 +1,218 @@
+@use 'abstracts' as *;
+
+.shell {
+  display: grid;
+  grid-template-columns: 1fr;
+  max-inline-size: container('wide');
+  margin-inline: auto;
+  padding-inline: clamp(#{space('4')}, 4vw, #{space('6')});
+  padding-block: space('5') space('9');
+  gap: space('5');
+
+  @include respond('lg') {
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: space('6');
+  }
+}
+
+/* ─── sidebar ────────────────────────────────────────────────────────── */
+.sidebar {
+  display: none;
+  flex-direction: column;
+  gap: space('5');
+  padding: space('5');
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('xl');
+  box-shadow: var(--shadow-sm);
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: space('5');
+    inset-inline-end: space('5');
+    block-size: 3px;
+    background: linear-gradient(
+      90deg,
+      var(--color-accent),
+      transparent
+    );
+  }
+
+  @include respond('lg') {
+    display: flex;
+    position: sticky;
+    inset-block-start: space('5');
+    block-size: fit-content;
+  }
+}
+
+.sidebarHead {
+  display: flex;
+  flex-direction: column;
+  gap: space('1');
+}
+
+.eyebrow {
+  @include eyebrow-section;
+}
+
+.greeting {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+
+  strong {
+    font-weight: 600;
+  }
+}
+
+.role {
+  align-self: flex-start;
+  padding: 2px space('2');
+  background: var(--color-primary-soft);
+  border-radius: radius('pill');
+  color: var(--color-primary);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: space('3');
+  padding: space('3') space('3');
+  border-radius: radius('md');
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    background-color $transition-fast,
+    color $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    background: var(--color-primary-soft);
+    color: var(--text-primary);
+  }
+}
+
+.navIcon {
+  display: inline-flex;
+  inline-size: 22px;
+  block-size: 22px;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+
+  .navLinkActive & {
+    color: var(--color-primary);
+  }
+}
+
+.navLinkActive {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-weight: 600;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+.sidebarFoot {
+  display: flex;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 100%;
+  padding: space('3') space('4');
+  border-radius: radius('pill');
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-fg);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: background-color $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    background: var(--btn-primary-hover);
+    color: var(--btn-primary-fg);
+  }
+
+  &:focus-visible {
+    color: var(--btn-primary-fg);
+  }
+}
+
+/* ─── main column ────────────────────────────────────────────────────── */
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: space('4');
+  min-inline-size: 0;
+}
+
+.mobileToggle {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  padding: space('2') space('4');
+  border-radius: radius('pill');
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color $transition-fast;
+
+  @include focus-ring;
+
+  &:hover {
+    border-color: var(--color-primary);
+  }
+
+  @include respond('lg') {
+    display: none;
+  }
+}
+
+.mobileNav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: space('3');
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('lg');
+
+  @include respond('lg') {
+    display: none;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: space('5');
+}

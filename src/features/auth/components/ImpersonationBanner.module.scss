@@ -1,0 +1,66 @@
+@use 'abstracts' as *;
+
+.banner {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  gap: space('3');
+  padding: space('2') space('4');
+  background: var(--color-warning, var(--color-accent));
+  color: var(--text-inverse);
+  font-size: 0.875rem;
+  border-block-end: 1px solid var(--color-warning, var(--color-accent));
+  box-shadow: var(--shadow-sm);
+
+  @include respond('md') {
+    padding: space('2') space('5');
+  }
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 28px;
+  block-size: 28px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  color: var(--color-warning, var(--color-accent));
+  flex-shrink: 0;
+}
+
+.copy {
+  margin: 0;
+  flex: 1;
+  min-inline-size: 0;
+  line-height: 1.4;
+
+  strong {
+    font-weight: 700;
+  }
+}
+
+.email {
+  opacity: 0.85;
+  font-weight: 500;
+}
+
+.stopBtn {
+  padding: space('2') space('3');
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: none;
+  border-radius: radius('pill');
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: opacity $transition-fast;
+  flex-shrink: 0;
+
+  &:hover {
+    opacity: 0.92;
+  }
+}

@@ -1,0 +1,73 @@
+@use 'abstracts' as *;
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: space('6');
+
+  @include respond('lg') {
+    grid-template-columns: minmax(0, 1fr) 320px;
+  }
+}
+
+.formCol {
+  min-inline-size: 0;
+}
+
+.detailsCol {
+  display: flex;
+  flex-direction: column;
+  gap: space('3');
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: space('1');
+  padding: space('5');
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('lg');
+}
+
+.cardTitle {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.address {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-block-start: space('1');
+  font-style: normal;
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+  line-height: 1.55;
+}
+
+.cardLink {
+  margin-block-start: space('1');
+  font-family: $font-display;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: var(--color-primary);
+  }
+}
+
+.cardHint {
+  margin: space('1') 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}

@@ -1,0 +1,32 @@
+@use 'abstracts' as *;
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem space('2');
+  border-radius: radius('sm');
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.new {
+  background: var(--badge-new-bg);
+  color: var(--badge-new-fg);
+}
+
+.resale {
+  background: var(--badge-resale-bg);
+  color: var(--badge-resale-fg);
+}
+
+.featured {
+  background: var(--badge-featured-bg);
+  color: var(--badge-featured-fg);
+}
+
+.sold {
+  background: var(--badge-sold-bg);
+  color: var(--badge-sold-fg);
+}

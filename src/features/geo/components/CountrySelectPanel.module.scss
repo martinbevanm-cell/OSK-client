@@ -1,0 +1,119 @@
+@use 'abstracts' as *;
+
+.root {
+  display: flex;
+  flex-direction: column;
+}
+
+.searchRow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: space('3');
+  border-block-end: 1px solid var(--divider);
+}
+
+.searchIcon {
+  position: absolute;
+  inset-inline-start: calc(#{space('3')} + #{space('3')});
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.search {
+  inline-size: 100%;
+  padding: space('3') space('3') space('3') calc(#{space('3')} + 1.5rem);
+  background: var(--bg-inset);
+  border: 1px solid var(--border-default);
+  border-radius: radius('md');
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  transition: border-color $transition-fast;
+
+  &::placeholder {
+    color: var(--text-muted);
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--ring-focus);
+  }
+}
+
+.list {
+  margin: 0;
+  padding: space('1');
+  list-style: none;
+  max-block-size: 20rem;
+  overflow-y: auto;
+  scrollbar-color: var(--border-strong) transparent;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    inline-size: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: radius('pill');
+  }
+}
+
+.item {
+  inline-size: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: space('3');
+  padding: space('2') space('3');
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: radius('md');
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  text-align: start;
+  cursor: pointer;
+  transition: background-color $transition-fast;
+
+  &:hover {
+    background: var(--color-primary-soft);
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: var(--color-primary);
+  }
+}
+
+.itemActive {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.flag {
+  font-size: 1.125rem;
+  line-height: 1;
+}
+
+.itemName {
+  min-inline-size: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.itemMeta {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.empty {
+  padding: space('5') space('3');
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
