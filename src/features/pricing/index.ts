@@ -1,12 +1,6 @@
-/** Public surface of the pricing feature. */
+/** Public surface of the pricing feature — payment configuration only. */
 export {
   pricingApi,
-  useListPricingPlansQuery,
-  useCreatePricingPlanMutation,
-  useUpdatePricingPlanMutation,
-  useDeletePricingPlanMutation,
   useGetPaymentSettingsQuery,
   useUpdatePaymentSettingsMutation,
-  useResolvePriceQuery,
-  useLazyResolvePriceQuery,
 } from './pricingApi';

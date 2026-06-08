@@ -164,6 +164,46 @@
   color: var(--text-muted);
 }
 
+.statusReady {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+
+.statusPartial {
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+
+.statusEmpty {
+  background: var(--bg-inset);
+  color: var(--text-muted);
+}
+
+/* ─── provider readiness list (compact) ──────────────────────────────── */
+.readyList {
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.readyRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: space('3') space('4');
+  background: var(--bg-inset);
+  border: 1px solid var(--border-default);
+  border-radius: radius('md');
+}
+
+.readyName {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
 /* ─── providers ──────────────────────────────────────────────────────── */
 .providerList {
   display: flex;

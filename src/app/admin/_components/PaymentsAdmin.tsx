@@ -1,10 +1,6 @@
 'use client';
 
-import {
-  PROVIDER_LABELS,
-  type Payment,
-  type PaymentStatus,
-} from '@contracts';
+import { PROVIDER_LABELS, type Payment, type PaymentStatus } from '@contracts';
 import {
   useConfirmPaymentMutation,
   useListAdminPaymentsQuery,
@@ -27,8 +23,7 @@ const STATUS_LABEL: Record<PaymentStatus, string> = {
 export function PaymentsAdmin() {
   const dispatch = useAppDispatch();
   const { data, isLoading, isError } = useListAdminPaymentsQuery();
-  const [confirmPayment, { isLoading: confirming }] =
-    useConfirmPaymentMutation();
+  const [confirmPayment, { isLoading: confirming }] = useConfirmPaymentMutation();
 
   const items = data ?? [];
 
@@ -42,7 +37,7 @@ export function PaymentsAdmin() {
     }
     try {
       await confirmPayment(p.id).unwrap();
-      dispatch(toastPushed('success', 'Payment confirmed — listing published.'));
+      dispatch(toastPushed('success', 'Payment confirmed — subscription activated.'));
     } catch {
       /* surfaced by the global toast */
     }
@@ -54,9 +49,9 @@ export function PaymentsAdmin() {
         <span className={styles.eyebrow}>Admin · Payments</span>
         <h1 className={styles.title}>Payments</h1>
         <p className={styles.sub}>
-          Every payment intent across all providers. Confirm bank transfers
-          manually once the wire clears — Stripe / PayPal / Paystack get
-          confirmed automatically by webhook.
+          Every payment intent across all providers. Bank-transfer rows surface the
+          seller&apos;s uploaded screenshot for verification before you confirm. Stripe /
+          PayPal / Paystack confirm automatically via webhook.
         </p>
       </header>
 
@@ -75,7 +70,8 @@ export function PaymentsAdmin() {
                 <th>Provider</th>
                 <th>Amount</th>
                 <th>Status</th>
-                <th>Listing</th>
+                <th>Target</th>
+                <th>Proof</th>
                 <th>Ref</th>
                 <th aria-label="Actions" />
               </tr>
@@ -96,16 +92,41 @@ export function PaymentsAdmin() {
                     </strong>
                   </td>
                   <td>
-                    <span
-                      className={cn(
-                        styles.statusPill,
-                        styles[`status_${p.status}`],
-                      )}
-                    >
+                    <span className={cn(styles.statusPill, styles[`status_${p.status}`])}>
                       {STATUS_LABEL[p.status]}
                     </span>
                   </td>
-                  <td className={styles.mono}>{p.propertyId}</td>
+                  <td className={styles.mono}>
+                    {p.subscriptionId
+                      ? `sub:${p.subscriptionId.slice(-6)}`
+                      : p.propertyId
+                        ? `prop:${p.propertyId.slice(-6)}`
+                        : '—'}
+                  </td>
+                  <td>
+                    {p.proofUrl ? (
+                      <a
+                        href={p.proofUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.proofLink}
+                        title={
+                          p.proofUploadedAt
+                            ? `Uploaded ${new Date(p.proofUploadedAt).toLocaleString(
+                                'en-US',
+                                { dateStyle: 'medium', timeStyle: 'short' },
+                              )}`
+                            : undefined
+                        }
+                      >
+                        View
+                      </a>
+                    ) : p.provider === 'bank-transfer' ? (
+                      <span className={styles.muted}>Awaiting</span>
+                    ) : (
+                      <span className={styles.muted}>—</span>
+                    )}
+                  </td>
                   <td className={styles.mono}>{p.providerRef ?? '—'}</td>
                   <td className={styles.rowActions}>
                     {p.status !== 'succeeded' &&

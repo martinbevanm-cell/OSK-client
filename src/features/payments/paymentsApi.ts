@@ -1,43 +1,43 @@
 import { baseApi } from '@/store/api/baseApi';
-import type {
-  ApiSuccess,
-  CreateIntentDto,
-  CreateIntentResult,
-  Payment,
-} from '@contracts';
+import type { ApiSuccess, Payment } from '@contracts';
 
-/** Payments server state — seller intent creation + admin moderation. */
+/**
+ * Payments server state — list + admin confirmation only.
+ *
+ * Subscription checkout intents are created from inside the
+ * subscriptions slice (POST /subscriptions/subscribe returns both the
+ * pending subscription and the provider redirect URL in one
+ * round-trip). Per-listing payment intents have been removed.
+ */
 export const paymentsApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    /* ─── Seller ──────────────────────────────────────────────── */
-    createPaymentIntent: build.mutation<CreateIntentResult, CreateIntentDto>({
-      query: (body) => ({ url: '/payments/intent', method: 'POST', body }),
-      transformResponse: (r: ApiSuccess<CreateIntentResult>) => r.data,
-      invalidatesTags: (result) =>
-        result
-          ? [
-              { type: 'Payment' as const, id: 'MINE' },
-              { type: 'Payment' as const, id: `BY-PROP-${result.payment.propertyId}` },
-              { type: 'Property' as const, id: result.payment.propertyId },
-            ]
-          : [{ type: 'Payment' as const, id: 'MINE' }],
-    }),
-
     listMyPayments: build.query<Payment[], void>({
       query: () => '/payments/mine',
       transformResponse: (r: ApiSuccess<Payment[]>) => r.data,
       providesTags: [{ type: 'Payment', id: 'MINE' }],
     }),
 
-    listPropertyPayments: build.query<Payment[], string>({
-      query: (propertyId) => `/payments/by-property/${propertyId}`,
-      transformResponse: (r: ApiSuccess<Payment[]>) => r.data,
-      providesTags: (_r, _e, propertyId) => [
-        { type: 'Payment', id: `BY-PROP-${propertyId}` },
+    getPayment: build.query<Payment, string>({
+      query: (id) => `/payments/${id}`,
+      transformResponse: (r: ApiSuccess<Payment>) => r.data,
+      providesTags: (_r, _e, id) => [{ type: 'Payment', id }],
+    }),
+
+    attachProofOfPayment: build.mutation<Payment, { id: string; url: string }>({
+      query: ({ id, url }) => ({
+        url: `/payments/${id}/proof`,
+        method: 'POST',
+        body: { url },
+      }),
+      transformResponse: (r: ApiSuccess<Payment>) => r.data,
+      invalidatesTags: (_r, _e, arg) => [
+        { type: 'Payment', id: arg.id },
+        { type: 'Payment', id: 'MINE' },
+        { type: 'Payment', id: 'ADMIN' },
       ],
     }),
 
-    /* ─── Admin ───────────────────────────────────────────────── */
+    /* Admin */
     listAdminPayments: build.query<Payment[], void>({
       query: () => '/payments',
       transformResponse: (r: ApiSuccess<Payment[]>) => r.data,
@@ -53,10 +53,9 @@ export const paymentsApi = baseApi.injectEndpoints({
               { type: 'Payment' as const, id: result.id },
               { type: 'Payment' as const, id: 'ADMIN' },
               { type: 'Payment' as const, id: 'MINE' },
-              { type: 'Payment' as const, id: `BY-PROP-${result.propertyId}` },
-              { type: 'Property' as const, id: result.propertyId },
-              { type: 'PropertyList' as const, id: 'PARTIAL' },
-              { type: 'PropertyList' as const, id: 'MINE' },
+              /* Subscription payments resolve to a subscription activation,
+               * so invalidate the user's current subscription too. */
+              { type: 'Subscription' as const, id: 'CURRENT' },
             ]
           : [{ type: 'Payment' as const, id: 'ADMIN' }],
     }),
@@ -65,9 +64,9 @@ export const paymentsApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useCreatePaymentIntentMutation,
   useListMyPaymentsQuery,
-  useListPropertyPaymentsQuery,
+  useGetPaymentQuery,
+  useAttachProofOfPaymentMutation,
   useListAdminPaymentsQuery,
   useConfirmPaymentMutation,
 } = paymentsApi;

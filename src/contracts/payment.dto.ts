@@ -12,7 +12,11 @@ export type PaymentStatus = (typeof PAYMENT_STATUSES)[number];
 
 export interface Payment {
   id: string;
+  /** Empty string when this payment is for a subscription rather than
+   *  a specific listing. */
   propertyId: string;
+  /** Set when this payment activates / renews a subscription. */
+  subscriptionId: string | null;
   userId: string;
   provider: ProviderKey;
   status: PaymentStatus;
@@ -20,18 +24,10 @@ export interface Payment {
   currency: string;
   providerRef?: string;
   metadata: Record<string, string>;
+  /** Bank-transfer proof screenshot URL, when uploaded. */
+  proofUrl?: string;
+  /** ISO timestamp the proof was uploaded. */
+  proofUploadedAt?: string;
   createdAt: string;
   updatedAt: string;
-}
-
-export interface CreateIntentDto {
-  propertyId: string;
-  provider: ProviderKey;
-}
-
-/** Server response from POST /payments/intent. */
-export interface CreateIntentResult {
-  payment: Payment;
-  /** Where to redirect the user to complete the charge. */
-  redirectUrl: string;
 }

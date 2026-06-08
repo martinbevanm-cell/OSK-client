@@ -1,0 +1,339 @@
+@use 'abstracts' as *;
+
+.currencyBar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: space('3');
+  margin-block-end: space('4');
+}
+
+.currencyLabel {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.currencySelect {
+  appearance: none;
+  border: 1px solid var(--border-default);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border-radius: radius('md');
+  padding: 0.5rem 0.75rem;
+  min-inline-size: 6.5rem;
+  font-size: 0.875rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: space('5');
+
+  @include respond('md') {
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  }
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: space('6') space('5');
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('lg');
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform $transition-fast,
+    box-shadow $transition-fast,
+    border-color $transition-fast;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-primary);
+  }
+}
+
+.cardHighlight {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+  box-shadow:
+    0 0 0 1px var(--color-primary),
+    var(--shadow-md);
+}
+
+.cardCurrent {
+  border-color: var(--color-success);
+  box-shadow:
+    0 0 0 1px var(--color-success),
+    var(--shadow-md);
+}
+
+.popular {
+  position: absolute;
+  inset-block-start: -10px;
+  inset-inline-start: space('4');
+  padding: 0.125rem space('3');
+  background: var(--color-primary);
+  color: var(--text-inverse);
+  border-radius: radius('pill');
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.popularCurrent {
+  background: var(--color-success);
+}
+
+.cardHead {
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+  margin-block-end: space('4');
+}
+
+.name {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.tagline {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.priceBlock {
+  display: flex;
+  align-items: baseline;
+  gap: space('2');
+  margin-block-start: space('2');
+}
+
+.priceFree {
+  font-family: $font-display;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.priceAmount {
+  font-family: $font-display;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.priceCadence {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.billedAt {
+  margin: space('1') 0 0;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+
+  strong {
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+}
+
+.features {
+  list-style: none;
+  margin: 0 0 space('5');
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+  flex: 1;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: space('3');
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+}
+
+.featureIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 22px;
+  block-size: 22px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.featureOn .featureIcon {
+  color: var(--color-success);
+  background: var(--color-success-soft);
+}
+
+.featureOff {
+  color: var(--text-muted);
+
+  .featureIcon {
+    color: var(--color-danger);
+    background: var(--color-danger-soft);
+  }
+}
+
+.featureLabel {
+  min-inline-size: 0;
+}
+
+.cta {
+  inline-size: 100%;
+  justify-content: center;
+}
+
+.loading,
+.empty {
+  margin: 0;
+  padding: space('6');
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+}
+
+/* ─── checkout picker modal ──────────────────────────────────────────── */
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: space('4');
+  background: var(--overlay-scrim);
+  backdrop-filter: blur(4px);
+  z-index: 60;
+}
+
+.modal {
+  inline-size: 100%;
+  max-inline-size: 28rem;
+  max-block-size: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: space('4');
+  padding: space('6') space('5');
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('lg');
+  box-shadow: var(--shadow-lg);
+}
+
+.modalHead {
+  display: flex;
+  flex-direction: column;
+  gap: space('1');
+}
+
+.modalEyebrow {
+  margin: 0;
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.modalTitle {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.modalSub {
+  margin: space('1') 0 0;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.modalEmpty {
+  margin: 0;
+  padding: space('4');
+  background: var(--bg-inset);
+  border-radius: radius('md');
+  text-align: center;
+  font-size: 0.9375rem;
+  color: var(--text-muted);
+}
+
+.optionList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: space('3');
+  padding: space('3') space('4');
+  background: var(--bg-inset);
+  border: 1px solid var(--border-default);
+  border-radius: radius('md');
+
+  &:hover {
+    border-color: var(--color-primary);
+  }
+}
+
+.optionMain {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-inline-size: 0;
+}
+
+.optionProvider {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.optionAmount {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+.modalFoot {
+  display: flex;
+  justify-content: flex-end;
+  margin-block-start: space('2');
+}
+
+.modalCancel {
+  background: transparent;
+  border: none;
+  padding: space('2') space('3');
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--text-primary);
+  }
+}

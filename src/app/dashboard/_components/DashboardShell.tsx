@@ -89,6 +89,24 @@ const NAV: NavItem[] = [
     ),
   },
   {
+    href: '/dashboard/subscription',
+    label: 'Subscription',
+    icon: (
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+        <path
+          d="M3 7h18M3 12h18M3 17h18"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+        />
+        <circle cx="6" cy="7" r="1.4" fill="currentColor" />
+        <circle cx="6" cy="12" r="1.4" fill="currentColor" />
+        <circle cx="6" cy="17" r="1.4" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
     href: '/dashboard/profile',
     label: 'Profile',
     icon: (

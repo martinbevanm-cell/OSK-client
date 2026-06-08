@@ -1,22 +1,16 @@
 import { z } from 'zod';
-import { LISTING_KINDS, PROPERTY_TYPES } from './enums';
 
 /* ─────────────────────────────────────────────────────────────────────
  * Pricing contracts — must mirror osk-backend/src/modules/pricing/.
  *
- * A PricingPlan maps (propertyType, listingKind, country, featured)
- * to a price + currency. Each axis admits '*' as a wildcard so admins
- * can write broad fallbacks alongside fine-grained rules.
+ * After moving to a subscription model, this contract is purely about
+ * the operator's payment configuration: master toggle, enabled
+ * providers, encrypted provider credentials, bank-transfer
+ * instructions. Per-listing pricing plans have been removed in favour
+ * of subscription plans (see `contracts/subscription.dto.ts`).
  * ──────────────────────────────────────────────────────────────────── */
 
-export const PLAN_WILDCARD = '*' as const;
-
-export const PROVIDER_KEYS = [
-  'stripe',
-  'paypal',
-  'paystack',
-  'bank-transfer',
-] as const;
+export const PROVIDER_KEYS = ['stripe', 'paypal', 'paystack', 'bank-transfer'] as const;
 export type ProviderKey = (typeof PROVIDER_KEYS)[number];
 
 export const PROVIDER_LABELS: Record<ProviderKey, string> = {
@@ -25,26 +19,6 @@ export const PROVIDER_LABELS: Record<ProviderKey, string> = {
   paystack: 'Paystack',
   'bank-transfer': 'Bank transfer',
 };
-
-export type PlanPropertyType = (typeof PROPERTY_TYPES)[number] | '*';
-export type PlanListingKind = (typeof LISTING_KINDS)[number] | '*';
-
-export interface PricingPlan {
-  id: string;
-  name: string;
-  propertyType: PlanPropertyType;
-  listingKind: PlanListingKind;
-  /** ISO-2 uppercased country code or '*' for any. */
-  country: string;
-  /** True when this plan is the price for the featured upgrade. */
-  featured: boolean;
-  price: number;
-  currency: string;
-  priority: number;
-  active: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
 
 /**
  * Per-field credential status the admin sees. The backend NEVER ships
@@ -79,45 +53,21 @@ export interface PaymentSettings {
   enabledProviders: ProviderKey[];
   bankInstructions: string;
   providers: ProviderCredentialsStatus;
+  /**
+   * Computed server-side — true when each provider has the minimum
+   * credentials it needs to actually charge money. Drives the
+   * "Active / Needs setup" badge in the admin UI.
+   */
+  providerReady: Record<ProviderKey, boolean>;
+  /**
+   * The billing currencies each provider can charge in. Drives the
+   * checkout picker so users only see valid (provider, currency)
+   * options — no impossible combos. Read-only platform constant.
+   */
+  providerBillingCurrencies: Record<ProviderKey, readonly string[]>;
+  /** Union of every supported billing currency. */
+  billingCurrencies: readonly string[];
 }
-
-export interface ResolvedPrice {
-  base: { amount: number; currency: string; planId: string | null };
-  featured:
-    | { amount: number; currency: string; planId: string | null }
-    | null;
-  paymentsEnabled: boolean;
-  total: number;
-  currency: string;
-}
-
-/* ─── input schemas (admin forms) ───────────────────────────────────── */
-
-const planPropertyType = z.union([z.enum(PROPERTY_TYPES), z.literal('*')]);
-const planListingKind = z.union([z.enum(LISTING_KINDS), z.literal('*')]);
-
-export const createPricingPlanSchema = z.object({
-  name: z.string().min(2).max(80),
-  propertyType: planPropertyType.default('*'),
-  listingKind: planListingKind.default('*'),
-  country: z
-    .string()
-    .min(1)
-    .max(2)
-    .transform((v) => v.toUpperCase()),
-  featured: z.boolean().default(false),
-  price: z.number().nonnegative(),
-  currency: z
-    .string()
-    .length(3)
-    .transform((v) => v.toUpperCase()),
-  priority: z.number().int().default(0),
-  active: z.boolean().default(true),
-});
-export type CreatePricingPlanDto = z.infer<typeof createPricingPlanSchema>;
-
-export const updatePricingPlanSchema = createPricingPlanSchema.partial();
-export type UpdatePricingPlanDto = z.infer<typeof updatePricingPlanSchema>;
 
 /* Per-provider credential patches — admin sends raw values, backend
  * encrypts them before storing. Every field is optional; '' clears. */
@@ -134,12 +84,7 @@ const paypalCredentialsPatch = z
   .object({
     clientId: secretField,
     clientSecret: secretField,
-    apiBase: z
-      .string()
-      .url()
-      .max(200)
-      .optional()
-      .or(z.literal('')),
+    apiBase: z.string().url().max(200).optional().or(z.literal('')),
     webhookId: secretField,
   })
   .partial();
@@ -158,6 +103,4 @@ export const updatePaymentSettingsSchema = z.object({
   paypal: paypalCredentialsPatch.optional(),
   paystack: paystackCredentialsPatch.optional(),
 });
-export type UpdatePaymentSettingsDto = z.infer<
-  typeof updatePaymentSettingsSchema
->;
+export type UpdatePaymentSettingsDto = z.infer<typeof updatePaymentSettingsSchema>;

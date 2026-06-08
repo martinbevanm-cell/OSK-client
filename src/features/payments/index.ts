@@ -1,9 +1,9 @@
 /** Public surface of the payments feature. */
 export {
   paymentsApi,
-  useCreatePaymentIntentMutation,
   useListMyPaymentsQuery,
-  useListPropertyPaymentsQuery,
+  useGetPaymentQuery,
+  useAttachProofOfPaymentMutation,
   useListAdminPaymentsQuery,
   useConfirmPaymentMutation,
 } from './paymentsApi';

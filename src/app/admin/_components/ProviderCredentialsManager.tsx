@@ -6,7 +6,6 @@ import type {
   PaymentSettings,
   ProviderKey,
 } from '@contracts';
-import { PROVIDER_LABELS } from '@contracts';
 import { useUpdatePaymentSettingsMutation } from '@/features/pricing';
 import { toastPushed } from '@/features/ui';
 import { useAppDispatch } from '@/store/hooks';

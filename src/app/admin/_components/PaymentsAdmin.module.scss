@@ -142,3 +142,14 @@
     cursor: not-allowed;
   }
 }
+
+.proofLink {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

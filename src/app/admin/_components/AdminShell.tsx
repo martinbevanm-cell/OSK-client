@@ -59,7 +59,14 @@ const NAV: NavItem[] = [
     label: 'Users',
     icon: (
       <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-        <circle cx="9" cy="8" r="3.5" fill="none" stroke="currentColor" strokeWidth="1.75" />
+        <circle
+          cx="9"
+          cy="8"
+          r="3.5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+        />
         <path
           d="M2 20c1.2-3.4 3.7-5 7-5s5.8 1.6 7 5"
           fill="none"
@@ -67,7 +74,14 @@ const NAV: NavItem[] = [
           strokeWidth="1.75"
           strokeLinecap="round"
         />
-        <circle cx="17.5" cy="9" r="2.5" fill="none" stroke="currentColor" strokeWidth="1.75" />
+        <circle
+          cx="17.5"
+          cy="9"
+          r="2.5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+        />
         <path
           d="M22 18c-.6-2-2-3.4-4.5-3.8"
           fill="none"
@@ -123,8 +137,33 @@ const NAV: NavItem[] = [
     ),
   },
   {
+    href: '/admin/plans',
+    label: 'Plans',
+    icon: (
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+        <rect
+          x="3"
+          y="4"
+          width="18"
+          height="16"
+          rx="2"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+        />
+        <path
+          d="M7 9h10M7 13h6M7 17h4"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+        />
+      </svg>
+    ),
+  },
+  {
     href: '/admin/pricing',
-    label: 'Pricing',
+    label: 'Payment config',
     icon: (
       <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
         <path
@@ -164,6 +203,32 @@ const NAV: NavItem[] = [
     ),
   },
   {
+    href: '/admin/email',
+    label: 'Email',
+    icon: (
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+        <rect
+          x="3"
+          y="5"
+          width="18"
+          height="14"
+          rx="2"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+        />
+        <path
+          d="M4 7l8 6 8-6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    ),
+  },
+  {
     href: '/admin/audit',
     label: 'Audit log',
     icon: (
@@ -190,7 +255,14 @@ const NAV: NavItem[] = [
     label: 'Settings',
     icon: (
       <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-        <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" strokeWidth="1.75" />
+        <circle
+          cx="12"
+          cy="12"
+          r="3"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+        />
         <path
           d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09A1.65 1.65 0 0 0 15 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.36.16.6.51.6.91V11"
           fill="none"

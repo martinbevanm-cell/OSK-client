@@ -36,6 +36,7 @@ import { Button, MediaUploader, TextField } from '@/components/ui';
 import type { UploadedMedia } from '@/components/ui';
 import { resolveMediaUrl } from '@/lib/mediaUrl';
 import { cn } from '@/lib/cn';
+import { SubscriptionGate } from './SubscriptionGate';
 import styles from './NewListingForm.module.scss';
 
 interface MediaItem {
@@ -335,8 +336,30 @@ export function NewListingForm({ initialProperty }: NewListingFormProps = {}) {
         );
       }
       router.push('/dashboard/listings');
-    } catch {
+    } catch (err) {
       /* failure toast handled globally; show inline as well. */
+      /* Subscription gate: backend throws 403 with a plan-related message
+       * when the seller has no active plan or hit the submissions cap.
+       * Route them straight to the pricing page rather than blame the
+       * form. We sniff the error shape rtkq surfaces here. */
+      const status =
+        (err as { status?: unknown })?.status ??
+        (err as { originalStatus?: unknown })?.originalStatus;
+      const body = (err as { data?: { error?: { message?: string } } })?.data;
+      const message = body?.error?.message ?? '';
+      if (
+        !isEditMode &&
+        (status === 403 || /\bplan\b|\bsubscribe\b/i.test(message))
+      ) {
+        dispatch(
+          toastPushed(
+            'info',
+            message || 'You need an active plan to publish listings.',
+          ),
+        );
+        router.push('/pricing');
+        return;
+      }
       setSubmitError(
         isEditMode
           ? 'Couldn’t save your changes. Try again in a moment.'
@@ -347,6 +370,12 @@ export function NewListingForm({ initialProperty }: NewListingFormProps = {}) {
 
   return (
     <section className={styles.shell}>
+      {/* Subscription nudge — only shows when user has no active plan.
+       * The backend will hard-reject submission with a 403 in that
+       * case; this card is just a friendly heads-up so they hit the
+       * /pricing page before filling the whole form out. Edit mode
+       * skips it (existing listings don't trigger the gate). */}
+      {!isEditMode ? <SubscriptionGate /> : null}
       <header className={styles.head}>
         <span className={styles.eyebrow}>
           {isEditMode ? 'Edit listing' : 'New listing'}

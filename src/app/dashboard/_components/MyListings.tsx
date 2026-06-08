@@ -20,7 +20,7 @@ const STATUS_LABEL: Record<PropertyStatus, string> = {
   draft: 'Draft',
   'pending-review': 'In review',
   approved: 'Approved',
-  'awaiting-payment': 'Awaiting payment',
+  'awaiting-payment': 'Awaiting payment', // legacy — admin re-approval clears these
   rejected: 'Rejected',
   published: 'Published',
   sold: 'Sold',
@@ -186,13 +186,6 @@ export function MyListings() {
                       >
                         Submit
                       </Button>
-                    ) : status === 'awaiting-payment' ? (
-                      <Link
-                        href={`/dashboard/listings/${p.slug}/payment`}
-                        className={styles.payLink}
-                      >
-                        Pay to publish →
-                      </Link>
                     ) : status === 'published' ? (
                       <Button
                         variant="secondary"
