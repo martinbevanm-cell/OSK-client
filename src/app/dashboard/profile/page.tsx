@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { ChangePasswordForm } from '../_components/ChangePasswordForm';
 import { ProfileEditor } from '../_components/ProfileEditor';
-import { VerifyEmailBanner } from '../_components/VerifyEmailBanner';
 
 export const metadata: Metadata = {
   title: 'Profile',
@@ -11,7 +10,6 @@ export const metadata: Metadata = {
 export default function DashboardProfilePage() {
   return (
     <>
-      <VerifyEmailBanner />
       <ProfileEditor />
       <ChangePasswordForm />
     </>

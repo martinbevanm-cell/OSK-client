@@ -2,7 +2,8 @@
 
 import { useGetMeQuery } from '@/features/users';
 import { useResendVerificationMutation } from '@/features/auth';
-import { useAppDispatch } from '@/store/hooks';
+import { selectCurrentUser } from '@/features/auth';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { toastPushed } from '@/features/ui';
 import styles from './VerifyEmailBanner.module.scss';
 
@@ -12,10 +13,12 @@ import styles from './VerifyEmailBanner.module.scss';
  */
 export function VerifyEmailBanner() {
   const dispatch = useAppDispatch();
+  const sessionUser = useAppSelector(selectCurrentUser);
   const { data: me } = useGetMeQuery();
   const [resend, { isLoading }] = useResendVerificationMutation();
+  const user = me ?? sessionUser;
 
-  if (!me || me.emailVerified) return null;
+  if (!user || user.emailVerified) return null;
 
   const onClick = async () => {
     try {
@@ -50,7 +53,7 @@ export function VerifyEmailBanner() {
       <div className={styles.copy}>
         <p className={styles.title}>Verify your email</p>
         <p className={styles.sub}>
-          We sent a link to <strong>{me.email}</strong>. Confirm it to unlock saved
+          We sent a link to <strong>{user.email}</strong>. Confirm it to unlock saved
           listings, inquiries and messaging.
         </p>
       </div>

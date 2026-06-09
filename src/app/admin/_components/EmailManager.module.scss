@@ -209,3 +209,173 @@
   gap: space('3');
   flex-wrap: wrap;
 }
+
+/* ─── email template selector ───────────────────────────────────────── */
+
+.templateGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  gap: space('3');
+  margin-block-end: space('4');
+}
+
+.templateCard {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: space('2');
+  padding: space('3');
+  background: var(--bg-inset);
+  border: 2px solid var(--border-default);
+  border-radius: radius('lg');
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color 120ms,
+    box-shadow 120ms;
+  position: relative;
+
+  &:hover {
+    border-color: var(--color-primary);
+  }
+}
+
+.templateCardActive {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--ring-focus);
+}
+
+.templateName {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.templateDesc {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.templateBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: var(--text-inverse);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  align-self: flex-start;
+}
+
+/* ─── template preview thumbnail ────────────────────────────────────── */
+
+.templatePreview {
+  --template-preview-bg: var(--bg-inset);
+  --template-preview-card: var(--bg-card);
+  --template-preview-header-bg: var(--bg-card);
+  --template-preview-header-color: var(--text-primary);
+  --template-preview-text: var(--text-primary);
+  --template-preview-btn: var(--color-primary);
+
+  block-size: 80px;
+  border-radius: radius('md');
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  background: var(--template-preview-bg);
+}
+
+.templatePreviewWarm {
+  --template-preview-bg: var(--bg-inset);
+  --template-preview-card: var(--bg-card);
+  --template-preview-header-bg: var(--bg-card);
+  --template-preview-header-color: var(--text-secondary);
+  --template-preview-text: var(--text-primary);
+  --template-preview-btn: var(--text-primary);
+}
+
+.templatePreviewClean {
+  --template-preview-bg: var(--bg-inset);
+  --template-preview-card: var(--bg-card);
+  --template-preview-header-bg: var(--bg-card);
+  --template-preview-header-color: var(--text-primary);
+  --template-preview-text: var(--text-primary);
+  --template-preview-btn: var(--text-primary);
+}
+
+.templatePreviewDark {
+  --template-preview-bg: var(--bg-page);
+  --template-preview-card: var(--bg-elevated);
+  --template-preview-header-bg: var(--bg-elevated);
+  --template-preview-header-color: var(--text-secondary);
+  --template-preview-text: var(--text-inverse);
+  --template-preview-btn: var(--text-inverse);
+}
+
+.templatePreviewBrand {
+  --template-preview-bg: var(--bg-page);
+  --template-preview-card: var(--bg-card);
+  --template-preview-header-bg: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-secondary) 100%
+  );
+  --template-preview-header-color: var(--text-inverse);
+  --template-preview-text: var(--text-primary);
+  --template-preview-btn: var(--color-primary);
+}
+
+.templatePreviewCard {
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  background: var(--template-preview-card);
+}
+
+.templatePreviewHeader {
+  padding: 4px 6px;
+  font-size: 6px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  background: var(--template-preview-header-bg);
+  color: var(--template-preview-header-color);
+  text-transform: uppercase;
+}
+
+.templatePreviewBody {
+  padding: 5px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  color: var(--template-preview-text);
+}
+
+.templatePreviewTitle {
+  height: 5px;
+  background: currentcolor;
+  opacity: 0.4;
+  border-radius: 2px;
+  width: 80%;
+}
+
+.templatePreviewText {
+  height: 3px;
+  background: currentcolor;
+  opacity: 0.2;
+  border-radius: 2px;
+}
+
+.templatePreviewBtn {
+  height: 7px;
+  width: 40%;
+  border-radius: 99px;
+  margin-block-start: 2px;
+  background: var(--template-preview-btn);
+}

@@ -4,7 +4,11 @@ import { useState } from 'react';
 import {
   EMAIL_PROVIDER_KEYS,
   EMAIL_PROVIDER_LABELS,
+  EMAIL_TEMPLATE_KEYS,
+  EMAIL_TEMPLATE_LABELS,
+  EMAIL_TEMPLATE_DESCRIPTIONS,
   type EmailProviderKey,
+  type EmailTemplateKey,
 } from '@contracts';
 import {
   useGetEmailSettingsQuery,
@@ -53,6 +57,7 @@ export function EmailManager() {
   const [sendTest, { isLoading: sending }] = useSendTestEmailMutation();
 
   const [provider, setProvider] = useState<EmailProviderKey | null>(null);
+  const [activeTemplate, setActiveTemplate] = useState<EmailTemplateKey | null>(null);
   const [fromAddress, setFromAddress] = useState<string | null>(null);
   const [fromName, setFromName] = useState<string | null>(null);
   const [resendDraft, setResendDraft] = useState<ResendDraft>({});
@@ -70,6 +75,7 @@ export function EmailManager() {
   /* `provider` etc. start as null so the inputs reflect the saved doc
    * until the admin actually edits something. Coalesce here. */
   const effectiveProvider = provider ?? settings.provider;
+  const effectiveTemplate = activeTemplate ?? settings.activeTemplate;
   const effectiveFromAddress = fromAddress ?? settings.fromAddress;
   const effectiveFromName = fromName ?? settings.fromName;
   const effectiveTestRecipient = testRecipient || user?.email || '';
@@ -78,11 +84,13 @@ export function EmailManager() {
     try {
       await updateSettings({
         provider: effectiveProvider,
+        activeTemplate: effectiveTemplate,
         fromAddress: effectiveFromAddress,
         fromName: effectiveFromName,
       }).unwrap();
       dispatch(toastPushed('success', 'Email settings updated.'));
       setProvider(null);
+      setActiveTemplate(null);
       setFromAddress(null);
       setFromName(null);
     } catch {
@@ -140,7 +148,8 @@ export function EmailManager() {
           Configure the provider used for verify-email, password resets and inquiry
           notifications. <strong>Resend</strong> is the easiest choice for hosted deploys
           (Railway, Vercel, Render) — it&rsquo;s HTTPS-only and works without SMTP port
-          gymnastics.
+          gymnastics. The profile page &ldquo;Resend link&rdquo; action uses whichever
+          provider is active here.
         </p>
       </header>
 
@@ -212,10 +221,66 @@ export function EmailManager() {
             type="button"
             onClick={onSaveTopLevel}
             disabled={
-              saving || (provider === null && fromAddress === null && fromName === null)
+              saving ||
+              (provider === null &&
+                activeTemplate === null &&
+                fromAddress === null &&
+                fromName === null)
             }
           >
             {saving ? 'Saving…' : 'Save'}
+          </Button>
+        </div>
+      </section>
+
+      {/* ── Email templates ─────────────────────────────────────────── */}
+      <section className={styles.card}>
+        <header className={styles.cardHead}>
+          <h2 className={styles.cardTitle}>Email template</h2>
+          <p className={styles.cardSub}>
+            Choose the visual style for all transactional emails (verify-email, password
+            reset, inquiry notifications). The selected template is used immediately — no
+            restart needed.
+          </p>
+        </header>
+        <div className={styles.templateGrid}>
+          {EMAIL_TEMPLATE_KEYS.map((key) => (
+            <button
+              key={key}
+              type="button"
+              className={cn(
+                styles.templateCard,
+                effectiveTemplate === key && styles.templateCardActive,
+              )}
+              onClick={() => setActiveTemplate(key)}
+            >
+              <TemplatePreview templateKey={key} />
+              <span className={styles.templateName}>{EMAIL_TEMPLATE_LABELS[key]}</span>
+              <span className={styles.templateDesc}>
+                {EMAIL_TEMPLATE_DESCRIPTIONS[key]}
+              </span>
+              {effectiveTemplate === key ? (
+                <span className={styles.templateBadge}>Active</span>
+              ) : null}
+            </button>
+          ))}
+        </div>
+        <div className={styles.formActions}>
+          <Button
+            type="button"
+            size="sm"
+            onClick={() => {
+              updateSettings({ activeTemplate: effectiveTemplate })
+                .unwrap()
+                .then(() => {
+                  dispatch(toastPushed('success', 'Email template saved.'));
+                  setActiveTemplate(null);
+                })
+                .catch(() => {});
+            }}
+            disabled={saving || activeTemplate === null}
+          >
+            {saving ? 'Saving…' : 'Save template'}
           </Button>
         </div>
       </section>
@@ -402,5 +467,33 @@ function SecretField({
       />
       {hint ? <span className={styles.fieldHint}>{hint}</span> : null}
     </label>
+  );
+}
+
+/* ─── template preview thumbnails ─────────────────────────────────── */
+
+function TemplatePreview({ templateKey }: { templateKey: EmailTemplateKey }) {
+  const previewVariants: Record<EmailTemplateKey, string> = {
+    warm: styles.templatePreviewWarm,
+    clean: styles.templatePreviewClean,
+    dark: styles.templatePreviewDark,
+    brand: styles.templatePreviewBrand,
+  };
+
+  return (
+    <div
+      className={cn(styles.templatePreview, previewVariants[templateKey])}
+      aria-hidden="true"
+    >
+      <div className={styles.templatePreviewCard}>
+        <div className={styles.templatePreviewHeader}>OSK</div>
+        <div className={styles.templatePreviewBody}>
+          <div className={styles.templatePreviewTitle} />
+          <div className={styles.templatePreviewText} />
+          <div className={styles.templatePreviewText} style={{ width: '75%' }} />
+          <div className={styles.templatePreviewBtn} />
+        </div>
+      </div>
+    </div>
   );
 }

@@ -1,11 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type {
-  MaskedSecretField,
-  PaymentSettings,
-  ProviderKey,
-} from '@contracts';
+import type { MaskedSecretField, PaymentSettings, ProviderKey } from '@contracts';
 import { useUpdatePaymentSettingsMutation } from '@/features/pricing';
 import { toastPushed } from '@/features/ui';
 import { useAppDispatch } from '@/store/hooks';
@@ -41,8 +37,7 @@ type PaystackDraft = { secretKey?: string };
 
 export function ProviderCredentialsManager({ settings }: Props) {
   const dispatch = useAppDispatch();
-  const [updateSettings, { isLoading: saving }] =
-    useUpdatePaymentSettingsMutation();
+  const [updateSettings, { isLoading: saving }] = useUpdatePaymentSettingsMutation();
 
   const [stripeDraft, setStripeDraft] = useState<StripeDraft>({});
   const [paypalDraft, setPaypalDraft] = useState<PayPalDraft>({});
@@ -101,11 +96,10 @@ export function ProviderCredentialsManager({ settings }: Props) {
       <header className={styles.head}>
         <h2 className={styles.title}>Provider credentials</h2>
         <p className={styles.sub}>
-          Paste your API keys for each provider. Values are encrypted at
-          rest and never shown again — you&rsquo;ll see a masked hint
-          (last 4 chars) to confirm what&rsquo;s saved. Leave a field
-          blank to keep its current value; enter just a single space and
-          save to clear it.
+          Paste your API keys for each provider. Values are encrypted at rest and never
+          shown again — you&rsquo;ll see a masked hint (last 4 chars) to confirm
+          what&rsquo;s saved. Leave a field blank to keep its current value; enter just a
+          single space and save to clear it.
         </p>
       </header>
 
@@ -126,23 +120,20 @@ export function ProviderCredentialsManager({ settings }: Props) {
         onSave={saveStripe}
         hasChanges={Object.keys(stripeDraft).length > 0}
         docs="dashboard.stripe.com/apikeys"
+        requiredFields="Required: Secret key + Webhook signing secret"
       >
         <SecretField
           label="Secret key"
           status={settings.providers.stripe.secretKey}
           value={stripeDraft.secretKey ?? ''}
-          onChange={(v) =>
-            setStripeDraft((d) => ({ ...d, secretKey: v }))
-          }
+          onChange={(v) => setStripeDraft((d) => ({ ...d, secretKey: v }))}
           placeholder="sk_live_… or sk_test_…"
         />
         <SecretField
           label="Webhook signing secret"
           status={settings.providers.stripe.webhookSecret}
           value={stripeDraft.webhookSecret ?? ''}
-          onChange={(v) =>
-            setStripeDraft((d) => ({ ...d, webhookSecret: v }))
-          }
+          onChange={(v) => setStripeDraft((d) => ({ ...d, webhookSecret: v }))}
           placeholder="whsec_…"
           hint="From Stripe Dashboard → Developers → Webhooks → your endpoint."
         />
@@ -166,6 +157,7 @@ export function ProviderCredentialsManager({ settings }: Props) {
         onSave={savePayPal}
         hasChanges={Object.keys(paypalDraft).length > 0}
         docs="developer.paypal.com/dashboard/applications"
+        requiredFields="Required: Client ID + Client secret + API base + Webhook ID"
       >
         <SecretField
           label="Client ID"
@@ -178,9 +170,7 @@ export function ProviderCredentialsManager({ settings }: Props) {
           label="Client secret"
           status={settings.providers.paypal.clientSecret}
           value={paypalDraft.clientSecret ?? ''}
-          onChange={(v) =>
-            setPaypalDraft((d) => ({ ...d, clientSecret: v }))
-          }
+          onChange={(v) => setPaypalDraft((d) => ({ ...d, clientSecret: v }))}
           placeholder="Live or Sandbox client secret"
         />
         <label className={styles.field}>
@@ -188,16 +178,12 @@ export function ProviderCredentialsManager({ settings }: Props) {
           <select
             className={styles.select}
             value={paypalDraft.apiBase ?? settings.providers.paypal.apiBase}
-            onChange={(e) =>
-              setPaypalDraft((d) => ({ ...d, apiBase: e.target.value }))
-            }
+            onChange={(e) => setPaypalDraft((d) => ({ ...d, apiBase: e.target.value }))}
           >
             <option value="https://api-m.sandbox.paypal.com">
               Sandbox · api-m.sandbox.paypal.com
             </option>
-            <option value="https://api-m.paypal.com">
-              Live · api-m.paypal.com
-            </option>
+            <option value="https://api-m.paypal.com">Live · api-m.paypal.com</option>
           </select>
           <span className={styles.fieldHint}>
             Match this to whether the credentials above are Sandbox or Live.
@@ -207,9 +193,7 @@ export function ProviderCredentialsManager({ settings }: Props) {
           label="Webhook ID"
           status={settings.providers.paypal.webhookId}
           value={paypalDraft.webhookId ?? ''}
-          onChange={(v) =>
-            setPaypalDraft((d) => ({ ...d, webhookId: v }))
-          }
+          onChange={(v) => setPaypalDraft((d) => ({ ...d, webhookId: v }))}
           placeholder="Webhook ID from your PayPal app"
         />
       </ProviderCard>
@@ -220,22 +204,19 @@ export function ProviderCredentialsManager({ settings }: Props) {
         provider="paystack"
         enabled={isEnabled('paystack')}
         onToggleEnabled={(on) => onToggleProvider('paystack', on)}
-        configuredCount={
-          settings.providers.paystack.secretKey.configured ? 1 : 0
-        }
+        configuredCount={settings.providers.paystack.secretKey.configured ? 1 : 0}
         totalFields={1}
         saving={saving}
         onSave={savePaystack}
         hasChanges={Object.keys(paystackDraft).length > 0}
         docs="dashboard.paystack.com/#/settings/developer"
+        requiredFields="Required: Secret key"
       >
         <SecretField
           label="Secret key"
           status={settings.providers.paystack.secretKey}
           value={paystackDraft.secretKey ?? ''}
-          onChange={(v) =>
-            setPaystackDraft((d) => ({ ...d, secretKey: v }))
-          }
+          onChange={(v) => setPaystackDraft((d) => ({ ...d, secretKey: v }))}
           placeholder="sk_live_… or sk_test_…"
           hint="Paystack also uses this key to sign webhook payloads — no separate webhook secret."
         />
@@ -243,16 +224,13 @@ export function ProviderCredentialsManager({ settings }: Props) {
 
       {/* ── Bank transfer (no creds) ─────────────────────────────── */}
       <div className={styles.bankNote}>
-        <strong>Bank transfer</strong> has no API keys — it&rsquo;s
-        manually confirmed by an admin from the Payments page after the
-        wire clears. Toggle the method here:
+        <strong>Bank transfer</strong> has no API keys — it&rsquo;s manually confirmed by
+        an admin from the Payments page after the wire clears. Toggle the method here:
         <label className={cn(styles.toggle, styles.toggleInline)}>
           <input
             type="checkbox"
             checked={isEnabled('bank-transfer')}
-            onChange={(e) =>
-              onToggleProvider('bank-transfer', e.currentTarget.checked)
-            }
+            onChange={(e) => onToggleProvider('bank-transfer', e.currentTarget.checked)}
           />
           <span className={styles.toggleSlider} aria-hidden="true" />
         </label>
@@ -274,6 +252,7 @@ interface ProviderCardProps {
   onSave: () => void;
   hasChanges: boolean;
   docs: string;
+  requiredFields: string;
   children: React.ReactNode;
 }
 
@@ -287,6 +266,7 @@ function ProviderCard({
   onSave,
   hasChanges,
   docs,
+  requiredFields,
   children,
 }: ProviderCardProps) {
   const fullyConfigured = configuredCount === totalFields;
@@ -306,6 +286,8 @@ function ProviderCard({
             >
               {docs}
             </a>
+            {'. '}
+            {requiredFields}
           </p>
         </div>
         <div className={styles.cardMeta}>
@@ -339,18 +321,13 @@ function ProviderCard({
       <div className={styles.fields}>{children}</div>
 
       <footer className={styles.cardFoot}>
-        <Button
-          type="button"
-          size="sm"
-          onClick={onSave}
-          disabled={!hasChanges || saving}
-        >
+        <Button type="button" size="sm" onClick={onSave} disabled={!hasChanges || saving}>
           {saving ? 'Saving…' : hasChanges ? 'Save changes' : 'No changes'}
         </Button>
         {!enabled ? (
           <span className={styles.disabledNote}>
-            This provider is OFF — sellers won&rsquo;t see it at checkout
-            even if keys are set.
+            This provider is OFF — sellers won&rsquo;t see it at checkout even if keys are
+            set.
           </span>
         ) : null}
       </footer>

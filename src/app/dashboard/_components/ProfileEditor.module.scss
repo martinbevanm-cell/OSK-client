@@ -182,6 +182,13 @@
   color: var(--text-secondary);
 }
 
+.completionTextWarning {
+  margin: space('1') 0 0;
+  font-size: 0.8125rem;
+  color: var(--color-warning);
+  font-weight: 500;
+}
+
 .section {
   display: flex;
   flex-direction: column;

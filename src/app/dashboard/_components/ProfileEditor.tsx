@@ -269,9 +269,17 @@ export function ProfileEditor() {
                   : `Complete your profile (${missingFields.length} missing)`}
               </p>
               {isProfileComplete ? (
-                <p className={styles.completionText}>
-                  Great. Your contact and company details are complete.
-                </p>
+                <>
+                  <p className={styles.completionText}>
+                    Your contact and company details are complete.
+                  </p>
+                  {me && !me.emailVerified ? (
+                    <p className={styles.completionTextWarning}>
+                      ⚠ Your email is not yet verified — check the banner above to resend
+                      the link.
+                    </p>
+                  ) : null}
+                </>
               ) : (
                 <p className={styles.completionText}>
                   Please add: {missingFields.join(', ')}.

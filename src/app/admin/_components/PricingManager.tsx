@@ -18,8 +18,7 @@ import styles from './PricingManager.module.scss';
  * `/admin/plans` (see `PlansManager.tsx`).
  */
 export function PricingManager() {
-  const { data: settings, isLoading: settingsLoading } =
-    useGetPaymentSettingsQuery();
+  const { data: settings, isLoading: settingsLoading } = useGetPaymentSettingsQuery();
   const [updateSettings, { isLoading: savingSettings }] =
     useUpdatePaymentSettingsMutation();
 
@@ -40,10 +39,9 @@ export function PricingManager() {
         <span className={styles.eyebrow}>Admin · Payments</span>
         <h1 className={styles.title}>Payment configuration</h1>
         <p className={styles.sub}>
-          Master switch, payment providers, and bank-transfer
-          instructions. Each provider goes &ldquo;Active&rdquo; the
-          moment its required credentials are saved &mdash; sellers
-          can then pick it at subscription checkout.
+          Master switch, payment providers, and bank-transfer instructions. Each provider
+          goes &ldquo;Active&rdquo; the moment its required credentials are saved &mdash;
+          sellers can then pick it at subscription checkout.
         </p>
       </header>
 
@@ -52,9 +50,8 @@ export function PricingManager() {
         <header className={styles.cardHead}>
           <h2 className={styles.cardTitle}>Global payments</h2>
           <p className={styles.cardSub}>
-            Master switch. Off means subscription checkout is blocked
-            and every paid plan refuses new subscribers until you flip
-            this back on.
+            Master switch. Off means subscription checkout is blocked and every paid plan
+            refuses new subscribers until you flip this back on.
           </p>
         </header>
         {settingsLoading ? (
@@ -66,14 +63,10 @@ export function PricingManager() {
                 type="checkbox"
                 checked={settings.paymentsEnabled}
                 disabled={savingSettings}
-                onChange={(e) =>
-                  setSetting('paymentsEnabled', e.currentTarget.checked)
-                }
+                onChange={(e) => setSetting('paymentsEnabled', e.currentTarget.checked)}
               />
               <span className={styles.toggleSlider} aria-hidden="true" />
-              <span className={styles.toggleLabel}>
-                Accept subscription payments
-              </span>
+              <span className={styles.toggleLabel}>Accept subscription payments</span>
             </label>
             <span
               className={cn(
@@ -93,45 +86,43 @@ export function PricingManager() {
           <header className={styles.cardHead}>
             <h2 className={styles.cardTitle}>Provider status</h2>
             <p className={styles.cardSub}>
-              A provider is &ldquo;Active&rdquo; only when its required
-              keys are saved <em>and</em> it&apos;s enabled below. Bank
-              transfer needs no keys &mdash; it&apos;s confirmed
-              manually from the Payments page.
+              A provider is &ldquo;Active&rdquo; only when its required keys are saved{' '}
+              <em>and</em> it&apos;s enabled below. Stripe requires{' '}
+              <strong>Secret key + Webhook secret</strong>. PayPal requires{' '}
+              <strong>Client ID + Client secret + API base + Webhook ID</strong>. Paystack
+              requires <strong>Secret key</strong>. Bank transfer needs no keys &mdash;
+              it&apos;s confirmed manually from the Payments page.
             </p>
           </header>
           <ul className={styles.readyList}>
-            {(['stripe', 'paypal', 'paystack', 'bank-transfer'] as const).map(
-              (key) => {
-                const enabled = settings.enabledProviders.includes(key);
-                const ready = settings.providerReady[key];
-                const active = enabled && ready && settings.paymentsEnabled;
-                return (
-                  <li key={key} className={styles.readyRow}>
-                    <span className={styles.readyName}>
-                      {labelFor(key)}
-                    </span>
-                    <span
-                      className={cn(
-                        styles.statusPill,
-                        active
-                          ? styles.statusReady
-                          : enabled && !ready
-                            ? styles.statusPartial
-                            : styles.statusEmpty,
-                      )}
-                    >
-                      {active
-                        ? 'Active'
-                        : !enabled
-                          ? 'Disabled'
-                          : !ready
-                            ? 'Needs setup'
-                            : 'Inactive'}
-                    </span>
-                  </li>
-                );
-              },
-            )}
+            {(['stripe', 'paypal', 'paystack', 'bank-transfer'] as const).map((key) => {
+              const enabled = settings.enabledProviders.includes(key);
+              const ready = settings.providerReady[key];
+              const active = enabled && ready && settings.paymentsEnabled;
+              return (
+                <li key={key} className={styles.readyRow}>
+                  <span className={styles.readyName}>{labelFor(key)}</span>
+                  <span
+                    className={cn(
+                      styles.statusPill,
+                      active
+                        ? styles.statusReady
+                        : enabled && !ready
+                          ? styles.statusPartial
+                          : styles.statusEmpty,
+                    )}
+                  >
+                    {active
+                      ? 'Active'
+                      : !enabled
+                        ? 'Disabled'
+                        : !ready
+                          ? 'Needs setup'
+                          : 'Inactive'}
+                  </span>
+                </li>
+              );
+            })}
           </ul>
         </section>
       ) : null}
@@ -145,19 +136,16 @@ export function PricingManager() {
           <header className={styles.cardHead}>
             <h2 className={styles.cardTitle}>Bank transfer instructions</h2>
             <p className={styles.cardSub}>
-              Shown on the seller&apos;s checkout when they pick
-              &ldquo;Bank transfer&rdquo;. Include the IBAN/SWIFT,
-              beneficiary, and the note they should put in the
-              reference line.
+              Shown on the seller&apos;s checkout when they pick &ldquo;Bank
+              transfer&rdquo;. Include the IBAN/SWIFT, beneficiary, and the note they
+              should put in the reference line.
             </p>
           </header>
           <textarea
             className={styles.textarea}
             rows={6}
             defaultValue={settings.bankInstructions}
-            onBlur={(e) =>
-              setSetting('bankInstructions', e.currentTarget.value)
-            }
+            onBlur={(e) => setSetting('bankInstructions', e.currentTarget.value)}
             placeholder={[
               'Beneficiary: OSK Real Estate Escrow Ltd.',
               'Bank: North Atlantic Bank',

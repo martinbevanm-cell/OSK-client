@@ -19,8 +19,26 @@ export const EMAIL_PROVIDER_LABELS: Record<EmailProviderKey, string> = {
   smtp: 'SMTP (advanced)',
 };
 
+export const EMAIL_TEMPLATE_KEYS = ['warm', 'clean', 'dark', 'brand'] as const;
+export type EmailTemplateKey = (typeof EMAIL_TEMPLATE_KEYS)[number];
+
+export const EMAIL_TEMPLATE_LABELS: Record<EmailTemplateKey, string> = {
+  warm: 'Warm',
+  clean: 'Clean',
+  dark: 'Dark',
+  brand: 'Brand',
+};
+
+export const EMAIL_TEMPLATE_DESCRIPTIONS: Record<EmailTemplateKey, string> = {
+  warm: 'Ivory/beige background, earthy tones — matches the OSK website aesthetic.',
+  clean: 'White background, subtle borders — modern and minimal.',
+  dark: 'Dark background throughout — great for night-mode inboxes.',
+  brand: 'Blue-to-purple gradient header — vibrant and on-brand.',
+};
+
 export interface EmailSettings {
   provider: EmailProviderKey;
+  activeTemplate: EmailTemplateKey;
   fromAddress: string;
   fromName: string;
   resend: {
@@ -59,6 +77,7 @@ const smtpPatch = z
 
 export const updateEmailSettingsSchema = z.object({
   provider: z.enum(EMAIL_PROVIDER_KEYS).optional(),
+  activeTemplate: z.enum(EMAIL_TEMPLATE_KEYS).optional(),
   fromAddress: z.string().email().max(200).optional().or(z.literal('')),
   fromName: z.string().max(80).optional(),
   resend: resendPatch.optional(),

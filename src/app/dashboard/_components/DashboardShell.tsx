@@ -4,6 +4,7 @@ import { useState, type ReactNode } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAppSelector } from '@/store/hooks';
+import { VerifyEmailBanner } from './VerifyEmailBanner';
 import { selectCurrentUser } from '@/features/auth';
 import { cn } from '@/lib/cn';
 import styles from './DashboardShell.module.scss';
@@ -36,8 +37,26 @@ const NAV: NavItem[] = [
     label: 'My listings',
     icon: (
       <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-        <rect x="3" y="4" width="18" height="6" rx="1.5" fill="none" stroke="currentColor" strokeWidth="1.75" />
-        <rect x="3" y="14" width="18" height="6" rx="1.5" fill="none" stroke="currentColor" strokeWidth="1.75" />
+        <rect
+          x="3"
+          y="4"
+          width="18"
+          height="6"
+          rx="1.5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+        />
+        <rect
+          x="3"
+          y="14"
+          width="18"
+          height="6"
+          rx="1.5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+        />
       </svg>
     ),
   },
@@ -111,8 +130,21 @@ const NAV: NavItem[] = [
     label: 'Profile',
     icon: (
       <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-        <circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" strokeWidth="1.75" />
-        <path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+        <circle
+          cx="12"
+          cy="8"
+          r="4"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+        />
+        <path
+          d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+        />
       </svg>
     ),
   },
@@ -211,7 +243,10 @@ export function DashboardShell({ children }: { children: ReactNode }) {
             })}
           </nav>
         ) : null}
-        <div className={styles.content}>{children}</div>
+        <div className={styles.content}>
+          <VerifyEmailBanner />
+          {children}
+        </div>
       </div>
     </div>
   );
