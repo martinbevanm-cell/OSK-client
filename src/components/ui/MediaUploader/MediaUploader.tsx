@@ -10,7 +10,7 @@ import {
 } from 'react';
 import { useAppSelector } from '@/store/hooks';
 import { cn } from '@/lib/cn';
-import { resolveApiBasePath } from '@/lib/apiBase';
+import { resolveApiBasePathForClient } from '@/lib/apiBase';
 import styles from './MediaUploader.module.scss';
 
 export interface UploadedMedia {
@@ -38,7 +38,7 @@ interface MediaUploaderProps {
 const IMAGE_MIMES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif', 'image/gif'];
 const VIDEO_MIMES = ['video/mp4', 'video/webm', 'video/quicktime'];
 
-const API_BASE = resolveApiBasePath();
+const API_BASE = resolveApiBasePathForClient();
 
 /** State of a single in-flight upload row. */
 interface PendingRow {

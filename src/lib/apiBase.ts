@@ -9,7 +9,11 @@ export function isAbsoluteUrl(value: string): boolean {
   }
 }
 
-export function resolveApiBasePath(): string {
+/**
+ * For server-side rendering: use relative paths so Next.js rewrites proxy them to the backend.
+ * Next.js rewrites only work for server-side requests, not browser fetch/XHR.
+ */
+export function resolveApiBasePathForServer(): string {
   if (!PUBLIC_API_BASE) return '/api/v1';
   if (isAbsoluteUrl(PUBLIC_API_BASE)) {
     try {
@@ -20,6 +24,16 @@ export function resolveApiBasePath(): string {
     }
   }
   return PUBLIC_API_BASE.startsWith('/') ? PUBLIC_API_BASE : `/${PUBLIC_API_BASE}`;
+}
+
+/**
+ * For client-side requests: use the configured URL directly (preserving absolute URLs).
+ * Browser requests to absolute URLs will be subject to CORS, which the backend should handle.
+ * Relative URLs are also safe and will resolve to the frontend origin.
+ */
+export function resolveApiBasePathForClient(): string {
+  if (!PUBLIC_API_BASE) return '/api/v1';
+  return PUBLIC_API_BASE.startsWith('/') ? PUBLIC_API_BASE : PUBLIC_API_BASE;
 }
 
 export function resolveApiOrigin(): string {
@@ -33,3 +47,8 @@ export function resolveApiOrigin(): string {
   if (typeof window !== 'undefined') return window.location.origin;
   return process.env.NEXT_PUBLIC_SITE_URL?.trim() || 'http://localhost:3000';
 }
+
+/**
+ * Backward-compatible export: uses server path for build-time usage
+ */
+export const resolveApiBasePath = resolveApiBasePathForServer;

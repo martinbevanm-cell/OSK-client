@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { resolveApiBasePath, resolveApiOrigin, isAbsoluteUrl } from '../apiBase';
+import {
+  resolveApiBasePathForServer,
+  resolveApiBasePathForClient,
+  resolveApiOrigin,
+  isAbsoluteUrl,
+} from '../apiBase';
 
 describe('apiBase helpers', () => {
   it('detects absolute URLs', () => {
@@ -9,8 +14,14 @@ describe('apiBase helpers', () => {
     expect(isAbsoluteUrl('/api/v1')).toBe(false);
   });
 
-  it('resolves absolute public API base to a relative path', () => {
-    expect(resolveApiBasePath()).toMatch(/^\//);
+  it('resolves server-side API base to a relative path', () => {
+    expect(resolveApiBasePathForServer()).toMatch(/^\//);
+  });
+
+  it('resolves client-side API base (preserves configured URL)', () => {
+    const clientPath = resolveApiBasePathForClient();
+    expect(typeof clientPath).toBe('string');
+    expect(clientPath.length).toBeGreaterThan(0);
   });
 
   it('resolves origin safely', () => {
