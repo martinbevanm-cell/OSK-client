@@ -26,11 +26,7 @@
   inset-inline-start: -15%;
   inline-size: 65%;
   block-size: 65%;
-  background: radial-gradient(
-    closest-side,
-    var(--color-primary-soft),
-    transparent 70%
-  );
+  background: radial-gradient(closest-side, var(--color-primary-soft), transparent 70%);
 }
 
 .bloomB {
@@ -39,11 +35,7 @@
   inset-inline-end: -15%;
   inline-size: 55%;
   block-size: 55%;
-  background: radial-gradient(
-    closest-side,
-    var(--bg-inset),
-    transparent 70%
-  );
+  background: radial-gradient(closest-side, var(--bg-inset), transparent 70%);
 }
 
 .content {
@@ -88,12 +80,7 @@
 
   em {
     font-style: italic;
-    background: linear-gradient(
-      90deg,
-      var(--color-primary) 0%,
-      var(--color-accent) 100%
-    );
-    -webkit-background-clip: text;
+    background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 100%);
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;

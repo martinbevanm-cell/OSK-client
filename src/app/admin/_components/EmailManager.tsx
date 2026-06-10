@@ -474,10 +474,10 @@ function SecretField({
 
 function TemplatePreview({ templateKey }: { templateKey: EmailTemplateKey }) {
   const previewVariants: Record<EmailTemplateKey, string> = {
-    warm: styles.templatePreviewWarm,
-    clean: styles.templatePreviewClean,
-    dark: styles.templatePreviewDark,
-    brand: styles.templatePreviewBrand,
+    warm: styles.templatePreviewWarm || '',
+    clean: styles.templatePreviewClean || '',
+    dark: styles.templatePreviewDark || '',
+    brand: styles.templatePreviewBrand || '',
   };
 
   return (

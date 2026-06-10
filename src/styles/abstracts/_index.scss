@@ -1,8 +1,6 @@
 // Single entry for component SCSS modules.
 // Pure SCSS (vars / functions / mixins) — emits NO CSS.
-//
 //   @use 'abstracts' as *;   // resolved via next.config sassOptions.includePaths
-//
 @forward 'breakpoints';
 @forward 'scale';
 @forward 'functions';

@@ -29,12 +29,7 @@
 
   em {
     font-style: italic;
-    background: linear-gradient(
-      90deg,
-      var(--color-primary) 0%,
-      var(--color-accent) 100%
-    );
-    -webkit-background-clip: text;
+    background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 100%);
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
@@ -81,6 +76,7 @@
   &:hover {
     transform: translateY(-4px);
     border-color: var(--color-primary);
+
     @include elevation('lg');
   }
 
@@ -110,11 +106,7 @@
   inset-block-end: 0;
   inset-inline: 0;
   block-size: 50%;
-  background: linear-gradient(
-    to top,
-    var(--bg-overlay) 0%,
-    transparent 100%
-  );
+  background: linear-gradient(to top, var(--bg-overlay) 0%, transparent 100%);
   opacity: 0.65;
 }
 

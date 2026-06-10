@@ -17,6 +17,7 @@
   border: 1px solid var(--border-default);
   border-radius: radius('xl');
   overflow: hidden;
+
   @include elevation('lg');
 
   /* gold accent ribbon */
@@ -24,14 +25,9 @@
     content: '';
     position: absolute;
     inset-block-start: 0;
-    inset-inline-start: space('7');
-    inset-inline-end: space('7');
+    inset-inline: space('7');
     block-size: 3px;
-    background: linear-gradient(
-      90deg,
-      var(--color-accent),
-      transparent
-    );
+    background: linear-gradient(90deg, var(--color-accent), transparent);
   }
 
   /* soft primary bloom */
@@ -42,11 +38,7 @@
     inset-inline-end: -10%;
     inline-size: 60%;
     block-size: 100%;
-    background: radial-gradient(
-      closest-side,
-      var(--color-primary-soft),
-      transparent 70%
-    );
+    background: radial-gradient(closest-side, var(--color-primary-soft), transparent 70%);
     z-index: 0;
     pointer-events: none;
   }
@@ -103,12 +95,7 @@
 
   em {
     font-style: italic;
-    background: linear-gradient(
-      90deg,
-      var(--color-primary) 0%,
-      var(--color-accent) 100%
-    );
-    -webkit-background-clip: text;
+    background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 100%);
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;

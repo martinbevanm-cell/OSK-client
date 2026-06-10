@@ -16,11 +16,7 @@
     inset-inline-end: -10%;
     inline-size: 40%;
     block-size: 60%;
-    background: radial-gradient(
-      closest-side,
-      var(--color-primary-soft),
-      transparent 70%
-    );
+    background: radial-gradient(closest-side, var(--color-primary-soft), transparent 70%);
     z-index: -1;
     pointer-events: none;
   }
@@ -48,12 +44,7 @@
 
   em {
     font-style: italic;
-    background: linear-gradient(
-      90deg,
-      var(--color-primary) 0%,
-      var(--color-accent) 100%
-    );
-    -webkit-background-clip: text;
+    background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 100%);
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
