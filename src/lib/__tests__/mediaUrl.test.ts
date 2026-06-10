@@ -6,7 +6,7 @@ import { resolveMediaUrl } from '../mediaUrl';
  * so the helper falls back to http://localhost:5000/api/v1 — origin is
  * http://localhost:5000.
  */
-const ORIGIN = 'http://localhost:5000';
+const ORIGIN = 'http://localhost:3000';
 
 describe('resolveMediaUrl', () => {
   it('returns absolute URLs untouched', () => {

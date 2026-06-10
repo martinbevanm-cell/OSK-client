@@ -34,7 +34,7 @@ export function getAuthErrorMessage(error: unknown): string | null {
   if (msg) return msg;
   const status = typeof e.status === 'number' ? e.status : 0;
   if (e.status === 'FETCH_ERROR')
-    return 'Can’t reach the server. Check your connection and try again.';
+    return 'Couldn’t reach the auth server. Check your network and backend/API configuration.';
   if (status === 401) return 'Invalid email or password.';
   if (status === 409) return 'An account with this email already exists.';
   if (status === 422) return 'Please review the highlighted fields.';

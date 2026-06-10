@@ -37,7 +37,7 @@ interface MediaUploaderProps {
 const IMAGE_MIMES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif', 'image/gif'];
 const VIDEO_MIMES = ['video/mp4', 'video/webm', 'video/quicktime'];
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:5000/api/v1';
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? '/api/v1';
 
 /** State of a single in-flight upload row. */
 interface PendingRow {
