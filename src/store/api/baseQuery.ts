@@ -9,13 +9,9 @@ import type { AuthResult, ApiSuccess } from '@contracts';
 // baseQuery → authApi → baseApi → baseQuery. The slice has no such imports.
 import { credentialsRefreshed, loggedOut } from '@/features/auth/authSlice';
 import type { RootState } from '../index';
+import { resolveApiBasePath } from '@/lib/apiBase';
 
-function resolveApiBaseUrl(): string {
-  const configured = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
-  return configured || '/api/v1';
-}
-
-const API_BASE_URL = resolveApiBaseUrl();
+const API_BASE_URL = resolveApiBasePath();
 
 /** Raw query — attaches the in-memory access token and sends the refresh cookie. */
 const rawBaseQuery = fetchBaseQuery({
