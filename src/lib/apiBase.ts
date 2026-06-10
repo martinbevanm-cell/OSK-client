@@ -33,7 +33,15 @@ export function resolveApiBasePathForServer(): string {
  */
 export function resolveApiBasePathForClient(): string {
   if (!PUBLIC_API_BASE) return '/api/v1';
-  return PUBLIC_API_BASE.startsWith('/') ? PUBLIC_API_BASE : PUBLIC_API_BASE;
+  if (isAbsoluteUrl(PUBLIC_API_BASE)) {
+    try {
+      const { pathname } = new URL(PUBLIC_API_BASE);
+      return pathname.replace(/\/$/, '') || '/api/v1';
+    } catch {
+      return '/api/v1';
+    }
+  }
+  return PUBLIC_API_BASE.startsWith('/') ? PUBLIC_API_BASE : `/${PUBLIC_API_BASE}`;
 }
 
 export function resolveApiOrigin(): string {
