@@ -53,6 +53,7 @@
   &::-webkit-scrollbar {
     inline-size: 6px;
   }
+
   &::-webkit-scrollbar-thumb {
     background: var(--border-strong);
     border-radius: radius('pill');

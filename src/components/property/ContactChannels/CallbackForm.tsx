@@ -75,9 +75,7 @@ export function CallbackForm({ propertyId, onDone }: CallbackFormProps) {
           Phone
         </label>
         <input id="cb-phone" className={styles.input} {...register('phone')} />
-        {errors.phone && (
-          <span className={styles.error}>{errors.phone.message}</span>
-        )}
+        {errors.phone && <span className={styles.error}>{errors.phone.message}</span>}
       </div>
 
       <div className={styles.field}>
@@ -88,18 +86,14 @@ export function CallbackForm({ propertyId, onDone }: CallbackFormProps) {
             <span>{slot}</span>
           </label>
         ))}
-        {errors.slots && (
-          <span className={styles.error}>{errors.slots.message}</span>
-        )}
+        {errors.slots && <span className={styles.error}>{errors.slots.message}</span>}
       </div>
 
       <label className={styles.consent}>
         <input type="checkbox" {...register('consent')} />
         <span>I agree to be contacted about this property.</span>
       </label>
-      {errors.consent && (
-        <span className={styles.error}>{errors.consent.message}</span>
-      )}
+      {errors.consent && <span className={styles.error}>{errors.consent.message}</span>}
 
       <Button type="submit" disabled={isLoading} fullWidth>
         {isLoading ? 'Requesting…' : 'Request callback'}

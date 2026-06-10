@@ -32,8 +32,7 @@ export function PropertyQuickActions({
   const [callOpen, setCallOpen] = useState(false);
   const callWrapRef = useRef<HTMLDivElement | null>(null);
   const [logCallIntent] = useLogCallIntentMutation();
-  const [fetchWhatsApp, { isFetching: waLoading }] =
-    useLazyGetWhatsAppLinkQuery();
+  const [fetchWhatsApp, { isFetching: waLoading }] = useLazyGetWhatsAppLinkQuery();
 
   const phone = useMemo(() => derivePhone(propertyId), [propertyId]);
 
@@ -75,9 +74,7 @@ export function PropertyQuickActions({
       if (res.enabled && res.href) {
         window.open(res.href, '_blank', 'noopener,noreferrer');
       } else {
-        dispatch(
-          toastPushed('info', 'WhatsApp is not available for this listing.'),
-        );
+        dispatch(toastPushed('info', 'WhatsApp is not available for this listing.'));
       }
     } catch {
       /* failure toast raised globally */
@@ -94,8 +91,7 @@ export function PropertyQuickActions({
 
     /* Touch device → open dialer directly. Desktop → show popover. */
     const isTouch =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(hover: none)').matches;
+      typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches;
     if (isTouch) {
       window.location.href = `tel:${phone.tel}`;
       return;
@@ -150,23 +146,14 @@ export function PropertyQuickActions({
           </button>
 
           {callOpen ? (
-            <div
-              className={styles.callPopover}
-              role="dialog"
-              aria-label="Phone number"
-            >
+            <div className={styles.callPopover} role="dialog" aria-label="Phone number">
               <span className={styles.callEyebrow}>Direct line</span>
               <a className={styles.phoneLink} href={`tel:${phone.tel}`}>
                 {phone.display}
               </a>
-              <p className={styles.callHint}>
-                Mon–Sat, 8am–8pm ET · OSK-verified line
-              </p>
+              <p className={styles.callHint}>Mon–Sat, 8am–8pm ET · OSK-verified line</p>
               <div className={styles.callRow}>
-                <a
-                  href={`tel:${phone.tel}`}
-                  className={cn(styles.callPrimary)}
-                >
+                <a href={`tel:${phone.tel}`} className={cn(styles.callPrimary)}>
                   <PhoneIcon className={styles.icon} />
                   Tap to call
                 </a>

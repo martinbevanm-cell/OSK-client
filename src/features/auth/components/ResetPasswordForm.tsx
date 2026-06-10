@@ -43,9 +43,7 @@ export function ResetPasswordForm() {
   if (!token) {
     return (
       <div className={styles.status}>
-        <p className={styles.statusError}>
-          This reset link is missing or malformed.
-        </p>
+        <p className={styles.statusError}>This reset link is missing or malformed.</p>
         <Link href="/forgot-password">
           <Button variant="secondary">Request a new link</Button>
         </Link>

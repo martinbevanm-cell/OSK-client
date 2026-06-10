@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  type TouchEvent,
-} from 'react';
+import { useCallback, useEffect, useRef, useState, type TouchEvent } from 'react';
 import Image from 'next/image';
 import type { PropertyMedia } from '@contracts';
 import { cn } from '@/lib/cn';
@@ -36,14 +30,8 @@ export function PropertyImageLightbox({
   const count = images.length;
   const touchStartX = useRef<number | null>(null);
 
-  const prev = useCallback(
-    () => setIndex((i) => (i - 1 + count) % count),
-    [count],
-  );
-  const next = useCallback(
-    () => setIndex((i) => (i + 1) % count),
-    [count],
-  );
+  const prev = useCallback(() => setIndex((i) => (i - 1 + count) % count), [count]);
+  const next = useCallback(() => setIndex((i) => (i + 1) % count), [count]);
 
   /* Keyboard + body-scroll lock */
   useEffect(() => {
@@ -147,21 +135,12 @@ export function PropertyImageLightbox({
             <button
               key={m.id}
               type="button"
-              className={cn(
-                styles.stripItem,
-                i === index && styles.stripItemActive,
-              )}
+              className={cn(styles.stripItem, i === index && styles.stripItemActive)}
               onClick={() => setIndex(i)}
               aria-label={`Go to photo ${i + 1}`}
               aria-current={i === index}
             >
-              <Image
-                src={m.url}
-                alt=""
-                fill
-                sizes="80px"
-                className={styles.stripImg}
-              />
+              <Image src={m.url} alt="" fill sizes="80px" className={styles.stripImg} />
             </button>
           ))}
         </div>

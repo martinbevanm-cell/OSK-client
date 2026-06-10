@@ -273,7 +273,7 @@
   gap: space('2');
   align-items: center;
 
-  @media (max-width: 720px) {
+  @media (width <= 720px) {
     grid-template-columns: 1fr 1fr;
   }
 }

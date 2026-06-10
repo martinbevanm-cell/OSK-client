@@ -8,13 +8,7 @@ import { useAppDispatch } from '@/store/hooks';
 import { SITE_CONTACT } from '@/lib/siteContact';
 import styles from './ContactForm.module.scss';
 
-const TOPICS = [
-  'General inquiry',
-  'Sales',
-  'Support',
-  'Press',
-  'Partnerships',
-] as const;
+const TOPICS = ['General inquiry', 'Sales', 'Support', 'Press', 'Partnerships'] as const;
 type Topic = (typeof TOPICS)[number];
 
 const formSchema = z.object({
@@ -67,10 +61,7 @@ export function ContactForm() {
     await new Promise((r) => setTimeout(r, 600));
 
     dispatch(
-      toastPushed(
-        'success',
-        'Thanks — we’ll be in touch within one business day.',
-      ),
+      toastPushed('success', 'Thanks — we’ll be in touch within one business day.'),
     );
     setName('');
     setEmail('');
@@ -142,8 +133,7 @@ export function ContactForm() {
           onChange={(e) => setConsent(e.target.checked)}
         />
         <span>
-          I agree to be contacted about my inquiry. We won’t share your
-          details — see our{' '}
+          I agree to be contacted about my inquiry. We won’t share your details — see our{' '}
           <a href="/privacy" className={styles.consentLink}>
             privacy policy
           </a>
@@ -161,8 +151,7 @@ export function ContactForm() {
           {submitting ? 'Sending…' : 'Send message'}
         </Button>
         <p className={styles.foot}>
-          Or email{' '}
-          <a href={`mailto:${SITE_CONTACT.email}`}>{SITE_CONTACT.email}</a>.
+          Or email <a href={`mailto:${SITE_CONTACT.email}`}>{SITE_CONTACT.email}</a>.
         </p>
       </div>
     </form>

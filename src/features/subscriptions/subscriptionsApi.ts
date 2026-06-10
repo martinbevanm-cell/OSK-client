@@ -34,10 +34,7 @@ export const subscriptionsApi = baseApi.injectEndpoints({
       providesTags: [{ type: 'SubscriptionPlan', id: 'ADMIN' }],
     }),
 
-    createSubscriptionPlan: build.mutation<
-      SubscriptionPlan,
-      CreateSubscriptionPlanDto
-    >({
+    createSubscriptionPlan: build.mutation<SubscriptionPlan, CreateSubscriptionPlanDto>({
       query: (body) => ({ url: '/subscription-plans', method: 'POST', body }),
       transformResponse: (r: ApiSuccess<SubscriptionPlan>) => r.data,
       invalidatesTags: [

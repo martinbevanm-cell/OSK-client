@@ -24,9 +24,8 @@ export default function SavedPage() {
           <em>Saved</em> listings.
         </h1>
         <p className={styles.lede}>
-          Everything you’ve tapped a heart on lives here — review, compare, and
-          come back to it later. Saved items live on this device until you
-          sign in to sync them.
+          Everything you’ve tapped a heart on lives here — review, compare, and come back
+          to it later. Saved items live on this device until you sign in to sync them.
         </p>
       </header>
 

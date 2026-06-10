@@ -53,7 +53,9 @@
     transition: opacity $transition-fast;
   }
 
-  &:hover { opacity: 0.75; }
+  &:hover {
+    opacity: 0.75;
+  }
 }
 
 .brandName {
@@ -133,8 +135,7 @@
     content: '';
     position: absolute;
     inset-block-end: 4px;
-    inset-inline-start: space('3');
-    inset-inline-end: space('3');
+    inset-inline: space('3');
     block-size: 1.5px;
     background: var(--color-primary);
     border-radius: radius('pill');
@@ -150,7 +151,9 @@
     color: var(--text-primary);
     background: color-mix(in srgb, var(--color-primary) 6%, transparent);
 
-    &::after { transform: scaleX(1); }
+    &::after {
+      transform: scaleX(1);
+    }
   }
 }
 
@@ -159,7 +162,9 @@
   color: var(--color-primary);
   background: color-mix(in srgb, var(--color-primary) 8%, transparent);
 
-  &::after { transform: scaleX(1); }
+  &::after {
+    transform: scaleX(1);
+  }
 
   &:hover {
     color: var(--color-primary);
@@ -273,12 +278,22 @@
         background $transition-fast;
     }
 
-    &:nth-child(1) { inline-size: 22px; }
-    &:nth-child(2) { inline-size: 22px; }
-    &:nth-child(3) { inline-size: 14px; }
+    &:nth-child(1) {
+      inline-size: 22px;
+    }
+
+    &:nth-child(2) {
+      inline-size: 22px;
+    }
+
+    &:nth-child(3) {
+      inline-size: 14px;
+    }
   }
 
-  &:hover span { background: var(--color-primary); }
+  &:hover span {
+    background: var(--color-primary);
+  }
 }
 
 // Morph into X when the drawer is open
@@ -290,10 +305,12 @@
       inline-size: 22px;
       transform: translateY(7px) rotate(45deg);
     }
+
     &:nth-child(2) {
       opacity: 0;
       transform: scaleX(0);
     }
+
     &:nth-child(3) {
       inline-size: 22px;
       transform: translateY(-7px) rotate(-45deg);
@@ -326,6 +343,7 @@
     opacity: 0;
     transform: translateY(-6px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -350,7 +368,7 @@
   letter-spacing: 0.02em;
   color: var(--text-secondary);
   text-decoration: none;
-  padding: space('3') space('3');
+  padding: space('3');
   border-block-end: 1px solid color-mix(in srgb, var(--border-default) 50%, transparent);
   border-radius: 0;
 
@@ -363,7 +381,9 @@
       padding-inline-start $transition-fast;
   }
 
-  &:last-of-type { border-block-end: none; }
+  &:last-of-type {
+    border-block-end: none;
+  }
 
   &:hover {
     color: var(--text-primary);

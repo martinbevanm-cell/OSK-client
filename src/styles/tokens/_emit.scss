@@ -12,6 +12,7 @@
       @warn 'Theme is missing required token `#{$name}` — see tokens/_contract.scss.';
     }
   }
+
   @each $name, $value in $map {
     --#{$name}: #{$value};
   }

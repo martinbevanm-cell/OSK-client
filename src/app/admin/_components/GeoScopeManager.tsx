@@ -32,9 +32,7 @@ export function GeoScopeManager({ geo }: Props) {
   const [save, { isLoading: saving }] = useUpdateSiteSettingsMutation();
 
   const [draftMode, setDraftMode] = useState<SiteSettingsGeo['mode']>(geo.mode);
-  const [draftAllowed, setDraftAllowed] = useState<string[]>(
-    geo.allowedCountries,
-  );
+  const [draftAllowed, setDraftAllowed] = useState<string[]>(geo.allowedCountries);
   const [search, setSearch] = useState('');
 
   const allCountries = useMemo(() => getCountries(), []);
@@ -42,8 +40,7 @@ export function GeoScopeManager({ geo }: Props) {
     const q = search.trim().toLowerCase();
     if (!q) return allCountries;
     return allCountries.filter(
-      (c) =>
-        c.name.toLowerCase().includes(q) || c.iso2.toLowerCase().includes(q),
+      (c) => c.name.toLowerCase().includes(q) || c.iso2.toLowerCase().includes(q),
     );
   }, [allCountries, search]);
 
@@ -68,10 +65,7 @@ export function GeoScopeManager({ geo }: Props) {
      * would be more surprising than a clear validation message. */
     if (draftMode === 'restricted' && draftAllowed.length === 0) {
       dispatch(
-        toastPushed(
-          'error',
-          'Pick at least one country before saving Specific mode.',
-        ),
+        toastPushed('error', 'Pick at least one country before saving Specific mode.'),
       );
       return;
     }
@@ -90,11 +84,10 @@ export function GeoScopeManager({ geo }: Props) {
       <header className={styles.head}>
         <h2 className={styles.title}>Available countries</h2>
         <p className={styles.sub}>
-          Decide whether OSK is available worldwide or scoped to specific
-          countries. In <strong>Specific</strong> mode, only the countries
-          you pick here show up in the country dropdowns across the site,
-          and the property list endpoint refuses to return listings from
-          anywhere else.
+          Decide whether OSK is available worldwide or scoped to specific countries. In{' '}
+          <strong>Specific</strong> mode, only the countries you pick here show up in the
+          country dropdowns across the site, and the property list endpoint refuses to
+          return listings from anywhere else.
         </p>
       </header>
 
@@ -116,10 +109,7 @@ export function GeoScopeManager({ geo }: Props) {
           type="button"
           role="radio"
           aria-checked={draftMode === 'restricted'}
-          className={cn(
-            styles.modeCard,
-            draftMode === 'restricted' && styles.modeOn,
-          )}
+          className={cn(styles.modeCard, draftMode === 'restricted' && styles.modeOn)}
           onClick={() => setDraftMode('restricted')}
         >
           <span className={styles.modeName}>Specific countries</span>
@@ -155,11 +145,7 @@ export function GeoScopeManager({ geo }: Props) {
                 );
               })}
               <li>
-                <button
-                  type="button"
-                  className={styles.clearAll}
-                  onClick={clearAll}
-                >
+                <button type="button" className={styles.clearAll} onClick={clearAll}>
                   Clear all
                 </button>
               </li>
@@ -210,18 +196,12 @@ export function GeoScopeManager({ geo }: Props) {
       ) : null}
 
       <footer className={styles.foot}>
-        <Button
-          type="button"
-          size="sm"
-          onClick={onSave}
-          disabled={!isDirty || saving}
-        >
+        <Button type="button" size="sm" onClick={onSave} disabled={!isDirty || saving}>
           {saving ? 'Saving…' : isDirty ? 'Save country scope' : 'No changes'}
         </Button>
         <p className={styles.fine}>
-          Existing listings outside the allowed set stay in the database
-          but are hidden from public results — switch back to{' '}
-          <em>All</em> to surface them again.
+          Existing listings outside the allowed set stay in the database but are hidden
+          from public results — switch back to <em>All</em> to surface them again.
         </p>
       </footer>
     </section>

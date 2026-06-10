@@ -114,6 +114,7 @@
 
 .cardEyebrow {
   @include eyebrow-section;
+
   grid-column: 1 / -1;
 }
 

@@ -48,12 +48,46 @@ export interface CityOption {
  * For the common currencies we hand-map a symbol — for everything else
  * the code itself is the display ("ZAR", "AED" …). */
 const CURRENCY_SYMBOLS: Record<string, string> = {
-  USD: '$',  CAD: 'CA$', AUD: 'A$', NZD: 'NZ$', SGD: 'S$',  HKD: 'HK$', MXN: 'MX$',
-  EUR: '€',  GBP: '£',  JPY: '¥',  CNY: '¥',   INR: '₹',   AED: 'د.إ', SAR: '﷼',
-  CHF: 'Fr', SEK: 'kr', NOK: 'kr', DKK: 'kr',  RUB: '₽',   TRY: '₺',   ZAR: 'R',
-  BRL: 'R$', KRW: '₩',  THB: '฿',  PHP: '₱',   IDR: 'Rp',  MYR: 'RM',  PKR: '₨',
-  BDT: '৳',  LKR: 'Rs', NGN: '₦',  EGP: '£',   ARS: '$',   CLP: '$',   COP: '$',
-  PLN: 'zł', CZK: 'Kč', HUF: 'Ft', RON: 'lei', ILS: '₪',
+  USD: '$',
+  CAD: 'CA$',
+  AUD: 'A$',
+  NZD: 'NZ$',
+  SGD: 'S$',
+  HKD: 'HK$',
+  MXN: 'MX$',
+  EUR: '€',
+  GBP: '£',
+  JPY: '¥',
+  CNY: '¥',
+  INR: '₹',
+  AED: 'د.إ',
+  SAR: '﷼',
+  CHF: 'Fr',
+  SEK: 'kr',
+  NOK: 'kr',
+  DKK: 'kr',
+  RUB: '₽',
+  TRY: '₺',
+  ZAR: 'R',
+  BRL: 'R$',
+  KRW: '₩',
+  THB: '฿',
+  PHP: '₱',
+  IDR: 'Rp',
+  MYR: 'RM',
+  PKR: '₨',
+  BDT: '৳',
+  LKR: 'Rs',
+  NGN: '₦',
+  EGP: '£',
+  ARS: '$',
+  CLP: '$',
+  COP: '$',
+  PLN: 'zł',
+  CZK: 'Kč',
+  HUF: 'Ft',
+  RON: 'lei',
+  ILS: '₪',
 };
 
 function symbolFor(code: string): string {
@@ -155,9 +189,7 @@ export function findCity(iso2: string, name: string): CityOption | undefined {
   if (!iso2 || !name) return undefined;
   const target = name.trim().toLowerCase();
   if (!target) return undefined;
-  return getCitiesByCountry(iso2).find(
-    (c) => c.name.toLowerCase() === target,
-  );
+  return getCitiesByCountry(iso2).find((c) => c.name.toLowerCase() === target);
 }
 
 /**
@@ -165,11 +197,7 @@ export function findCity(iso2: string, name: string): CityOption | undefined {
  * matches with a "starts-with" preference so the most relevant items
  * surface first. Case-insensitive.
  */
-export function searchCities(
-  iso2: string,
-  query: string,
-  limit = 50,
-): CityOption[] {
+export function searchCities(iso2: string, query: string, limit = 50): CityOption[] {
   const all = getCitiesByCountry(iso2);
   if (!query.trim()) return all.slice(0, limit);
   const q = query.toLowerCase();

@@ -6,8 +6,7 @@
  * (which doesn't serve them), so we prefix them with the API origin. Full
  * URLs (http://, https://, data:, blob:) pass through untouched.
  */
-const API_BASE =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:5000/api/v1';
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:5000/api/v1';
 
 /** Origin of the API server, derived from API_BASE_URL (strip the /api/v1). */
 function apiOrigin(): string {

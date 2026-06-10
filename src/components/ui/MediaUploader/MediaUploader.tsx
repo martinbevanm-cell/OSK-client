@@ -34,17 +34,10 @@ interface MediaUploaderProps {
   onUploaded: (uploaded: UploadedMedia[]) => void;
 }
 
-const IMAGE_MIMES = [
-  'image/jpeg',
-  'image/png',
-  'image/webp',
-  'image/avif',
-  'image/gif',
-];
+const IMAGE_MIMES = ['image/jpeg', 'image/png', 'image/webp', 'image/avif', 'image/gif'];
 const VIDEO_MIMES = ['video/mp4', 'video/webm', 'video/quicktime'];
 
-const API_BASE =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:5000/api/v1';
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:5000/api/v1';
 
 /** State of a single in-flight upload row. */
 interface PendingRow {
@@ -99,9 +92,7 @@ export function MediaUploader({
       const accepted = files.filter((f) => {
         if (accept === 'image') return IMAGE_MIMES.includes(f.type);
         if (accept === 'video') return VIDEO_MIMES.includes(f.type);
-        return (
-          IMAGE_MIMES.includes(f.type) || VIDEO_MIMES.includes(f.type)
-        );
+        return IMAGE_MIMES.includes(f.type) || VIDEO_MIMES.includes(f.type);
       });
       if (accepted.length === 0) return;
 
@@ -128,17 +119,13 @@ export function MediaUploader({
             succeeded.push(uploaded);
             setRows((prev) =>
               prev.map((r) =>
-                r.id === row.id
-                  ? { ...r, status: 'done', progress: 100 }
-                  : r,
+                r.id === row.id ? { ...r, status: 'done', progress: 100 } : r,
               ),
             );
           } catch (err) {
             const message = err instanceof Error ? err.message : 'Upload failed';
             setRows((prev) =>
-              prev.map((r) =>
-                r.id === row.id ? { ...r, status: 'error', message } : r,
-              ),
+              prev.map((r) => (r.id === row.id ? { ...r, status: 'error', message } : r)),
             );
           }
         }),

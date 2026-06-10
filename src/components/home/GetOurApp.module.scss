@@ -237,7 +237,11 @@
   color: var(--text-primary);
 }
 
-.phoneIcons { display: inline-flex; align-items: center; gap: 4px; }
+.phoneIcons {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
 
 .phoneSignal,
 .phoneWifi,
@@ -245,9 +249,41 @@
   display: inline-block;
   background: var(--text-primary);
 }
-.phoneSignal { inline-size: 10px; block-size: 8px; clip-path: polygon(0 100%,20% 100%,20% 70%,0 70%,35% 100%,50% 100%,50% 50%,35% 50%,65% 100%,80% 100%,80% 25%,65% 25%,90% 100%,100% 100%,100% 0,90% 0); }
-.phoneWifi { inline-size: 10px; block-size: 8px; border-radius: 50% 50% 0 0; }
-.phoneBattery { inline-size: 16px; block-size: 8px; border-radius: 2px; }
+
+.phoneSignal {
+  inline-size: 10px;
+  block-size: 8px;
+  clip-path: polygon(
+    0 100%,
+    20% 100%,
+    20% 70%,
+    0 70%,
+    35% 100%,
+    50% 100%,
+    50% 50%,
+    35% 50%,
+    65% 100%,
+    80% 100%,
+    80% 25%,
+    65% 25%,
+    90% 100%,
+    100% 100%,
+    100% 0,
+    90% 0
+  );
+}
+
+.phoneWifi {
+  inline-size: 10px;
+  block-size: 8px;
+  border-radius: 50% 50% 0 0;
+}
+
+.phoneBattery {
+  inline-size: 16px;
+  block-size: 8px;
+  border-radius: 2px;
+}
 
 .phoneHeader {
   display: flex;
@@ -329,12 +365,11 @@
 .phoneCardImg {
   inline-size: 100%;
   aspect-ratio: 16 / 9;
-  background:
-    linear-gradient(
-      135deg,
-      var(--color-primary-soft) 0%,
-      color-mix(in srgb, var(--color-accent) 30%, var(--bg-inset)) 100%
-    );
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-soft) 0%,
+    color-mix(in srgb, var(--color-accent) 30%, var(--bg-inset)) 100%
+  );
   position: relative;
 
   &::after {
@@ -445,6 +480,6 @@
   svg [fill='#000'],
   svg path,
   svg rect:not(:first-of-type) {
-    fill: currentColor;
+    fill: currentcolor;
   }
 }

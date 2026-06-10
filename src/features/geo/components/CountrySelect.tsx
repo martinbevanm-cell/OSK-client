@@ -53,10 +53,7 @@ export function CountrySelect({
     const onPointer = (event: PointerEvent) => {
       const target = event.target as Node | null;
       if (!target) return;
-      if (
-        panelRef.current?.contains(target) ||
-        triggerRef.current?.contains(target)
-      ) {
+      if (panelRef.current?.contains(target) || triggerRef.current?.contains(target)) {
         return;
       }
       setOpen(false);
@@ -76,10 +73,7 @@ export function CountrySelect({
     };
   }, [open]);
 
-  const triggerClasses = cn(
-    styles.trigger,
-    variant === 'ghost' && styles.triggerGhost,
-  );
+  const triggerClasses = cn(styles.trigger, variant === 'ghost' && styles.triggerGhost);
 
   return (
     <div className={cn(styles.root, className)}>

@@ -34,8 +34,8 @@ export function SavedListings() {
         </div>
         <p className={styles.emptyTitle}>No saved listings yet</p>
         <p className={styles.emptyMsg}>
-          Tap the heart on any property to save it here. Compare, revisit, and
-          share whenever you’re ready.
+          Tap the heart on any property to save it here. Compare, revisit, and share
+          whenever you’re ready.
         </p>
         <div className={styles.emptyActions}>
           <Link href="/buy">
@@ -55,22 +55,14 @@ export function SavedListings() {
         <span className={styles.count}>
           {items.length} {items.length === 1 ? 'listing' : 'listings'}
         </span>
-        <button
-          type="button"
-          className={styles.clear}
-          onClick={onClearAll}
-        >
+        <button type="button" className={styles.clear} onClick={onClearAll}>
           Clear all
         </button>
       </div>
 
       <div className={styles.grid}>
         {items.map((property, index) => (
-          <PropertyCard
-            key={property.id}
-            property={property}
-            priority={index < 3}
-          />
+          <PropertyCard key={property.id} property={property} priority={index < 3} />
         ))}
       </div>
     </>

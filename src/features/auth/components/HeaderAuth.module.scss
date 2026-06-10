@@ -135,8 +135,7 @@
   @media (max-width: #{breakpoint('sm') - 1px}) {
     position: fixed;
     inset-block-start: calc(64px + #{space('2')});
-    inset-inline-end: space('3');
-    inset-inline-start: auto;
+    inset-inline: auto space('3');
     min-inline-size: 0;
     inline-size: min(20rem, calc(100vw - #{space('5')} * 2));
     max-block-size: calc(100dvh - 64px - #{space('5')});
@@ -149,6 +148,7 @@
     opacity: 0;
     transform: translateY(-4px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

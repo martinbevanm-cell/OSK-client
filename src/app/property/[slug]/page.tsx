@@ -26,9 +26,7 @@ const ALL_CHANNELS: ContactCapabilities = {
   email: true,
 };
 
-export async function generateMetadata({
-  params,
-}: PageParams): Promise<Metadata> {
+export async function generateMetadata({ params }: PageParams): Promise<Metadata> {
   const { slug } = await params;
   const property = await serverFetch<Property>(`/properties/${slug}`);
   if (!property) return { title: 'Property not found' };
@@ -195,10 +193,7 @@ export default async function PropertyDetailPage({ params }: PageParams) {
 
           {/* Amenities */}
           {property.amenities.length > 0 ? (
-            <section
-              className={styles.block}
-              aria-labelledby="amenities-heading"
-            >
+            <section className={styles.block} aria-labelledby="amenities-heading">
               <div className={styles.blockHeader}>
                 <span className={styles.blockEyebrow}>Inside &amp; out</span>
                 <h2 className={styles.blockTitle} id="amenities-heading">
@@ -265,8 +260,8 @@ export default async function PropertyDetailPage({ params }: PageParams) {
               <span className={styles.contactBadge}>Direct line</span>
               <p className={styles.contactTitle}>Contact the owner</p>
               <p className={styles.contactNote}>
-                Your details are shared only with this listing’s owner — never
-                published, never sold.
+                Your details are shared only with this listing’s owner — never published,
+                never sold.
               </p>
             </div>
 
@@ -279,12 +274,7 @@ export default async function PropertyDetailPage({ params }: PageParams) {
             />
 
             <div className={styles.contactFootnote}>
-              <svg
-                viewBox="0 0 24 24"
-                width="14"
-                height="14"
-                aria-hidden="true"
-              >
+              <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
                 <path
                   d="M12 1l9 4v6c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4z"
                   fill="none"

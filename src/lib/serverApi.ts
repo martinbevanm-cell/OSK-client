@@ -22,10 +22,7 @@ function createTimeoutSignal(timeoutMs: number): {
  * `revalidate`. Returns `null` on any failure so callers render a fallback
  * instead of throwing — keeps pages resilient while the backend is a shell.
  */
-export async function serverFetch<T>(
-  path: string,
-  revalidate = 60,
-): Promise<T | null> {
+export async function serverFetch<T>(path: string, revalidate = 60): Promise<T | null> {
   const timeout = createTimeoutSignal(SERVER_FETCH_TIMEOUT_MS);
 
   try {

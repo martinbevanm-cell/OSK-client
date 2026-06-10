@@ -46,6 +46,7 @@
   background: var(--bg-elevated);
   border: 1px solid var(--border-default);
   border-radius: radius('md');
+
   @include elevation('lg');
 }
 

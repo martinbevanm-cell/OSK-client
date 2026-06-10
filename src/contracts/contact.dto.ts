@@ -83,9 +83,7 @@ export interface Inquiry {
 export const inquiryFiltersSchema = z.object({
   propertyId: z.string().optional(),
   channel: z.enum(['email', 'call', 'whatsapp', 'chat']).optional(),
-  status: z
-    .enum(['new', 'contacted', 'callback-requested', 'closed'])
-    .optional(),
+  status: z.enum(['new', 'contacted', 'callback-requested', 'closed']).optional(),
   page: z.coerce.number().int().positive().default(1),
   limit: z.coerce.number().int().positive().max(60).default(24),
 });

@@ -36,10 +36,7 @@ export const adminApi = baseApi.injectEndpoints({
     }),
 
     /* ── moderation queue ─────────────────────────────────────────────── */
-    listPendingProperties: build.query<
-      Paginated<PropertySummary>,
-      ListParams | void
-    >({
+    listPendingProperties: build.query<Paginated<PropertySummary>, ListParams | void>({
       query: (args) => ({
         url: '/admin/properties/pending',
         params: args ?? undefined,
@@ -90,10 +87,7 @@ export const adminApi = baseApi.injectEndpoints({
     }),
 
     /** Flip the isFeatured flag on a property. Audit-logged on the server. */
-    setPropertyFeatured: build.mutation<
-      Property,
-      { id: string; isFeatured: boolean }
-    >({
+    setPropertyFeatured: build.mutation<Property, { id: string; isFeatured: boolean }>({
       query: ({ id, isFeatured }) => ({
         url: `/admin/properties/${id}/featured`,
         method: 'PATCH',

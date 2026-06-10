@@ -40,9 +40,21 @@ export function SellerAnalytics() {
       <Head />
 
       <div className={styles.totals}>
-        <Stat label="Total views" value={fmt(data.totals.views)} hint="Across every listing you own." />
-        <Stat label="Total inquiries" value={fmt(data.totals.inquiries)} hint="Leads via every contact channel." />
-        <Stat label="Active listings" value={fmt(data.totals.listings)} hint="All statuses — drafts to sold." />
+        <Stat
+          label="Total views"
+          value={fmt(data.totals.views)}
+          hint="Across every listing you own."
+        />
+        <Stat
+          label="Total inquiries"
+          value={fmt(data.totals.inquiries)}
+          hint="Leads via every contact channel."
+        />
+        <Stat
+          label="Active listings"
+          value={fmt(data.totals.listings)}
+          hint="All statuses — drafts to sold."
+        />
         <Stat
           label="Saved on this device"
           value={fmt(savedItems.length)}
@@ -52,8 +64,8 @@ export function SellerAnalytics() {
 
       {data.items.length === 0 ? (
         <p className={styles.muted}>
-          You haven&rsquo;t posted a listing yet — your analytics will appear
-          here as soon as you do.
+          You haven&rsquo;t posted a listing yet — your analytics will appear here as soon
+          as you do.
         </p>
       ) : (
         <div className={styles.table}>
@@ -65,8 +77,7 @@ export function SellerAnalytics() {
             <span className={styles.numCol}>Convert</span>
           </div>
           {data.items.map((row) => {
-            const conversion =
-              row.views > 0 ? (row.inquiries / row.views) * 100 : 0;
+            const conversion = row.views > 0 ? (row.inquiries / row.views) * 100 : 0;
             return (
               <div key={row.id} className={styles.row}>
                 <Link
@@ -111,22 +122,14 @@ function Head() {
       <span className={styles.eyebrow}>Dashboard · Analytics</span>
       <h1 className={styles.title}>Listing performance</h1>
       <p className={styles.sub}>
-        Per-listing views and inquiries. Counts update in near real time;
-        return visits in the same browser tab don&rsquo;t double-count.
+        Per-listing views and inquiries. Counts update in near real time; return visits in
+        the same browser tab don&rsquo;t double-count.
       </p>
     </header>
   );
 }
 
-function Stat({
-  label,
-  value,
-  hint,
-}: {
-  label: string;
-  value: string;
-  hint?: string;
-}) {
+function Stat({ label, value, hint }: { label: string; value: string; hint?: string }) {
   return (
     <div className={styles.statCard}>
       <p className={styles.statLabel}>{label}</p>
@@ -135,4 +138,3 @@ function Stat({
     </div>
   );
 }
-

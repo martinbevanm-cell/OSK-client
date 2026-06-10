@@ -62,11 +62,7 @@ export const savedPersistMiddleware: Middleware =
   (api: MiddlewareApi) => (next) => (action) => {
     const result = next(action);
     const type = (action as { type?: unknown }).type;
-    if (
-      type === saved.type ||
-      type === unsaved.type ||
-      type === clearSaved.type
-    ) {
+    if (type === saved.type || type === unsaved.type || type === clearSaved.type) {
       writeSavedItems(selectSavedItems(api.getState()));
     }
     return result;

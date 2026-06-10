@@ -172,8 +172,7 @@ export function PropertyExplorer({
     ...(worldwide ? {} : { country: activeCountry }),
     ...(type ? { type } : {}),
   };
-  const { data, isLoading, isError, isFetching } =
-    useListPropertiesQuery(queryArgs);
+  const { data, isLoading, isError, isFetching } = useListPropertiesQuery(queryArgs);
 
   const items = data?.items ?? [];
   const meta = data?.meta;
@@ -183,13 +182,11 @@ export function PropertyExplorer({
   const activeSortLabel =
     SORT_OPTIONS.find((s) => s.value === activeSort)?.label ?? 'Newest first';
   const activeBeds = filters.bedrooms;
-  const activeBedsLabel =
-    BED_OPTIONS.find((b) => b.value === activeBeds)?.label ?? 'Any';
+  const activeBedsLabel = BED_OPTIONS.find((b) => b.value === activeBeds)?.label ?? 'Any';
 
   /* Beds filter applies for residential types or cross-type pages
    * (most new-project listings are residential). */
-  const showBedsFilter =
-    type === undefined || type === 'home' || type === 'rental';
+  const showBedsFilter = type === undefined || type === 'home' || type === 'rental';
   /* Kind tabs hide when the page locks the listingKind. */
   const showKindTabs = !lockedListingKind;
   /* Locked filters are not considered "active" — they don't show in Clear. */
@@ -229,11 +226,7 @@ export function PropertyExplorer({
           {showKindTabs ? (
             <>
               <span className={styles.toolbarSep} aria-hidden="true" />
-              <div
-                className={styles.tabs}
-                role="tablist"
-                aria-label="Listing kind"
-              >
+              <div className={styles.tabs} role="tablist" aria-label="Listing kind">
                 {KIND_TABS.map((tab) => {
                   const isActive = activeKind === tab.value;
                   return (
@@ -246,8 +239,7 @@ export function PropertyExplorer({
                       onClick={() =>
                         dispatch(
                           filtersChanged({
-                            listingKind:
-                              tab.value === 'all' ? undefined : tab.value,
+                            listingKind: tab.value === 'all' ? undefined : tab.value,
                           }),
                         )
                       }
@@ -292,32 +284,58 @@ export function PropertyExplorer({
               />
             )}
             {showBedsFilter ? (
+              <ListingDropdown
+                label="Beds"
+                value={activeBedsLabel}
+                active={activeBeds != null}
+                panelWidth="14rem"
+              >
+                {(close) => (
+                  <ul className={styles.optionList} role="listbox" aria-label="Bedrooms">
+                    {BED_OPTIONS.map((opt) => {
+                      const isActive = activeBeds === opt.value;
+                      return (
+                        <li key={String(opt.value)}>
+                          <button
+                            type="button"
+                            role="option"
+                            aria-selected={isActive}
+                            className={cn(styles.option, isActive && styles.optionActive)}
+                            onClick={() => {
+                              dispatch(filtersChanged({ bedrooms: opt.value }));
+                              close();
+                            }}
+                          >
+                            <span>{opt.label}</span>
+                            {isActive ? <CheckIcon /> : null}
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </ListingDropdown>
+            ) : null}
+
             <ListingDropdown
-              label="Beds"
-              value={activeBedsLabel}
-              active={activeBeds != null}
-              panelWidth="14rem"
+              label="Sort by"
+              value={activeSortLabel}
+              active={activeSort !== '-createdAt'}
+              panelWidth="16rem"
             >
               {(close) => (
-                <ul
-                  className={styles.optionList}
-                  role="listbox"
-                  aria-label="Bedrooms"
-                >
-                  {BED_OPTIONS.map((opt) => {
-                    const isActive = activeBeds === opt.value;
+                <ul className={styles.optionList} role="listbox" aria-label="Sort by">
+                  {SORT_OPTIONS.map((opt) => {
+                    const isActive = activeSort === opt.value;
                     return (
-                      <li key={String(opt.value)}>
+                      <li key={opt.value}>
                         <button
                           type="button"
                           role="option"
                           aria-selected={isActive}
-                          className={cn(
-                            styles.option,
-                            isActive && styles.optionActive,
-                          )}
+                          className={cn(styles.option, isActive && styles.optionActive)}
                           onClick={() => {
-                            dispatch(filtersChanged({ bedrooms: opt.value }));
+                            dispatch(filtersChanged({ sort: opt.value }));
                             close();
                           }}
                         >
@@ -330,46 +348,6 @@ export function PropertyExplorer({
                 </ul>
               )}
             </ListingDropdown>
-          ) : null}
-
-          <ListingDropdown
-            label="Sort by"
-            value={activeSortLabel}
-            active={activeSort !== '-createdAt'}
-            panelWidth="16rem"
-          >
-            {(close) => (
-              <ul
-                className={styles.optionList}
-                role="listbox"
-                aria-label="Sort by"
-              >
-                {SORT_OPTIONS.map((opt) => {
-                  const isActive = activeSort === opt.value;
-                  return (
-                    <li key={opt.value}>
-                      <button
-                        type="button"
-                        role="option"
-                        aria-selected={isActive}
-                        className={cn(
-                          styles.option,
-                          isActive && styles.optionActive,
-                        )}
-                        onClick={() => {
-                          dispatch(filtersChanged({ sort: opt.value }));
-                          close();
-                        }}
-                      >
-                        <span>{opt.label}</span>
-                        {isActive ? <CheckIcon /> : null}
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-          </ListingDropdown>
 
             {filtersActive ? (
               <button
@@ -391,19 +369,52 @@ export function PropertyExplorer({
               type="button"
               role="tab"
               aria-selected={viewMode === 'grid'}
-              className={cn(
-                styles.viewBtn,
-                viewMode === 'grid' && styles.viewBtnActive,
-              )}
+              className={cn(styles.viewBtn, viewMode === 'grid' && styles.viewBtnActive)}
               onClick={() => dispatch(viewModeChanged('grid'))}
               title="Grid view"
               aria-label="Grid view"
             >
               <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
-                <rect x="1.5" y="1.5" width="5.5" height="5.5" rx="0.75" fill="none" stroke="currentColor" strokeWidth="1.4" />
-                <rect x="9" y="1.5" width="5.5" height="5.5" rx="0.75" fill="none" stroke="currentColor" strokeWidth="1.4" />
-                <rect x="1.5" y="9" width="5.5" height="5.5" rx="0.75" fill="none" stroke="currentColor" strokeWidth="1.4" />
-                <rect x="9" y="9" width="5.5" height="5.5" rx="0.75" fill="none" stroke="currentColor" strokeWidth="1.4" />
+                <rect
+                  x="1.5"
+                  y="1.5"
+                  width="5.5"
+                  height="5.5"
+                  rx="0.75"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                />
+                <rect
+                  x="9"
+                  y="1.5"
+                  width="5.5"
+                  height="5.5"
+                  rx="0.75"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                />
+                <rect
+                  x="1.5"
+                  y="9"
+                  width="5.5"
+                  height="5.5"
+                  rx="0.75"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                />
+                <rect
+                  x="9"
+                  y="9"
+                  width="5.5"
+                  height="5.5"
+                  rx="0.75"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                />
               </svg>
               <span>Grid</span>
             </button>
@@ -411,16 +422,20 @@ export function PropertyExplorer({
               type="button"
               role="tab"
               aria-selected={viewMode === 'map'}
-              className={cn(
-                styles.viewBtn,
-                viewMode === 'map' && styles.viewBtnActive,
-              )}
+              className={cn(styles.viewBtn, viewMode === 'map' && styles.viewBtnActive)}
               onClick={() => dispatch(viewModeChanged('map'))}
               title="Map view"
               aria-label="Map view"
             >
               <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
-                <path d="M5.5 2L1 4v10l4.5-2 5 2L15 12V2l-4.5 2-5-2zm0 0v10m5-8v10" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                <path
+                  d="M5.5 2L1 4v10l4.5-2 5 2L15 12V2l-4.5 2-5-2zm0 0v10m5-8v10"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
               <span>Map</span>
             </button>
@@ -467,19 +482,13 @@ export function PropertyExplorer({
                 />
               </svg>
             </span>
-            <p className={styles.stateTitle}>
-              No listings in {activeCountryName} yet
-            </p>
+            <p className={styles.stateTitle}>No listings in {activeCountryName} yet</p>
             <p className={styles.stateMsg}>
-              We don&rsquo;t have anything matching your search in{' '}
-              {activeCountryName} right now. Want to browse listings from
-              other countries?
+              We don&rsquo;t have anything matching your search in {activeCountryName}{' '}
+              right now. Want to browse listings from other countries?
             </p>
             <div className={styles.stateActions}>
-              <Button
-                type="button"
-                onClick={() => setWorldwide(true)}
-              >
+              <Button type="button" onClick={() => setWorldwide(true)}>
                 Show listings worldwide
               </Button>
               {filtersActive ? (
@@ -535,11 +544,7 @@ export function PropertyExplorer({
       {items.length > 0 && viewMode === 'grid' ? (
         <div className={cn(styles.grid, isFetching && styles.gridBusy)}>
           {items.map((property, index) => (
-            <PropertyCard
-              key={property.id}
-              property={property}
-              priority={index < 3}
-            />
+            <PropertyCard key={property.id} property={property} priority={index < 3} />
           ))}
         </div>
       ) : null}

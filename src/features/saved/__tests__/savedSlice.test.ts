@@ -59,9 +59,11 @@ describe('savedSlice', () => {
     let state = savedReducer(undefined, saved(fixture('a1')));
     state = savedReducer(state, saved(fixture('a2')));
     state = savedReducer(state, saved(fixture('a3')));
-    expect(selectSavedItems({ saved: state } as never).map((p) => p.id)).toEqual(
-      ['a3', 'a2', 'a1'],
-    );
+    expect(selectSavedItems({ saved: state } as never).map((p) => p.id)).toEqual([
+      'a3',
+      'a2',
+      'a1',
+    ]);
   });
 
   it('unsaves by id', () => {

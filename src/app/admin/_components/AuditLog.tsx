@@ -38,18 +38,12 @@ function formatWhen(iso: string): string {
 
 function describeMeta(entry: AuditEntry): string {
   const meta = entry.meta ?? {};
-  if (
-    entry.action === 'user.role.update' ||
-    entry.action === 'user.status.update'
-  ) {
+  if (entry.action === 'user.role.update' || entry.action === 'user.status.update') {
     const before = meta.before as string | undefined;
     const after = meta.after as string | undefined;
     if (before && after) return `${before} → ${after}`;
   }
-  if (
-    entry.action === 'property.approve' ||
-    entry.action === 'property.reject'
-  ) {
+  if (entry.action === 'property.approve' || entry.action === 'property.reject') {
     const title = meta.title as string | undefined;
     if (title) return `“${title}”`;
   }
@@ -78,8 +72,8 @@ export function AuditLog() {
         <span className={styles.eyebrow}>Admin · Audit</span>
         <h1 className={styles.title}>Activity log</h1>
         <p className={styles.sub}>
-          Every privileged action — role and status changes, property
-          moderation, review takedowns. Entries auto-expire after 365 days.
+          Every privileged action — role and status changes, property moderation, review
+          takedowns. Entries auto-expire after 365 days.
         </p>
       </header>
 
@@ -89,8 +83,7 @@ export function AuditLog() {
         <p className={styles.muted}>Couldn&rsquo;t load the audit log.</p>
       ) : items.length === 0 ? (
         <p className={styles.muted}>
-          No audit entries yet. Admin actions will appear here as soon as
-          they happen.
+          No audit entries yet. Admin actions will appear here as soon as they happen.
         </p>
       ) : (
         <ol className={styles.feed}>
@@ -103,18 +96,14 @@ export function AuditLog() {
               <div className={styles.body}>
                 <p className={styles.line}>
                   <span className={styles.actor}>{entry.actorName}</span>{' '}
-                  <span className={styles.verb}>
-                    {ACTION_LABELS[entry.action]}
-                  </span>{' '}
+                  <span className={styles.verb}>{ACTION_LABELS[entry.action]}</span>{' '}
                   {describeMeta(entry) ? (
                     <span className={styles.detail}>{describeMeta(entry)}</span>
                   ) : null}
                 </p>
                 <p className={styles.meta}>
                   {entry.entityType} · {entry.entityId.slice(-6)} ·{' '}
-                  <time dateTime={entry.createdAt}>
-                    {formatWhen(entry.createdAt)}
-                  </time>
+                  <time dateTime={entry.createdAt}>{formatWhen(entry.createdAt)}</time>
                   {entry.ip ? ` · ${entry.ip}` : ''}
                 </p>
               </div>

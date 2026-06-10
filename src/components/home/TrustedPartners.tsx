@@ -42,8 +42,8 @@ export function TrustedPartners() {
             A network you can close with.
           </h2>
           <p className={styles.sub}>
-            From financing to the final inspection, OSK works with vetted
-            local pros so every step of the move stays under one roof.
+            From financing to the final inspection, OSK works with vetted local pros so
+            every step of the move stays under one roof.
           </p>
         </header>
 

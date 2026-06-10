@@ -43,9 +43,7 @@ export function InquiryForm({ propertyId, onDone }: InquiryFormProps) {
   const onSubmit = handleSubmit(async (values) => {
     try {
       await submitInquiry(values).unwrap();
-      dispatch(
-        toastPushed('success', 'Message sent — the owner will be in touch.'),
-      );
+      dispatch(toastPushed('success', 'Message sent — the owner will be in touch.'));
       reset();
       onDone?.();
     } catch {
@@ -76,9 +74,7 @@ export function InquiryForm({ propertyId, onDone }: InquiryFormProps) {
           className={styles.input}
           {...register('email')}
         />
-        {errors.email && (
-          <span className={styles.error}>{errors.email.message}</span>
-        )}
+        {errors.email && <span className={styles.error}>{errors.email.message}</span>}
       </div>
 
       <div className={styles.field}>
@@ -86,9 +82,7 @@ export function InquiryForm({ propertyId, onDone }: InquiryFormProps) {
           Phone <span>(optional)</span>
         </label>
         <input id="iq-phone" className={styles.input} {...register('phone')} />
-        {errors.phone && (
-          <span className={styles.error}>{errors.phone.message}</span>
-        )}
+        {errors.phone && <span className={styles.error}>{errors.phone.message}</span>}
       </div>
 
       <div className={styles.field}>
@@ -101,9 +95,7 @@ export function InquiryForm({ propertyId, onDone }: InquiryFormProps) {
           placeholder="Is this property still available?"
           {...register('message')}
         />
-        {errors.message && (
-          <span className={styles.error}>{errors.message.message}</span>
-        )}
+        {errors.message && <span className={styles.error}>{errors.message.message}</span>}
       </div>
 
       <div className={styles.captcha}>Spam protection (CAPTCHA) mounts here</div>
@@ -112,9 +104,7 @@ export function InquiryForm({ propertyId, onDone }: InquiryFormProps) {
         <input type="checkbox" {...register('consent')} />
         <span>I agree to be contacted about this property.</span>
       </label>
-      {errors.consent && (
-        <span className={styles.error}>{errors.consent.message}</span>
-      )}
+      {errors.consent && <span className={styles.error}>{errors.consent.message}</span>}
 
       <Button type="submit" disabled={isLoading} fullWidth>
         {isLoading ? 'Sending…' : 'Send message'}

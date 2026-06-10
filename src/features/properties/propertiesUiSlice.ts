@@ -21,10 +21,7 @@ const propertiesUiSlice = createSlice({
   name: 'propertiesUi',
   initialState,
   reducers: {
-    filtersChanged: (
-      state,
-      action: PayloadAction<Partial<PropertyFilters>>,
-    ) => {
+    filtersChanged: (state, action: PayloadAction<Partial<PropertyFilters>>) => {
       // Any filter change resets to page 1.
       state.filters = { ...state.filters, ...action.payload, page: 1 };
     },

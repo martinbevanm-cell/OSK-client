@@ -60,7 +60,12 @@ const authSlice = createSlice({
      * is preserved.
      */
     impersonationStarted: (state, action: PayloadAction<AuthResult>) => {
-      if (!state.impersonation && state.user && state.accessToken && state.accessTokenExpiresAt) {
+      if (
+        !state.impersonation &&
+        state.user &&
+        state.accessToken &&
+        state.accessTokenExpiresAt
+      ) {
         state.impersonation = {
           adminUser: state.user,
           adminAccessToken: state.accessToken,

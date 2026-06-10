@@ -33,9 +33,7 @@ export function Newsletter() {
     // TODO(backend): POST to /marketing/subscribe once the route ships.
     await new Promise((r) => setTimeout(r, 600));
 
-    dispatch(
-      toastPushed('success', 'Subscribed — check your inbox for a welcome note.'),
-    );
+    dispatch(toastPushed('success', 'Subscribed — check your inbox for a welcome note.'));
     setEmail('');
     setSubmitting(false);
   };
@@ -49,9 +47,8 @@ export function Newsletter() {
             Weekly listings, curated.
           </h2>
           <p className={styles.sub}>
-            One email, every Friday. New listings, market notes and a
-            hand-picked home of the week — straight to your inbox. No spam,
-            unsubscribe anytime.
+            One email, every Friday. New listings, market notes and a hand-picked home of
+            the week — straight to your inbox. No spam, unsubscribe anytime.
           </p>
         </div>
 
@@ -79,8 +76,7 @@ export function Newsletter() {
             </span>
           ) : (
             <span className={styles.hint}>
-              By subscribing you agree to our{' '}
-              <a href="/privacy">privacy policy</a>.
+              By subscribing you agree to our <a href="/privacy">privacy policy</a>.
             </span>
           )}
         </form>

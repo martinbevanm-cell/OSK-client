@@ -28,10 +28,7 @@ export const inquiriesApi = baseApi.injectEndpoints({
             ]
           : [{ type: 'Inquiry' as const, id: 'LIST' }],
     }),
-    updateInquiryStatus: build.mutation<
-      Inquiry,
-      { id: string; body: UpdateInquiryDto }
-    >({
+    updateInquiryStatus: build.mutation<Inquiry, { id: string; body: UpdateInquiryDto }>({
       query: ({ id, body }) => ({
         url: `/inquiries/${id}`,
         method: 'PATCH',
@@ -47,5 +44,4 @@ export const inquiriesApi = baseApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useListInquiriesQuery, useUpdateInquiryStatusMutation } =
-  inquiriesApi;
+export const { useListInquiriesQuery, useUpdateInquiryStatusMutation } = inquiriesApi;

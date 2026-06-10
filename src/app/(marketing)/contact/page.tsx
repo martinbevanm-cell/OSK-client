@@ -39,8 +39,8 @@ export default async function ContactPage() {
           Talk to <em>a person.</em>
         </h1>
         <p className={styles.lede}>
-          Sales, support, press, partnerships — drop us a note and we’ll route
-          your message to the right team within one business day.
+          Sales, support, press, partnerships — drop us a note and we’ll route your
+          message to the right team within one business day.
         </p>
       </header>
 
@@ -75,8 +75,8 @@ export default async function ContactPage() {
               {email}
             </a>
             <p className={contactStyles.cardHint}>
-              Replies within one business day. For listing-specific questions,
-              message the agent directly from the property page.
+              Replies within one business day. For listing-specific questions, message the
+              agent directly from the property page.
             </p>
           </div>
         </aside>

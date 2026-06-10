@@ -1,9 +1,5 @@
 import { baseApi } from '@/store/api/baseApi';
-import type {
-  ApiSuccess,
-  PaymentSettings,
-  UpdatePaymentSettingsDto,
-} from '@contracts';
+import type { ApiSuccess, PaymentSettings, UpdatePaymentSettingsDto } from '@contracts';
 
 /**
  * Pricing server state — payment configuration only.
@@ -20,10 +16,7 @@ export const pricingApi = baseApi.injectEndpoints({
       providesTags: [{ type: 'PaymentSettings', id: 'DEFAULT' }],
     }),
 
-    updatePaymentSettings: build.mutation<
-      PaymentSettings,
-      UpdatePaymentSettingsDto
-    >({
+    updatePaymentSettings: build.mutation<PaymentSettings, UpdatePaymentSettingsDto>({
       query: (body) => ({
         url: '/pricing/settings',
         method: 'PATCH',
@@ -36,7 +29,5 @@ export const pricingApi = baseApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const {
-  useGetPaymentSettingsQuery,
-  useUpdatePaymentSettingsMutation,
-} = pricingApi;
+export const { useGetPaymentSettingsQuery, useUpdatePaymentSettingsMutation } =
+  pricingApi;

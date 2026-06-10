@@ -22,7 +22,7 @@ $luxe-dark: (
   'bg-page': #0e0f12,
   'bg-card': #16181d,
   'bg-elevated': #1d2026,
-  'bg-overlay': rgba(0, 0, 0, 0.66),
+  'bg-overlay': rgb(0 0 0 / 66%),
   'bg-inset': #101216,
 
   'text-primary': #f3f1ec,
@@ -42,7 +42,7 @@ $luxe-dark: (
   'btn-secondary-hover': #262932,
   'btn-ghost-bg': transparent,
   'btn-ghost-fg': var(--color-primary),
-  'btn-ghost-hover': rgba(216, 189, 132, 0.12),
+  'btn-ghost-hover': rgb(216 189 132 / 12%),
   'btn-danger-bg': var(--color-danger),
   'btn-danger-fg': #1a0f0e,
   'btn-danger-hover': #ec7b73,
@@ -63,14 +63,15 @@ $luxe-dark: (
   'chart-5': #d8a64a,
   'chart-6': #7d86f0,
 
-  'shadow-sm': 0 1px 2px rgba(0, 0, 0, 0.5),
-  'shadow-md': 0 10px 28px -10px rgba(0, 0, 0, 0.7),
-  'shadow-lg': 0 28px 56px -16px rgba(0, 0, 0, 0.8),
-  'glow-accent': 0 0 24px rgba(231, 201, 135, 0.28),
-  'ring-focus': rgba(231, 201, 135, 0.55),
+  'shadow-sm': 0 1px 2px rgb(0 0 0 / 50%),
+  'shadow-md': 0 10px 28px -10px rgb(0 0 0 / 70%),
+  'shadow-lg': 0 28px 56px -16px rgb(0 0 0 / 80%),
+  'glow-accent': 0 0 24px rgb(231 201 135 / 28%),
+  'ring-focus': rgb(231 201 135 / 55%),
 );
 
 .theme-luxe-dark {
   @include emit.theme($luxe-dark);
+
   color-scheme: dark;
 }

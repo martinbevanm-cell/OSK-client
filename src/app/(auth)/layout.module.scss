@@ -16,6 +16,7 @@
   background: var(--bg-card);
   border: 1px solid var(--border-default);
   border-radius: radius('lg');
+
   @include elevation('lg');
 }
 

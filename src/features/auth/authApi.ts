@@ -92,14 +92,10 @@ export const authApi = baseApi.injectEndpoints({
     }),
 
     /** Re-issue an email-verification token for the signed-in user. */
-    resendVerification: build.mutation<
-      { sent: true; alreadyVerified: boolean },
-      void
-    >({
+    resendVerification: build.mutation<{ sent: true; alreadyVerified: boolean }, void>({
       query: () => ({ url: '/auth/resend-verification', method: 'POST' }),
-      transformResponse: (
-        r: ApiSuccess<{ sent: true; alreadyVerified: boolean }>,
-      ) => r.data,
+      transformResponse: (r: ApiSuccess<{ sent: true; alreadyVerified: boolean }>) =>
+        r.data,
     }),
   }),
   overrideExisting: false,

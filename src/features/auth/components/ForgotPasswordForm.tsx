@@ -40,8 +40,8 @@ export function ForgotPasswordForm() {
     return (
       <div className={styles.form}>
         <p className={styles.notice}>
-          If an account exists for that email, a password-reset link is on its
-          way. The link expires in one hour.
+          If an account exists for that email, a password-reset link is on its way. The
+          link expires in one hour.
         </p>
         <p className={styles.alt}>
           <Link href="/sign-in">Back to sign in</Link>

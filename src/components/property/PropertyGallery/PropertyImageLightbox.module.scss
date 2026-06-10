@@ -21,6 +21,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -108,7 +109,7 @@
 
   @include focus-ring;
 
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     inline-size: 44px;
     block-size: 44px;
   }
@@ -130,7 +131,7 @@
   block-size: calc(100dvh - 220px);
   max-block-size: 80vh;
 
-  @media (max-width: 768px) {
+  @media (width <= 768px) {
     block-size: calc(100dvh - 200px);
     max-block-size: 78dvh;
   }
@@ -161,12 +162,13 @@
   &::-webkit-scrollbar {
     block-size: 4px;
   }
+
   &::-webkit-scrollbar-thumb {
     background: var(--border-strong);
     border-radius: radius('pill');
   }
 
-  @media (max-width: 540px) {
+  @media (width <= 540px) {
     display: none;
   }
 }

@@ -50,7 +50,7 @@
     color: var(--text-primary);
   }
 
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     padding: space('2') space('3');
     font-size: 0.875rem;
   }
@@ -251,7 +251,7 @@
   border-radius: radius('pill');
   align-self: flex-start;
 
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     inline-size: 100%;
     justify-content: space-between;
   }
@@ -278,7 +278,7 @@
     color: var(--text-primary);
   }
 
-  @media (max-width: 480px) {
+  @media (width <= 480px) {
     flex: 1;
     padding-inline: space('2');
     font-size: 0.8125rem;

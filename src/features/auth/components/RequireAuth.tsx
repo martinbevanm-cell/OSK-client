@@ -49,9 +49,7 @@ export function RequireAuth({ children, roles }: RequireAuthProps) {
     return (
       <div className={styles.gate}>
         <h1 className={styles.title}>Not authorized</h1>
-        <p className={styles.muted}>
-          Your account doesn’t have access to this area.
-        </p>
+        <p className={styles.muted}>Your account doesn’t have access to this area.</p>
       </div>
     );
   }

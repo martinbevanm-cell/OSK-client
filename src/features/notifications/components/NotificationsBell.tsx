@@ -33,8 +33,7 @@ export function NotificationsBell() {
   );
 
   const [markRead] = useMarkNotificationReadMutation();
-  const [markAllRead, { isLoading: markingAll }] =
-    useMarkAllNotificationsReadMutation();
+  const [markAllRead, { isLoading: markingAll }] = useMarkAllNotificationsReadMutation();
 
   /* outside-click + ESC */
   useEffect(() => {
@@ -120,9 +119,7 @@ export function NotificationsBell() {
           </div>
 
           {items.length === 0 ? (
-            <p className={styles.empty}>
-              You&rsquo;re all caught up — no new activity.
-            </p>
+            <p className={styles.empty}>You&rsquo;re all caught up — no new activity.</p>
           ) : (
             <ul className={styles.list}>
               {items.map((n) => {
@@ -134,9 +131,7 @@ export function NotificationsBell() {
                     />
                     <span className={styles.itemBody}>
                       <span className={styles.itemTitle}>{n.title}</span>
-                      {n.body ? (
-                        <span className={styles.itemSub}>{n.body}</span>
-                      ) : null}
+                      {n.body ? <span className={styles.itemSub}>{n.body}</span> : null}
                       <span className={styles.itemTime}>
                         {new Date(n.createdAt).toLocaleString('en-US', {
                           month: 'short',
