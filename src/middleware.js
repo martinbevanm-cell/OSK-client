@@ -1,14 +1,20 @@
 import { NextResponse } from 'next/server';
 
 export function middleware(request) {
-  const url = request.nextUrl.clone();
   const host = request.headers.get('host');
 
   // Check if the user is accessing via the Vercel domain
   if (host && host.includes('.vercel.app')) {
-    url.host = 'osklisting.com'; // Replace with your domain
-    return NextResponse.redirect(url, 301);
+    return new NextResponse('Access Denied', { 
+      status: 403, 
+      headers: { 'Content-Type': 'text/plain' } 
+    });
   }
 
   return NextResponse.next();
 }
+
+// Ensure the middleware runs on all paths, including static assets
+export const config = {
+  matcher: '/:path*',
+};
