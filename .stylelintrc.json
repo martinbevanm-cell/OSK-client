@@ -4,17 +4,8 @@
     "scss/dollar-variable-pattern": null,
     "selector-class-pattern": null,
     "custom-property-empty-line-before": null,
-    "comment-empty-line-before": null,
-    "no-descending-specificity": null,
-    "no-duplicate-selectors": null,
-    "selector-pseudo-class-no-unknown": [
-      true,
-      {
-        "ignorePseudoClasses": ["global"]
-      }
-    ]
+    "comment-empty-line-before": null
   },
-  "ignoreFiles": ["src/styles/tokens/**"],
   "overrides": [
     {
       "files": ["src/**/*.scss"],

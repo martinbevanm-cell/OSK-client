@@ -58,7 +58,8 @@
   &::before {
     content: '';
     position: absolute;
-    inset-block: space('5');
+    inset-block-start: space('5');
+    inset-block-end: space('5');
     inset-inline-start: calc(#{space('5')} + 5px);
     inline-size: 1px;
     background: var(--divider);

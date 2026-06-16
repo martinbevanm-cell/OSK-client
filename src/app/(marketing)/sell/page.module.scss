@@ -24,7 +24,11 @@
   inset-inline-start: -15%;
   inline-size: 60%;
   block-size: 60%;
-  background: radial-gradient(closest-side, var(--color-primary-soft), transparent 70%);
+  background: radial-gradient(
+    closest-side,
+    var(--color-primary-soft),
+    transparent 70%
+  );
 }
 
 .bloomB {
@@ -33,7 +37,11 @@
   inset-inline-end: -15%;
   inline-size: 55%;
   block-size: 55%;
-  background: radial-gradient(closest-side, var(--bg-inset), transparent 70%);
+  background: radial-gradient(
+    closest-side,
+    var(--bg-inset),
+    transparent 70%
+  );
 }
 
 /* ─── head ───────────────────────────────────────────────────────────── */
@@ -80,7 +88,12 @@
 
   em {
     font-style: italic;
-    background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 100%);
+    background: linear-gradient(
+      90deg,
+      var(--color-primary) 0%,
+      var(--color-accent) 100%
+    );
+    -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
@@ -154,9 +167,14 @@
     content: '';
     position: absolute;
     inset-block-start: 0;
-    inset-inline: space('5');
+    inset-inline-start: space('5');
+    inset-inline-end: space('5');
     block-size: 2px;
-    background: linear-gradient(90deg, var(--color-accent), transparent);
+    background: linear-gradient(
+      90deg,
+      var(--color-accent),
+      transparent
+    );
   }
 }
 
@@ -290,9 +308,14 @@
     content: '';
     position: absolute;
     inset-block-start: 0;
-    inset-inline: space('5');
+    inset-inline-start: space('5');
+    inset-inline-end: space('5');
     block-size: 3px;
-    background: linear-gradient(90deg, var(--color-accent), transparent);
+    background: linear-gradient(
+      90deg,
+      var(--color-accent),
+      transparent
+    );
   }
 
   @include respond('md') {

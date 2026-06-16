@@ -41,7 +41,11 @@ export default async function HomePage() {
           </div>
           <div className={styles.featured}>
             {featured.map((property, index) => (
-              <PropertyCard key={property.id} property={property} priority={index < 3} />
+              <PropertyCard
+                key={property.id}
+                property={property}
+                priority={index < 3}
+              />
             ))}
           </div>
         </section>

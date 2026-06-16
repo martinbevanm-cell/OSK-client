@@ -55,11 +55,17 @@
 
 /* ─── dropdown ───────────────────────────────────────────────────────── */
 .menu {
-  position: absolute;
-  inset-block-start: calc(100% + #{space('2')});
-  inset-inline-end: 0;
+  /* Mobile-first: the dropdown is a viewport-anchored panel. Anchoring
+   * to the trigger via `position: absolute` + `inset-inline-end: 0`
+   * worked on paper but bled off-screen on real phones because the
+   * `.root` element sat at the very right edge of the header and the
+   * menu's right edge inherited that overshoot. A fixed panel with
+   * symmetric inline insets always stays inside the viewport, no
+   * matter where the bell sits in the layout. */
+  position: fixed;
+  inset-block-start: 60px;
+  inset-inline: space('3');
   z-index: z('dropdown');
-  inline-size: min(360px, calc(100vw - #{space('5')}));
   display: flex;
   flex-direction: column;
   background: var(--bg-elevated);
@@ -68,8 +74,22 @@
   box-shadow: var(--shadow-lg);
   overflow: hidden;
 
+  /* Cap height to the viewport so a long list scrolls inside the
+   *  dropdown instead of running off the bottom of the screen. */
+  max-block-size: calc(100dvh - 80px);
+
   @include motion-safe {
     animation: nb-in $transition-base both;
+  }
+
+  /* Desktop: revert to the original "anchored to the bell" positioning
+   * so the dropdown sits below the trigger like a typical menu. */
+  @include respond('lg') {
+    position: absolute;
+    inset-block-start: calc(100% + #{space('2')});
+    inset-inline: auto 0;
+    inline-size: 360px;
+    max-block-size: 80vh;
   }
 }
 
@@ -158,12 +178,15 @@
   }
 }
 
-.item:hover {
-  background: var(--color-primary-soft);
-}
-
+/* stylelint-disable-next-line no-descending-specificity --
+     `.itemStatic` is intentionally a lower-specificity sibling rule
+     than `.item:hover` above; cascade order is right. */
 .itemStatic {
   cursor: default;
+}
+
+.item:hover {
+  background: var(--color-primary-soft);
 }
 
 .itemUnread {

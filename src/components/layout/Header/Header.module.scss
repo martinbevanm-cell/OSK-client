@@ -184,6 +184,20 @@
   }
 }
 
+/* Mobile-only slot for the notifications bell + the hamburger button.
+ * Hidden once we hit the breakpoint where `.actions` (which has its
+ * own copy of the bell) takes over. */
+.mobileActions {
+  display: flex;
+  align-items: center;
+  gap: space('1');
+  margin-inline-start: auto;
+
+  @include respond('lg') {
+    display: none;
+  }
+}
+
 .sep {
   display: block;
   inline-size: 1px;
@@ -298,23 +312,28 @@
 
 // Morph into X when the drawer is open
 .hamOpen {
+  /* stylelint-disable-next-line no-descending-specificity --
+       `.hamOpen span` is intentionally less specific than the
+       `.ham span:nth-child(N)` selectors above; the cascade ordering
+       does the right thing because `.hamOpen` is appended via
+       a className toggle, not the other way around. */
   span {
     background: var(--color-primary);
+  }
 
-    &:nth-child(1) {
-      inline-size: 22px;
-      transform: translateY(7px) rotate(45deg);
-    }
+  span:nth-child(1) {
+    inline-size: 22px;
+    transform: translateY(7px) rotate(45deg);
+  }
 
-    &:nth-child(2) {
-      opacity: 0;
-      transform: scaleX(0);
-    }
+  span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
 
-    &:nth-child(3) {
-      inline-size: 22px;
-      transform: translateY(-7px) rotate(-45deg);
-    }
+  span:nth-child(3) {
+    inline-size: 22px;
+    transform: translateY(-7px) rotate(-45deg);
   }
 }
 

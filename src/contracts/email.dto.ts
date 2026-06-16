@@ -89,3 +89,38 @@ export const sendTestEmailSchema = z.object({
   to: z.string().email().max(200),
 });
 export type SendTestEmailDto = z.infer<typeof sendTestEmailSchema>;
+
+/**
+ * Email types the admin can preview. Mirrors the backend's
+ * PREVIEWABLE_EMAIL_TYPES. Each one has a hand-written sample that
+ * shows the real layout the seller will receive when the matching
+ * event fires.
+ */
+export const EMAIL_PREVIEW_TYPES = [
+  'welcome',
+  'verify',
+  'reset-password',
+  'subscription-activated',
+  'subscription-cancelled',
+  'property-approved',
+  'property-rejected',
+] as const;
+export type EmailPreviewType = (typeof EMAIL_PREVIEW_TYPES)[number];
+
+export const EMAIL_PREVIEW_LABELS: Record<EmailPreviewType, string> = {
+  welcome: 'Welcome (post-signup)',
+  verify: 'Verify email',
+  'reset-password': 'Password reset',
+  'subscription-activated': 'Subscription activated',
+  'subscription-cancelled': 'Subscription cancelled',
+  'property-approved': 'Property approved',
+  'property-rejected': 'Property rejected',
+};
+
+export interface EmailPreview {
+  template: EmailTemplateKey;
+  type: EmailPreviewType;
+  subject: string;
+  html: string;
+  text: string;
+}

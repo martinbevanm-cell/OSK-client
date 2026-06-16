@@ -19,10 +19,7 @@
   block-size: 0.875rem;
   border-radius: radius('pill');
   background: var(--bg-inset);
-
-  @include motion-safe {
-    animation: shimmer 1.4s ease-in-out infinite;
-  }
+  @include motion-safe { animation: shimmer 1.4s ease-in-out infinite; }
 }
 
 .gallery {
@@ -37,10 +34,7 @@
     var(--bg-inset) 70%
   );
   background-size: 200% 100%;
-
-  @include motion-safe {
-    animation: shimmer 1.4s ease-in-out infinite;
-  }
+  @include motion-safe { animation: shimmer 1.4s ease-in-out infinite; }
 }
 
 .layout {
@@ -81,20 +75,14 @@
     var(--bg-inset) 70%
   );
   background-size: 200% 100%;
-
-  @include motion-safe {
-    animation: shimmer 1.4s ease-in-out infinite;
-  }
+  @include motion-safe { animation: shimmer 1.4s ease-in-out infinite; }
 }
 
 .block {
   block-size: 220px;
   border-radius: radius('lg');
   background: var(--bg-inset);
-
-  @include motion-safe {
-    animation: shimmer 1.4s ease-in-out infinite;
-  }
+  @include motion-safe { animation: shimmer 1.4s ease-in-out infinite; }
 }
 
 .aside {
@@ -103,22 +91,11 @@
   background: var(--bg-card);
   border: 1px solid var(--border-default);
   box-shadow: var(--shadow-sm);
-
-  @include motion-safe {
-    animation: shimmer 1.4s ease-in-out infinite;
-  }
+  @include motion-safe { animation: shimmer 1.4s ease-in-out infinite; }
 }
 
 @keyframes shimmer {
-  0% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0.6;
-  }
-
-  100% {
-    opacity: 1;
-  }
+  0% { opacity: 1; }
+  50% { opacity: 0.6; }
+  100% { opacity: 1; }
 }

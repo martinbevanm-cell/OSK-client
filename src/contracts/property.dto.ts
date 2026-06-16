@@ -46,6 +46,12 @@ export interface PropertySummary {
   contactCapabilities: ContactCapabilities;
   /** Owner id — included so listing cards can hide self-contact UI. */
   ownerId: string;
+  /** Free-text rejection reason captured by the admin. Only set on
+   *  rejected listings; the dashboard surfaces it so the seller knows
+   *  what to fix before resubmitting. */
+  rejectionReason?: string;
+  /** ISO timestamp of the most recent rejection. */
+  rejectedAt?: string;
 }
 
 /** Full property detail. */

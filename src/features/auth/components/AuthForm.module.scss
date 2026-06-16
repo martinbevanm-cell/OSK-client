@@ -92,6 +92,95 @@
   color: var(--color-success);
 }
 
+/* "or continue with email" rule between social login buttons and
+ *  the email/password form. Used by both SignInForm and SignUpForm.
+ *  Lives here (not next to the Google button) so the auth forms
+ *  don't need to import SCSS from a sibling feature folder. */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: space('3');
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  block-size: 1px;
+  background: var(--divider);
+}
+
+/* "Verify your email" callout shown on the sign-in form when a
+ *  login attempt is bounced with EMAIL_NOT_VERIFIED. */
+.verifyPanel {
+  display: flex;
+  flex-direction: column;
+  gap: space('3');
+  padding: space('4');
+  background: var(--color-warning-soft);
+  border: 1px solid var(--color-warning);
+  border-radius: radius('md');
+  color: var(--text-primary);
+}
+
+.verifyTitle {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-warning);
+}
+
+.verifyBody {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+
+  strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+}
+
+/* "Check your email" callout shown on the sign-up form after a
+ *  successful register, before the user verifies. */
+.successPanel {
+  display: flex;
+  flex-direction: column;
+  gap: space('3');
+  padding: space('5');
+  background: var(--color-success-soft);
+  border: 1px solid var(--color-success);
+  border-radius: radius('md');
+  text-align: center;
+}
+
+.successTitle {
+  margin: 0;
+  font-family: $font-display;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-success);
+}
+
+.successBody {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+
+  strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+}
+
 /* Inline server-error banner at the top of auth forms. */
 .errorBanner {
   display: flex;

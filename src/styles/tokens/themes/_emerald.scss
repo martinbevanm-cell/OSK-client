@@ -20,9 +20,9 @@ $emerald: (
   'color-info-soft': #e1edf5,
 
   'bg-page': #f5f6f3,
-  'bg-card': #fff,
-  'bg-elevated': #fff,
-  'bg-overlay': rgb(16 28 24 / 55%),
+  'bg-card': #ffffff,
+  'bg-elevated': #ffffff,
+  'bg-overlay': rgba(16, 28, 24, 0.55),
   'bg-inset': #ecefe9,
 
   'text-primary': #16201c,
@@ -35,16 +35,16 @@ $emerald: (
   'divider': #e8ebe5,
 
   'btn-primary-bg': var(--color-primary),
-  'btn-primary-fg': #fff,
+  'btn-primary-fg': #ffffff,
   'btn-primary-hover': var(--color-primary-hover),
-  'btn-secondary-bg': #fff,
+  'btn-secondary-bg': #ffffff,
   'btn-secondary-fg': var(--color-primary),
   'btn-secondary-hover': var(--color-primary-soft),
   'btn-ghost-bg': transparent,
   'btn-ghost-fg': var(--color-primary),
   'btn-ghost-hover': var(--color-primary-soft),
   'btn-danger-bg': var(--color-danger),
-  'btn-danger-fg': #fff,
+  'btn-danger-fg': #ffffff,
   'btn-danger-hover': #99332d,
 
   'badge-new-bg': #e2efe9,
@@ -63,11 +63,11 @@ $emerald: (
   'chart-5': #b07d2a,
   'chart-6': #7d6b9e,
 
-  'shadow-sm': 0 1px 2px rgb(16 28 24 / 6%),
-  'shadow-md': 0 8px 24px -8px rgb(16 28 24 / 16%),
-  'shadow-lg': 0 24px 48px -12px rgb(16 28 24 / 24%),
+  'shadow-sm': 0 1px 2px rgba(16, 28, 24, 0.06),
+  'shadow-md': 0 8px 24px -8px rgba(16, 28, 24, 0.16),
+  'shadow-lg': 0 24px 48px -12px rgba(16, 28, 24, 0.24),
   'glow-accent': 0 0 0 transparent,
-  'ring-focus': rgb(31 93 76 / 40%),
+  'ring-focus': rgba(31, 93, 76, 0.4),
 );
 
 .theme-emerald {

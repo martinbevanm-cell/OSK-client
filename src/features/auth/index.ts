@@ -23,6 +23,7 @@ export {
   useVerifyEmailMutation,
   useChangePasswordMutation,
   useResendVerificationMutation,
+  useResendVerificationPublicMutation,
 } from './authApi';
 export { SignInForm } from './components/SignInForm';
 export { SignUpForm } from './components/SignUpForm';

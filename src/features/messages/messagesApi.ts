@@ -29,9 +29,14 @@ export const messagesApi = baseApi.injectEndpoints({
     listMessages: build.query<Message[], string>({
       query: (threadId) => `/threads/${threadId}/messages`,
       transformResponse: (r: ApiSuccess<Message[]>) => r.data,
-      providesTags: (_r, _e, threadId) => [{ type: 'Message', id: threadId }],
+      providesTags: (_r, _e, threadId) => [
+        { type: 'Message', id: threadId },
+      ],
     }),
-    sendMessage: build.mutation<Message, { threadId: string; body: SendMessageDto }>({
+    sendMessage: build.mutation<
+      Message,
+      { threadId: string; body: SendMessageDto }
+    >({
       query: ({ threadId, body }) => ({
         url: `/threads/${threadId}/messages`,
         method: 'POST',

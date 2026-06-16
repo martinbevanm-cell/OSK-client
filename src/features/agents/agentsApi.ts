@@ -36,7 +36,8 @@ export const agentsApi = baseApi.injectEndpoints({
     getAgent: build.query<AgentPublic, string>({
       query: (id) => `/agents/${id}`,
       transformResponse: (r: ApiSuccess<AgentPublic>) => r.data,
-      providesTags: (result) => (result ? [{ type: 'Agent', id: result.id }] : []),
+      providesTags: (result) =>
+        result ? [{ type: 'Agent', id: result.id }] : [],
     }),
     listAgentListings: build.query<
       Paginated<PropertySummary>,
@@ -65,5 +66,8 @@ export const agentsApi = baseApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useListAgentsQuery, useGetAgentQuery, useListAgentListingsQuery } =
-  agentsApi;
+export const {
+  useListAgentsQuery,
+  useGetAgentQuery,
+  useListAgentListingsQuery,
+} = agentsApi;

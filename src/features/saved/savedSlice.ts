@@ -43,5 +43,6 @@ const savedSlice = createSlice({
 });
 
 export const { saved, unsaved, clearSaved } = savedSlice.actions;
-export const { selectSavedItems, selectSavedCount, selectIsSaved } = savedSlice.selectors;
+export const { selectSavedItems, selectSavedCount, selectIsSaved } =
+  savedSlice.selectors;
 export const savedReducer = savedSlice.reducer;

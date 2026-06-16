@@ -8,7 +8,10 @@ import { toastPushed } from '@/features/ui';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { Button, TextField } from '@/components/ui';
 import { cn } from '@/lib/cn';
-import { useCreateReviewMutation, useListPropertyReviewsQuery } from '../reviewsApi';
+import {
+  useCreateReviewMutation,
+  useListPropertyReviewsQuery,
+} from '../reviewsApi';
 import styles from './PropertyReviews.module.scss';
 
 interface PropertyReviewsProps {
@@ -25,7 +28,10 @@ export function PropertyReviews({ propertyId }: PropertyReviewsProps) {
 
   const reviews = data?.items ?? [];
   const total = reviews.length;
-  const avg = total > 0 ? reviews.reduce((sum, r) => sum + r.rating, 0) / total : 0;
+  const avg =
+    total > 0
+      ? reviews.reduce((sum, r) => sum + r.rating, 0) / total
+      : 0;
   const userHasReviewed = !!user && reviews.some((r) => r.authorId === user.id);
 
   return (

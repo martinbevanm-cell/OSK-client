@@ -1,9 +1,11 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
+import { usePathname } from 'next/navigation';
 import { z } from 'zod';
 import { Button } from '@/components/ui';
 import { toastPushed } from '@/features/ui';
+import { useSubscribeNewsletterMutation } from '@/features/marketing';
 import { useAppDispatch } from '@/store/hooks';
 import styles from './Newsletter.module.scss';
 
@@ -11,14 +13,16 @@ const emailSchema = z.string().email('Please enter a valid email address.');
 
 /**
  * Newsletter signup strip, lives above the footer site-wide.
- * Client-only; validates with Zod and acknowledges with a toast.
- * TODO(backend): POST /marketing/subscribe once the route ships.
+ * Validates with Zod, POSTs to /marketing/subscribe (rate-limited),
+ * shows a toast on success. The page path is sent as `source` so
+ * admins can see which page each subscription came from.
  */
 export function Newsletter() {
   const dispatch = useAppDispatch();
+  const pathname = usePathname();
+  const [subscribe, { isLoading: submitting }] = useSubscribeNewsletterMutation();
   const [email, setEmail] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -28,14 +32,26 @@ export function Newsletter() {
       return;
     }
     setError(null);
-    setSubmitting(true);
 
-    // TODO(backend): POST to /marketing/subscribe once the route ships.
-    await new Promise((r) => setTimeout(r, 600));
-
-    dispatch(toastPushed('success', 'Subscribed — check your inbox for a welcome note.'));
-    setEmail('');
-    setSubmitting(false);
+    try {
+      /* `usePathname()` returns just the URL pathname — no query
+       *  string, no hash — so analytics rolls up cleanly per page
+       *  ("/about" not "/about?ref=foo"). Strip anything after the
+       *  first '?' / '#' as a defensive belt-and-suspenders, and cap
+       *  to 120 chars to match the backend column. */
+      const cleanSource = (pathname ?? '').split(/[?#]/)[0]?.slice(0, 120);
+      await subscribe({
+        email: parsed.data,
+        source: cleanSource || undefined,
+      }).unwrap();
+      dispatch(
+        toastPushed('success', 'Subscribed — you’ll get the Friday brief in your inbox.'),
+      );
+      setEmail('');
+    } catch {
+      /* Global error toast surfaces the reason. Most common:
+       * RATE_LIMITED (>10 in 10 minutes) — backend returns 429. */
+    }
   };
 
   return (

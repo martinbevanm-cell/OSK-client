@@ -2,17 +2,20 @@ import type { Metadata } from 'next';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import type { SiteSettings } from '@contracts';
-import { serverFetch } from '@/lib/serverApi';
+import { FETCH_TAGS, serverFetch } from '@/lib/serverApi';
 import styles from '../_marketing.module.scss';
 
 export const metadata: Metadata = {
   title: 'Terms of Service',
-  description: 'The terms under which OSK provides the platform.',
+  description: 'The terms under which we provide the platform.',
 };
 
+/* Generic fallback used only when the admin hasn't pasted custom
+ * terms markdown yet. References "the platform" and "the contact form"
+ * instead of any specific brand or email address. */
 const FALLBACK_TERMS = `## 1. Acceptance
 
-By accessing or using OSK, you agree to be bound by these Terms. If you don't agree, please don't use the service.
+By accessing or using the platform, you agree to be bound by these Terms. If you don't agree, please don't use the service.
 
 ## 2. Eligibility
 
@@ -28,15 +31,15 @@ You agree not to misuse the platform — including spamming other users, scrapin
 
 ## 5. Content & intellectual property
 
-You retain ownership of the content you upload. By uploading, you grant OSK a non-exclusive, worldwide license to display and distribute that content on the platform.
+You retain ownership of the content you upload. By uploading, you grant the platform a non-exclusive, worldwide license to display and distribute that content on the platform.
 
 ## 6. Disclaimers
 
-OSK provides the platform "as is" and makes no warranties about listing accuracy. We are not a party to any transaction between buyers and sellers and do not provide legal, financial, or tax advice.
+the platform provides the platform "as is" and makes no warranties about listing accuracy. We are not a party to any transaction between buyers and sellers and do not provide legal, financial, or tax advice.
 
 ## 7. Limitation of liability
 
-To the maximum extent permitted by law, OSK and its affiliates are not liable for any indirect, incidental, or consequential damages arising out of your use of the service.
+To the maximum extent permitted by law, the platform and its affiliates are not liable for any indirect, incidental, or consequential damages arising out of your use of the service.
 
 ## 8. Termination
 
@@ -48,7 +51,7 @@ We may update these Terms from time to time. Material changes will be communicat
 
 ## 10. Contact
 
-Questions? Reach our team through the contact form or at legal@osk.dev.`;
+Questions? Reach our team through the contact form.`;
 
 function formatDate(value?: string): string {
   if (!value?.trim()) return 'January 1, 2026';
@@ -62,7 +65,9 @@ function formatDate(value?: string): string {
 }
 
 export default async function TermsPage() {
-  const settings = await serverFetch<SiteSettings>('/settings', 0);
+  const settings = await serverFetch<SiteSettings>('/settings', 60, [
+    FETCH_TAGS.siteSettings,
+  ]);
   const markdown = settings?.legal?.termsMarkdown?.trim() || FALLBACK_TERMS;
   const effectiveDate = formatDate(settings?.legal?.termsUpdatedAt);
 
@@ -79,8 +84,8 @@ export default async function TermsPage() {
         </p>
         <h1 className={styles.title}>Terms of Service</h1>
         <p className={styles.lede}>
-          These terms govern your use of the OSK platform. Please read them carefully.
-          Effective date: {effectiveDate}.
+          These terms govern your use of {settings?.companyName ?? 'the platform'}. Please
+          read them carefully. Effective date: {effectiveDate}.
         </p>
       </header>
 

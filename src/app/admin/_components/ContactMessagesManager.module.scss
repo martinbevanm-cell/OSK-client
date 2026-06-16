@@ -1,0 +1,249 @@
+@use 'abstracts' as *;
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  gap: space('5');
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+}
+
+.eyebrow {
+  @include eyebrow-section;
+}
+
+.title {
+  margin: 0;
+  font-family: $font-display;
+  font-size: clamp(1.65rem, 1.3rem + 1.6vw, 2.2rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.sub {
+  margin: 0;
+  max-inline-size: 64ch;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+
+  code {
+    padding: 0 0.25em;
+    font-family: $font-mono;
+    font-size: 0.85em;
+    background: var(--bg-inset);
+    border-radius: radius('sm');
+  }
+
+  strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+}
+
+.muted {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.filterBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: space('2');
+}
+
+.filterBtn {
+  padding: space('2') space('4');
+  border-radius: radius('pill');
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--color-primary);
+    color: var(--text-primary);
+  }
+}
+
+.filterBtnActive {
+  background: var(--color-primary);
+  color: var(--text-inverse);
+  border-color: var(--color-primary);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: space('3');
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: space('3');
+  padding: space('5');
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: radius('lg');
+  box-shadow: var(--shadow-sm);
+  min-inline-size: 0;
+}
+
+.cardHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: space('3');
+  flex-wrap: wrap;
+}
+
+.cardName {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.cardEmail {
+  font-weight: 400;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.cardMeta {
+  margin: 2px 0 0;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.cardBody {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--text-primary);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.statusPill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.625rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: radius('pill');
+}
+
+.toneNew {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.toneReplied {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+
+.toneClosed {
+  background: var(--bg-inset);
+  color: var(--text-muted);
+}
+
+.noteField {
+  display: flex;
+  flex-direction: column;
+  gap: space('1');
+}
+
+.noteLabel {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.note {
+  inline-size: 100%;
+  padding: space('2') space('3');
+  background: var(--bg-inset);
+  border: 1px solid var(--border-default);
+  border-radius: radius('sm');
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.875rem;
+  resize: vertical;
+
+  &:focus-visible {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--ring-focus);
+  }
+}
+
+.cardActions {
+  display: flex;
+  gap: space('2');
+  flex-wrap: wrap;
+}
+
+.replyBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: space('2') space('4');
+  border-radius: radius('pill');
+  background: var(--color-primary);
+  color: var(--text-inverse);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+
+  &:hover {
+    filter: brightness(0.95);
+  }
+}
+
+.closeBtn {
+  background: transparent;
+  border: 1px solid var(--color-danger);
+  padding: space('2') space('4');
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-danger);
+  border-radius: radius('pill');
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:hover:not(:disabled) {
+    background: var(--color-danger-soft);
+  }
+}
+
+.pager {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: space('4');
+}
+
+.pageInfo {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}

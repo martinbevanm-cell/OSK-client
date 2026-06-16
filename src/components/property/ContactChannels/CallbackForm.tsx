@@ -1,9 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { callbackRequestSchema, type CallbackRequestDto } from '@contracts';
 import { useRequestCallbackMutation } from '@/features/contact';
+import { SignupCaptcha, useGetCaptchaConfigQuery } from '@/features/captcha';
 import { toastPushed } from '@/features/ui';
 import { useAppDispatch } from '@/store/hooks';
 import { Button } from '@/components/ui';
@@ -28,11 +30,20 @@ interface CallbackFormProps {
 export function CallbackForm({ propertyId, onDone }: CallbackFormProps) {
   const dispatch = useAppDispatch();
   const [requestCallback, { isLoading }] = useRequestCallbackMutation();
+  /* Captcha state — same shape as the inquiry form. */
+  const { data: captchaConfig } = useGetCaptchaConfigQuery();
+  const captchaRequired = Boolean(
+    captchaConfig?.enabled && captchaConfig.provider !== 'none',
+  );
+  const [captchaToken, setCaptchaToken] = useState('');
+  const [captchaMissing, setCaptchaMissing] = useState(false);
+  const [captchaResetKey, setCaptchaResetKey] = useState(0);
 
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<CallbackRequestDto>({
     resolver: zodResolver(callbackRequestSchema),
@@ -42,18 +53,30 @@ export function CallbackForm({ propertyId, onDone }: CallbackFormProps) {
       phone: '',
       slots: [],
       consent: true,
-      captchaToken: 'dev-captcha-token',
+      captchaToken: '',
     },
   });
 
   const onSubmit = handleSubmit(async (values) => {
+    if (captchaRequired && !captchaToken) {
+      setCaptchaMissing(true);
+      return;
+    }
+    setCaptchaMissing(false);
     try {
-      await requestCallback(values).unwrap();
+      await requestCallback({
+        ...values,
+        captchaToken: captchaRequired ? captchaToken : 'disabled',
+      }).unwrap();
       dispatch(toastPushed('success', 'Callback requested — expect a call soon.'));
       reset();
+      setCaptchaToken('');
+      setCaptchaResetKey((n) => n + 1);
       onDone?.();
     } catch {
       /* failure toast raised globally by the listener middleware */
+      setCaptchaToken('');
+      setCaptchaResetKey((n) => n + 1);
     }
   });
 
@@ -89,13 +112,31 @@ export function CallbackForm({ propertyId, onDone }: CallbackFormProps) {
         {errors.slots && <span className={styles.error}>{errors.slots.message}</span>}
       </div>
 
+      {captchaRequired ? (
+        <SignupCaptcha
+          resetKey={captchaResetKey}
+          onToken={(token) => {
+            setCaptchaToken(token);
+            setValue('captchaToken', token || '');
+            if (token) setCaptchaMissing(false);
+          }}
+        />
+      ) : null}
+      {captchaMissing ? (
+        <span className={styles.error}>Please complete the captcha to continue.</span>
+      ) : null}
+
       <label className={styles.consent}>
         <input type="checkbox" {...register('consent')} />
         <span>I agree to be contacted about this property.</span>
       </label>
       {errors.consent && <span className={styles.error}>{errors.consent.message}</span>}
 
-      <Button type="submit" disabled={isLoading} fullWidth>
+      <Button
+        type="submit"
+        disabled={isLoading || (captchaRequired && !captchaToken)}
+        fullWidth
+      >
         {isLoading ? 'Requesting…' : 'Request callback'}
       </Button>
     </form>

@@ -210,6 +210,50 @@
   flex-wrap: wrap;
 }
 
+/* ─── live preview pane ─────────────────────────────────────────── */
+
+.previewControls {
+  display: flex;
+  flex-direction: column;
+  gap: space('3');
+  max-inline-size: 22rem;
+}
+
+.previewSubject {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+
+  strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+}
+
+.previewSubjectLabel {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.previewFrameWrap {
+  background: var(--bg-inset);
+  border: 1px solid var(--border-default);
+  border-radius: radius('md');
+  overflow: hidden;
+  min-block-size: 26rem;
+}
+
+.previewFrame {
+  display: block;
+  inline-size: 100%;
+  block-size: 32rem;
+  border: 0;
+  background: var(--bg-card);
+}
+
 /* ─── email template selector ───────────────────────────────────────── */
 
 .templateGrid {
@@ -274,87 +318,47 @@
 /* ─── template preview thumbnail ────────────────────────────────────── */
 
 .templatePreview {
-  --template-preview-bg: var(--bg-inset);
-  --template-preview-card: var(--bg-card);
-  --template-preview-header-bg: var(--bg-card);
-  --template-preview-header-color: var(--text-primary);
-  --template-preview-text: var(--text-primary);
-  --template-preview-btn: var(--color-primary);
+  --template-bg: var(--bg-page);
+  --template-card: var(--bg-card);
+  --template-header: var(--text-secondary);
+  --template-header-bg: var(--bg-card);
+  --template-btn: var(--text-primary);
+  --template-text: var(--text-primary);
 
   block-size: 80px;
+  background: var(--template-bg);
   border-radius: radius('md');
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 6px;
-  background: var(--template-preview-bg);
-}
-
-.templatePreviewWarm {
-  --template-preview-bg: var(--bg-inset);
-  --template-preview-card: var(--bg-card);
-  --template-preview-header-bg: var(--bg-card);
-  --template-preview-header-color: var(--text-secondary);
-  --template-preview-text: var(--text-primary);
-  --template-preview-btn: var(--text-primary);
-}
-
-.templatePreviewClean {
-  --template-preview-bg: var(--bg-inset);
-  --template-preview-card: var(--bg-card);
-  --template-preview-header-bg: var(--bg-card);
-  --template-preview-header-color: var(--text-primary);
-  --template-preview-text: var(--text-primary);
-  --template-preview-btn: var(--text-primary);
-}
-
-.templatePreviewDark {
-  --template-preview-bg: var(--bg-page);
-  --template-preview-card: var(--bg-elevated);
-  --template-preview-header-bg: var(--bg-elevated);
-  --template-preview-header-color: var(--text-secondary);
-  --template-preview-text: var(--text-inverse);
-  --template-preview-btn: var(--text-inverse);
-}
-
-.templatePreviewBrand {
-  --template-preview-bg: var(--bg-page);
-  --template-preview-card: var(--bg-card);
-  --template-preview-header-bg: linear-gradient(
-    135deg,
-    var(--color-primary) 0%,
-    var(--color-secondary) 100%
-  );
-  --template-preview-header-color: var(--text-inverse);
-  --template-preview-text: var(--text-primary);
-  --template-preview-btn: var(--color-primary);
 }
 
 .templatePreviewCard {
   width: 100%;
+  background: var(--template-card);
   border-radius: 4px;
   overflow: hidden;
   box-shadow: var(--shadow-sm);
-  background: var(--template-preview-card);
 }
 
 .templatePreviewHeader {
+  background: var(--template-header-bg);
+  color: var(--template-header);
   padding: 4px 6px;
   font-size: 6px;
   font-weight: 700;
   letter-spacing: 0.1em;
-  background: var(--template-preview-header-bg);
-  color: var(--template-preview-header-color);
   text-transform: uppercase;
 }
 
 .templatePreviewBody {
+  color: var(--template-text);
   padding: 5px 6px;
   display: flex;
   flex-direction: column;
   gap: 3px;
-  color: var(--template-preview-text);
 }
 
 .templatePreviewTitle {
@@ -375,7 +379,51 @@
 .templatePreviewBtn {
   height: 7px;
   width: 40%;
+  background: var(--template-btn);
   border-radius: 99px;
   margin-block-start: 2px;
-  background: var(--template-preview-btn);
+}
+
+.templateWarm {
+  --template-bg: var(--bg-page);
+  --template-card: var(--bg-card);
+  --template-header: var(--text-secondary);
+  --template-header-bg: var(--bg-card);
+  --template-btn: var(--text-primary);
+  --template-text: var(--text-primary);
+}
+
+.templateClean {
+  --template-bg: var(--bg-inset);
+  --template-card: var(--bg-card);
+  --template-header: var(--text-primary);
+  --template-header-bg: var(--bg-card);
+  --template-btn: var(--text-primary);
+  --template-text: var(--text-primary);
+}
+
+.templateDark {
+  --template-bg: var(--text-primary);
+  --template-card: var(--text-secondary);
+  --template-header: var(--text-inverse);
+  --template-header-bg: var(--text-secondary);
+  --template-btn: var(--bg-page);
+  --template-text: var(--text-inverse);
+}
+
+.templateBrand {
+  --template-bg: var(--color-primary-soft);
+  --template-card: var(--bg-card);
+  --template-header: var(--text-inverse);
+  --template-header-bg: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-accent) 100%
+  );
+  --template-btn: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-accent) 100%
+  );
+  --template-text: var(--text-primary);
 }

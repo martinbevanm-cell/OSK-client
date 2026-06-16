@@ -89,9 +89,7 @@
   background: var(--bg-card);
   border: 1px solid var(--border-default);
   border-radius: radius('lg');
-  transition:
-    border-color $transition-fast,
-    background-color $transition-fast;
+  transition: border-color $transition-fast, background-color $transition-fast;
 
   @include respond('md') {
     grid-template-columns: auto 120px minmax(0, 1fr) auto;
@@ -127,9 +125,7 @@
   position: sticky;
   inset-block-start: space('3');
   z-index: 1;
-  transition:
-    border-color $transition-fast,
-    background-color $transition-fast;
+  transition: border-color $transition-fast, background-color $transition-fast;
 }
 
 .bulkBarOn {
@@ -215,7 +211,8 @@
   grid-area: actions;
   display: flex;
   gap: space('2');
-  place-self: center flex-end;
+  align-self: center;
+  justify-self: flex-end;
   flex-wrap: wrap;
 }
 

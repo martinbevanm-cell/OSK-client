@@ -12,5 +12,7 @@ export interface BadgeProps {
 
 /** Status badge — tone maps directly to the badge-* theme tokens. */
 export function Badge({ tone, children, className }: BadgeProps) {
-  return <span className={cn(styles.badge, styles[tone], className)}>{children}</span>;
+  return (
+    <span className={cn(styles.badge, styles[tone], className)}>{children}</span>
+  );
 }

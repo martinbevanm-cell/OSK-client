@@ -33,7 +33,8 @@
     content: '';
     position: absolute;
     inset-block-start: 0;
-    inset-inline: space('5');
+    inset-inline-start: space('5');
+    inset-inline-end: space('5');
     block-size: 3px;
     background: linear-gradient(90deg, var(--color-accent), transparent);
   }

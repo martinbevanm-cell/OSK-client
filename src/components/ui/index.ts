@@ -8,3 +8,4 @@ export type { TextFieldProps } from './TextField';
 export { Toaster } from './Toaster';
 export { MediaUploader } from './MediaUploader';
 export type { UploadedMedia } from './MediaUploader';
+export { ConfirmDangerDialog } from './ConfirmDangerDialog';

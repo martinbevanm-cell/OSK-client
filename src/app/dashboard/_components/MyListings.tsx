@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import type { PropertyStatus } from '@contracts';
 import {
+  useDeletePropertyMutation,
   useListMyPropertiesQuery,
   useMarkPropertySoldMutation,
   useReopenPropertyMutation,
@@ -11,10 +12,12 @@ import {
 } from '@/features/properties';
 import { toastPushed } from '@/features/ui';
 import { useAppDispatch } from '@/store/hooks';
-import { Badge, Button } from '@/components/ui';
+import { Badge, Button, ConfirmDangerDialog } from '@/components/ui';
 import { formatPrice, formatArea } from '@/lib/format';
 import { cn } from '@/lib/cn';
 import styles from './MyListings.module.scss';
+
+type DeleteTarget = { id: string; title: string };
 
 const STATUS_LABEL: Record<PropertyStatus, string> = {
   draft: 'Draft',
@@ -50,7 +53,9 @@ export function MyListings() {
   const [submitForReview, submitState] = useSubmitPropertyForReviewMutation();
   const [markSold, soldState] = useMarkPropertySoldMutation();
   const [reopen, reopenState] = useReopenPropertyMutation();
+  const [deleteProperty, deleteState] = useDeletePropertyMutation();
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<DeleteTarget | null>(null);
 
   const onSubmit = async (id: string) => {
     try {
@@ -78,6 +83,23 @@ export function MyListings() {
       /* surfaced by the global error toast */
     } finally {
       setBusyId(null);
+    }
+  };
+
+  const onDeleteConfirmed = async () => {
+    if (!deleteTarget) return;
+    const target = deleteTarget;
+    try {
+      await deleteProperty(target.id).unwrap();
+      dispatch(
+        toastPushed(
+          'success',
+          `"${target.title}" deleted. Your plan slot is now free for another listing.`,
+        ),
+      );
+      setDeleteTarget(null);
+    } catch {
+      /* surfaced by the global toast; leave dialog open for retry */
     }
   };
 
@@ -145,7 +167,60 @@ export function MyListings() {
               const status = p.status as PropertyStatus;
               const canSubmit = status === 'draft' || status === 'rejected';
               return (
-                <li key={p.id} className={styles.row}>
+                <li
+                  key={p.id}
+                  className={cn(styles.row, status === 'rejected' && styles.rowRejected)}
+                >
+                  {/* Rejection banner spans the full row so the
+                   * seller can't miss it. Renders even when the
+                   * reason is empty (legacy data) so the row still
+                   * communicates "rejected" + invites a resubmit. */}
+                  {status === 'rejected' ? (
+                    <div className={styles.rejectionBanner} role="status">
+                      <div className={styles.rejectionHead}>
+                        <span className={styles.rejectionIcon} aria-hidden="true">
+                          <svg viewBox="0 0 16 16" width="16" height="16">
+                            <circle
+                              cx="8"
+                              cy="8"
+                              r="7"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                            />
+                            <path
+                              d="M8 4v5M8 11.5v.5"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="1.75"
+                              strokeLinecap="round"
+                            />
+                          </svg>
+                        </span>
+                        <span className={styles.rejectionTitle}>
+                          Listing rejected
+                          {p.rejectedAt
+                            ? ` · ${new Date(p.rejectedAt).toLocaleDateString('en-US', {
+                                dateStyle: 'medium',
+                              })}`
+                            : ''}
+                        </span>
+                      </div>
+                      {p.rejectionReason ? (
+                        <p className={styles.rejectionBody}>{p.rejectionReason}</p>
+                      ) : (
+                        <p className={styles.rejectionBody}>
+                          The reviewer didn&rsquo;t include a written reason. Edit the
+                          listing and submit it again — or contact support if you&rsquo;re
+                          unsure what to change.
+                        </p>
+                      )}
+                      <p className={styles.rejectionHint}>
+                        Edit the listing below, then click <strong>Submit</strong> to send
+                        it back for review.
+                      </p>
+                    </div>
+                  ) : null}
                   <div className={styles.cellListing}>
                     <p className={styles.listingTitle}>
                       <Link href={`/property/${p.slug}`} className={styles.listingLink}>
@@ -209,6 +284,15 @@ export function MyListings() {
                         View →
                       </Link>
                     )}
+                    <button
+                      type="button"
+                      className={styles.deleteBtn}
+                      disabled={deleteState.isLoading}
+                      onClick={() => setDeleteTarget({ id: p.id, title: p.title })}
+                      title={`Delete "${p.title}" permanently`}
+                    >
+                      Delete
+                    </button>
                   </div>
                 </li>
               );
@@ -239,6 +323,23 @@ export function MyListings() {
             Next
           </Button>
         </nav>
+      ) : null}
+
+      {deleteTarget ? (
+        <ConfirmDangerDialog
+          title={`Delete "${deleteTarget.title}"?`}
+          description="This permanently removes the listing from OSK."
+          consequences={[
+            'The listing disappears from search and your dashboard.',
+            'All inquiries and messages received about this listing are deleted.',
+            'Any reviews left on the listing are removed.',
+            'The slot it occupies in your plan is freed up, so you can list another property in its place.',
+          ]}
+          confirmLabel="Delete listing permanently"
+          busy={deleteState.isLoading}
+          onConfirm={onDeleteConfirmed}
+          onClose={() => setDeleteTarget(null)}
+        />
       ) : null}
     </section>
   );

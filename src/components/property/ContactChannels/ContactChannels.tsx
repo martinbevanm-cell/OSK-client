@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import type { ContactCapabilities } from '@contracts';
 import {
@@ -72,9 +73,9 @@ export function ContactChannels({
       <p className={styles.fallback}>
         This is your listing — contact options aren&rsquo;t shown to owners. Buyer
         messages and inquiries land in your{' '}
-        <a href="/dashboard/messages" className={styles.fallbackLink}>
+        <Link href="/dashboard/messages" className={styles.fallbackLink}>
           dashboard
-        </a>
+        </Link>
         .
       </p>
     );

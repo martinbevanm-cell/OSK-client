@@ -69,7 +69,8 @@ export const sendMessageSchema = z
   })
   .refine(
     (data) =>
-      data.body.trim().length > 0 || (data.attachments && data.attachments.length > 0),
+      data.body.trim().length > 0 ||
+      (data.attachments && data.attachments.length > 0),
     { message: 'Send some text or attach at least one file.', path: ['body'] },
   );
 export type SendMessageDto = z.infer<typeof sendMessageSchema>;

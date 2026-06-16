@@ -15,5 +15,7 @@ export function ThemeScript({ defaultTheme }: { defaultTheme: string }) {
     defaultTheme,
   )});}})();`;
 
-  return <script dangerouslySetInnerHTML={{ __html: js }} suppressHydrationWarning />;
+  return (
+    <script dangerouslySetInnerHTML={{ __html: js }} suppressHydrationWarning />
+  );
 }

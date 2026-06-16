@@ -1,0 +1,34 @@
+@use 'abstracts' as *;
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: space('2');
+  inline-size: 100%;
+  padding: space('3') space('4');
+  background: var(--bg-card);
+  border: 1px solid var(--border-strong);
+  border-radius: radius('md');
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    border-color $transition-fast,
+    background-color $transition-fast;
+
+  &:hover {
+    border-color: var(--color-primary);
+    background: var(--bg-inset);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--ring-focus);
+  }
+}
+
+.logo {
+  flex-shrink: 0;
+}

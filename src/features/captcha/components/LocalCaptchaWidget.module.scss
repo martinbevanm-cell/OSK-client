@@ -1,0 +1,80 @@
+@use 'abstracts' as *;
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: space('2');
+}
+
+.input {
+  inline-size: 100%;
+  padding: space('3') space('4');
+  border-radius: radius('sm');
+  border: 1px solid var(--border-strong);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  font-family: inherit;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+
+  &:focus-visible {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--ring-focus);
+  }
+}
+
+/* Container for the inline SVG returned by the backend. The SVG sets
+ * its own background tone so this just acts as a layout slot. */
+.image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  block-size: 44px;
+  inline-size: 110px;
+  border-radius: radius('sm');
+  overflow: hidden;
+  border: 1px solid var(--border-default);
+  background: var(--bg-card);
+
+  svg {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+}
+
+.refresh {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  block-size: 44px;
+  inline-size: 44px;
+  border-radius: radius('sm');
+  border: 1px solid var(--border-default);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition:
+    border-color $transition-fast,
+    color $transition-fast,
+    background-color $transition-fast;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &:hover:not(:disabled) {
+    color: var(--text-primary);
+    border-color: var(--color-primary);
+    background: var(--bg-inset);
+  }
+}

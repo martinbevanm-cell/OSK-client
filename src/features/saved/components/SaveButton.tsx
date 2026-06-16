@@ -20,7 +20,11 @@ interface SaveButtonProps {
  * and fires a toast. Used in PropertyCard (corner) and elsewhere later.
  * Stops event propagation so the surrounding card-link doesn't navigate.
  */
-export function SaveButton({ property, variant = 'corner', className }: SaveButtonProps) {
+export function SaveButton({
+  property,
+  variant = 'corner',
+  className,
+}: SaveButtonProps) {
   const dispatch = useAppDispatch();
   const isSaved = useAppSelector((s) => selectIsSaved(s, property.id));
 

@@ -4,6 +4,7 @@ import { useState, type ChangeEvent } from 'react';
 import type { User, UserRole } from '@contracts';
 import { useRouter } from 'next/navigation';
 import {
+  useDeleteAdminUserMutation,
   useImpersonateUserMutation,
   useListAdminUsersQuery,
   useUpdateAdminUserMutation,
@@ -11,6 +12,7 @@ import {
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { selectCurrentUser } from '@/features/auth';
 import { toastPushed } from '@/features/ui';
+import { ConfirmDangerDialog } from '@/components/ui';
 import { cn } from '@/lib/cn';
 import styles from './UsersManager.module.scss';
 
@@ -52,7 +54,12 @@ export function UsersManager() {
   const router = useRouter();
   const [updateUser, { isLoading: updating }] = useUpdateAdminUserMutation();
   const [impersonate, { isLoading: impersonating }] = useImpersonateUserMutation();
+  const [deleteUser, { isLoading: deleting }] = useDeleteAdminUserMutation();
   const [busyId, setBusyId] = useState<string | null>(null);
+  /* The user the admin is about to delete — null when the dialog is
+   * closed. Held outside the row map so the dialog persists in the
+   * DOM long enough to animate even after the row unmounts. */
+  const [deleteTarget, setDeleteTarget] = useState<User | null>(null);
 
   const items = data?.items ?? [];
   const meta = data?.meta;
@@ -71,6 +78,24 @@ export function UsersManager() {
       /* surfaced by the global toast */
     } finally {
       setBusyId(null);
+    }
+  };
+
+  const onDeleteConfirmed = async () => {
+    if (!deleteTarget) return;
+    const target = deleteTarget;
+    try {
+      await deleteUser(target.id).unwrap();
+      dispatch(
+        toastPushed(
+          'success',
+          `${target.name} deleted. ${target.email} is available for re-registration.`,
+        ),
+      );
+      setDeleteTarget(null);
+    } catch {
+      /* surfaced by the global toast — leave the dialog open so the
+       * admin can retry without re-clicking the row button. */
     }
   };
 
@@ -199,12 +224,43 @@ export function UsersManager() {
                   >
                     {blocked ? 'Unblock' : 'Block'}
                   </button>
+                  <button
+                    type="button"
+                    className={styles.deleteBtn}
+                    disabled={isSelf || deleting}
+                    onClick={() => setDeleteTarget(u)}
+                    title={
+                      isSelf
+                        ? 'You can’t delete your own account from here'
+                        : `Delete ${u.name}`
+                    }
+                  >
+                    Delete
+                  </button>
                 </div>
               </li>
             );
           })}
         </ul>
       )}
+
+      {deleteTarget ? (
+        <ConfirmDangerDialog
+          title={`Delete ${deleteTarget.name}?`}
+          description={`This permanently removes ${deleteTarget.name} (${deleteTarget.email}) from OSK.`}
+          consequences={[
+            'Permanently delete every property they own (along with the inquiries, conversations and reviews tied to each).',
+            'Delete every review they wrote.',
+            'Cancel any active subscription on their account.',
+            'Sign them out of every device immediately.',
+            `Free the email address ${deleteTarget.email} — anyone (including this person) will be able to register a new account with it.`,
+          ]}
+          confirmLabel="Delete user permanently"
+          busy={deleting}
+          onConfirm={onDeleteConfirmed}
+          onClose={() => setDeleteTarget(null)}
+        />
+      ) : null}
 
       {meta && meta.pages > 1 ? (
         <nav className={styles.pager} aria-label="Pagination">

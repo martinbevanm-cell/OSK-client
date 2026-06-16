@@ -341,6 +341,12 @@ interface CheckoutPickerProps {
  * Cross-product of (enabled + ready providers) × (plan prices in
  * their supported currencies). Sorted so currencies matching the
  * user's local currency come first.
+ *
+ * FX-fallback: if a provider has NO natively-compatible price (e.g.
+ * Paystack on a USD-only plan), we still emit ONE option using the
+ * plan's primary price. The backend's `resolveCheckoutPair` does the
+ * actual currency conversion at intent-creation time, so the seller
+ * lands on a hosted checkout in the provider's supported currency.
  */
 function buildCheckoutOptions(
   plan: SubscriptionPlan,
@@ -359,8 +365,10 @@ function buildCheckoutOptions(
     const supported = (settings.providerBillingCurrencies[provider] ?? []).map((c) =>
       c.toUpperCase(),
     );
+    let nativeMatch = false;
     for (const price of plan.prices) {
       if (!supported.includes(price.currency.toUpperCase())) continue;
+      nativeMatch = true;
       options.push({
         provider,
         price,
@@ -371,6 +379,21 @@ function buildCheckoutOptions(
           (price.currency.toUpperCase() === upper ? 0 : 2) +
           (provider === 'bank-transfer' ? 1 : 0),
       });
+    }
+    /* No price in this provider's currencies — fall back to the plan's
+     * primary price. The backend converts via FX at checkout, so the
+     * seller still gets a working option for this provider. */
+    if (!nativeMatch && plan.prices.length > 0) {
+      const primary = plan.prices[0];
+      if (primary) {
+        options.push({
+          provider,
+          price: primary,
+          /* Rank FX-fallback rows after native matches but before
+           * bank-transfer so they're discoverable but don't dominate. */
+          score: 3 + (provider === 'bank-transfer' ? 1 : 0),
+        });
+      }
     }
   }
   options.sort((a, b) => a.score - b.score);

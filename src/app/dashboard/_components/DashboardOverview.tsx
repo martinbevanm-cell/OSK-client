@@ -48,16 +48,8 @@ export function DashboardOverview() {
       </header>
 
       <dl className={styles.stats} aria-label="At a glance">
-        <Stat
-          label="My listings"
-          value={String(listingsCount)}
-          href="/dashboard/listings"
-        />
-        <Stat
-          label="Inquiries"
-          value={String(inquiryCount)}
-          href="/dashboard/inquiries"
-        />
+        <Stat label="My listings" value={String(listingsCount)} href="/dashboard/listings" />
+        <Stat label="Inquiries" value={String(inquiryCount)} href="/dashboard/inquiries" />
         <Stat label="Unread alerts" value={String(unread)} />
         <Stat label="Reply rate" value={respondedRate} />
       </dl>
@@ -67,9 +59,7 @@ export function DashboardOverview() {
         <section className={styles.card} aria-labelledby="inq-heading">
           <header className={styles.cardHead}>
             <span className={styles.cardEyebrow}>Latest leads</span>
-            <h2 id="inq-heading" className={styles.cardTitle}>
-              Recent inquiries
-            </h2>
+            <h2 id="inq-heading" className={styles.cardTitle}>Recent inquiries</h2>
             <Link href="/dashboard/inquiries" className={styles.cardLink}>
               View all →
             </Link>
@@ -110,9 +100,7 @@ export function DashboardOverview() {
         <section className={styles.card} aria-labelledby="lst-heading">
           <header className={styles.cardHead}>
             <span className={styles.cardEyebrow}>Your inventory</span>
-            <h2 id="lst-heading" className={styles.cardTitle}>
-              Recent listings
-            </h2>
+            <h2 id="lst-heading" className={styles.cardTitle}>Recent listings</h2>
             <Link href="/dashboard/listings" className={styles.cardLink}>
               Manage all →
             </Link>
@@ -140,7 +128,9 @@ export function DashboardOverview() {
                       {p.locality}, {p.city}
                     </p>
                   </div>
-                  <p className={styles.price}>{formatPrice(p.price, p.currency)}</p>
+                  <p className={styles.price}>
+                    {formatPrice(p.price, p.currency)}
+                  </p>
                 </li>
               ))}
             </ul>
@@ -151,7 +141,15 @@ export function DashboardOverview() {
   );
 }
 
-function Stat({ label, value, href }: { label: string; value: string; href?: string }) {
+function Stat({
+  label,
+  value,
+  href,
+}: {
+  label: string;
+  value: string;
+  href?: string;
+}) {
   const body = (
     <>
       <dt className={styles.statLabel}>{label}</dt>

@@ -185,7 +185,7 @@
 .completionTextWarning {
   margin: space('1') 0 0;
   font-size: 0.8125rem;
-  color: var(--color-warning);
+  color: var(--color-warning, #b45309);
   font-weight: 500;
 }
 

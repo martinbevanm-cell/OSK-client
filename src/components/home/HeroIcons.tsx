@@ -28,7 +28,10 @@ export function CityIcon() {
 export function HomeIcon() {
   return (
     <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true">
-      <path d="M10 2.5L2.5 9h2v8h4v-5h3v5h4V9h2L10 2.5z" fill="currentColor" />
+      <path
+        d="M10 2.5L2.5 9h2v8h4v-5h3v5h4V9h2L10 2.5z"
+        fill="currentColor"
+      />
     </svg>
   );
 }

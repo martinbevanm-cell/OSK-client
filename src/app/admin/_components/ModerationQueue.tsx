@@ -13,7 +13,17 @@ import { toastPushed } from '@/features/ui';
 import { useAppDispatch } from '@/store/hooks';
 import { formatPrice } from '@/lib/format';
 import { cn } from '@/lib/cn';
+import { RejectReasonDialog } from './RejectReasonDialog';
 import styles from './ModerationQueue.module.scss';
+
+/**
+ * Active rejection request — either a single listing or a bulk set.
+ * Stored as state so the modal can mount in a single place and the
+ * row + toolbar handlers both push the same shape.
+ */
+type RejectTarget =
+  | { kind: 'single'; listing: PropertySummary }
+  | { kind: 'bulk'; ids: string[] };
 
 export function ModerationQueue() {
   const dispatch = useAppDispatch();
@@ -31,6 +41,9 @@ export function ModerationQueue() {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   /* Bulk-mode progress for the toolbar buttons. */
   const [bulkRunning, setBulkRunning] = useState<'approve' | 'reject' | null>(null);
+  /* Holds the rejection request currently being typed. `null` =
+   * dialog closed. */
+  const [rejectTarget, setRejectTarget] = useState<RejectTarget | null>(null);
 
   /* Memoize so the effect below doesn't see a fresh array on every render
    * (which would re-run on every re-render and churn the selection set). */
@@ -67,15 +80,18 @@ export function ModerationQueue() {
     );
 
   const onAction = async (listing: PropertySummary, decision: 'approve' | 'reject') => {
+    /* Reject opens the dedicated reason dialog — the request
+     * actually fires from the dialog's onConfirm. Approve has no
+     * reason and fires immediately. */
+    if (decision === 'reject') {
+      setRejectTarget({ kind: 'single', listing });
+      return;
+    }
+
     setBusyId(listing.id);
     try {
-      if (decision === 'approve') {
-        await approve(listing.id).unwrap();
-        dispatch(toastPushed('success', `Approved “${listing.title}”.`));
-      } else {
-        await reject(listing.id).unwrap();
-        dispatch(toastPushed('success', `Rejected “${listing.title}”.`));
-      }
+      await approve(listing.id).unwrap();
+      dispatch(toastPushed('success', `Approved “${listing.title}”.`));
     } catch {
       /* surfaced by the global toast */
     } finally {
@@ -83,32 +99,78 @@ export function ModerationQueue() {
     }
   };
 
-  /* Bulk run — fire requests serially so the rate limiter / DB stay calm.
-   * A single failure does not abort the rest; the toast summarises. */
-  const bulkRun = async (decision: 'approve' | 'reject') => {
-    if (selected.size === 0) return;
-    const ids = items.filter((p) => selected.has(p.id)).map((p) => p.id);
-    if (ids.length === 0) return;
-    if (
-      typeof window !== 'undefined' &&
-      !window.confirm(
-        `${decision === 'approve' ? 'Approve' : 'Reject'} ${ids.length} listing${
-          ids.length === 1 ? '' : 's'
-        }?`,
-      )
-    ) {
+  /* Called by the dialog when the admin confirms a rejection. Routes
+   * to the single or bulk code path depending on `rejectTarget.kind`,
+   * keeps the dialog visible while submitting so the spinner shows. */
+  const onRejectConfirmed = async (reason: string) => {
+    if (!rejectTarget) return;
+
+    if (rejectTarget.kind === 'single') {
+      const { listing } = rejectTarget;
+      setBusyId(listing.id);
+      try {
+        await reject({ id: listing.id, reason }).unwrap();
+        dispatch(toastPushed('success', `Rejected “${listing.title}”.`));
+        setRejectTarget(null);
+      } catch {
+        /* surfaced by the global toast — keep dialog open so the
+         * admin can retry without re-typing. */
+      } finally {
+        setBusyId(null);
+      }
       return;
     }
-    setBulkRunning(decision);
+
+    /* Bulk path — fire requests serially so the rate limiter / DB
+     * stay calm. Toast summarises ok/fail counts. */
+    const { ids } = rejectTarget;
+    setBulkRunning('reject');
     let ok = 0;
     let fail = 0;
     for (const id of ids) {
       try {
-        if (decision === 'approve') {
-          await approve(id).unwrap();
-        } else {
-          await reject(id).unwrap();
-        }
+        await reject({ id, reason }).unwrap();
+        ok += 1;
+      } catch {
+        fail += 1;
+      }
+    }
+    setBulkRunning(null);
+    setSelected(new Set());
+    setRejectTarget(null);
+    dispatch(
+      toastPushed(
+        fail === 0 ? 'success' : 'error',
+        `${ok} rejected${fail > 0 ? `, ${fail} failed` : ''}.`,
+      ),
+    );
+  };
+
+  /* Bulk run — approves fire immediately (no reason needed). Reject
+   * hands off to the dialog which collects one reason for every
+   * selected row. */
+  const bulkRun = async (decision: 'approve' | 'reject') => {
+    if (selected.size === 0) return;
+    const ids = items.filter((p) => selected.has(p.id)).map((p) => p.id);
+    if (ids.length === 0) return;
+
+    if (decision === 'reject') {
+      setRejectTarget({ kind: 'bulk', ids });
+      return;
+    }
+
+    if (
+      typeof window !== 'undefined' &&
+      !window.confirm(`Approve ${ids.length} listing${ids.length === 1 ? '' : 's'}?`)
+    ) {
+      return;
+    }
+    setBulkRunning('approve');
+    let ok = 0;
+    let fail = 0;
+    for (const id of ids) {
+      try {
+        await approve(id).unwrap();
         ok += 1;
       } catch {
         fail += 1;
@@ -119,9 +181,7 @@ export function ModerationQueue() {
     dispatch(
       toastPushed(
         fail === 0 ? 'success' : 'error',
-        `${ok} ${decision === 'approve' ? 'approved' : 'rejected'}${
-          fail > 0 ? `, ${fail} failed` : ''
-        }.`,
+        `${ok} approved${fail > 0 ? `, ${fail} failed` : ''}.`,
       ),
     );
   };
@@ -290,6 +350,26 @@ export function ModerationQueue() {
           </button>
         </nav>
       ) : null}
+
+      {/* ─── reject reason dialog (single + bulk) ───────────────────── */}
+      <RejectReasonDialog
+        open={rejectTarget !== null}
+        title={
+          rejectTarget?.kind === 'single'
+            ? `Reject “${rejectTarget.listing.title}”`
+            : rejectTarget?.kind === 'bulk'
+              ? `Reject ${rejectTarget.ids.length} listing${rejectTarget.ids.length === 1 ? '' : 's'}`
+              : ''
+        }
+        subtitle={
+          rejectTarget?.kind === 'bulk'
+            ? 'The same reason is sent to every seller via email and shows on their dashboard.'
+            : 'The seller sees this verbatim in an email and on their dashboard.'
+        }
+        submitting={rejectState.isLoading || bulkRunning === 'reject'}
+        onCancel={() => setRejectTarget(null)}
+        onConfirm={onRejectConfirmed}
+      />
     </section>
   );
 }

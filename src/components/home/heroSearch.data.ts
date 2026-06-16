@@ -309,4 +309,5 @@ export function formatPriceCompact(value: number, symbol = '$'): string {
 }
 
 const SQFT_FMT = new Intl.NumberFormat('en-US');
-export const formatSqFt = (value: number): string => `${SQFT_FMT.format(value)} sq ft`;
+export const formatSqFt = (value: number): string =>
+  `${SQFT_FMT.format(value)} sq ft`;

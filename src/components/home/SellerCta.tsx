@@ -16,8 +16,8 @@ export function SellerCta() {
             List your property <em>with OSK.</em>
           </h2>
           <p className={styles.sub}>
-            Reach serious buyers across the U.S. with a standout listing — and stay in
-            control of how people contact you. No listing fees up to your first sale.
+            Reach serious buyers with a standout listing — and stay in control of how
+            people contact you. No listing fees up to your first sale.
           </p>
         </div>
         <div className={styles.actions}>

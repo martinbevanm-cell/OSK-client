@@ -48,7 +48,13 @@ export function Toaster() {
   );
 }
 
-function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: () => void }) {
+function ToastItem({
+  toast,
+  onDismiss,
+}: {
+  toast: Toast;
+  onDismiss: () => void;
+}) {
   return (
     <div
       className={cn(styles.toast, styles[`kind_${toast.kind}`])}

@@ -7,10 +7,20 @@ interface RtkErrorShape {
   status?: number | string;
   data?: {
     error?: {
+      code?: string;
       message?: string;
       details?: Array<{ field?: string; message?: string }>;
     };
   };
+}
+
+/** True when the backend bounced login because the email isn't verified.
+ *  The sign-in form uses this to switch to a "Check your inbox + resend"
+ *  panel instead of showing the generic error banner. */
+export function isEmailNotVerifiedError(error: unknown): boolean {
+  if (!error || typeof error !== 'object') return false;
+  const e = error as RtkErrorShape;
+  return e.data?.error?.code === 'EMAIL_NOT_VERIFIED';
 }
 
 function humanFieldLabel(field: string): string {
@@ -34,7 +44,7 @@ export function getAuthErrorMessage(error: unknown): string | null {
   if (msg) return msg;
   const status = typeof e.status === 'number' ? e.status : 0;
   if (e.status === 'FETCH_ERROR')
-    return 'Couldn’t reach the auth server. Check your network and backend/API configuration.';
+    return 'Can’t reach the server. Check your connection and try again.';
   if (status === 401) return 'Invalid email or password.';
   if (status === 409) return 'An account with this email already exists.';
   if (status === 422) return 'Please review the highlighted fields.';

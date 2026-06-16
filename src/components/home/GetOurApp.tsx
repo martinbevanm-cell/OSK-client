@@ -54,7 +54,8 @@ export async function GetOurApp() {
   /* QR target falls back to whichever store link the admin set, so
    * scanners always land somewhere useful even if the smart-link URL
    * was left blank. */
-  const qrTarget = links.appQrUrl || links.appStoreUrl || links.googlePlayUrl;
+  const qrTarget =
+    links.appQrUrl || links.appStoreUrl || links.googlePlayUrl;
   const svg = qrTarget ? await qrSvg(qrTarget) : null;
 
   const companyName = settings?.companyName ?? 'OSK';
@@ -72,9 +73,9 @@ export async function GetOurApp() {
             Get the {companyName} App
           </h2>
           <p className={styles.sub}>
-            Buy and rent property faster with the {companyName} app — instant search,
-            saved listings, push notifications, and chat with owners right from your
-            pocket.
+            Buy and rent property faster with the {companyName} app —
+            instant search, saved listings, push notifications, and chat
+            with owners right from your pocket.
           </p>
 
           <div className={styles.badges}>
@@ -146,7 +147,9 @@ export async function GetOurApp() {
                   <div className={styles.phoneCardImg} />
                   <div className={styles.phoneCardBody}>
                     <span className={styles.phoneCardPrice}>$1,250,000</span>
-                    <span className={styles.phoneCardMeta}>Brooklyn · 2 bd</span>
+                    <span className={styles.phoneCardMeta}>
+                      Brooklyn · 2 bd
+                    </span>
                   </div>
                 </div>
                 <div className={styles.phoneCard}>

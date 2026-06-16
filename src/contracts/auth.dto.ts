@@ -5,6 +5,9 @@ import { REGISTRABLE_ROLES, type UserRole } from './enums';
 export const loginSchema = z.object({
   email: z.string().email('Enter a valid email'),
   password: z.string().min(8, 'Password must be at least 8 characters'),
+  /** Optional captcha token — present only when the admin has
+   *  configured a captcha provider. The form sets this before submit. */
+  captchaToken: z.string().optional(),
 });
 export type LoginDto = z.infer<typeof loginSchema>;
 
@@ -20,6 +23,9 @@ export const registerSchema = z
       .regex(/[0-9]/, 'Include a number'),
     confirmPassword: z.string(),
     role: z.enum(REGISTRABLE_ROLES),
+    /** Optional captcha token — present only when the admin has
+     *  configured a captcha provider. The form sets this before submit. */
+    captchaToken: z.string().optional(),
   })
   .refine((v) => v.password === v.confirmPassword, {
     path: ['confirmPassword'],

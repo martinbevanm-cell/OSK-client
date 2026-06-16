@@ -123,19 +123,24 @@ export function getCountries(): CountryOption[] {
   return _countries;
 }
 
-/** Lookup by ISO2 — returns undefined for unknown codes. */
-export function getCountry(iso2: string): CountryOption | undefined {
+/** Lookup by ISO2 — returns undefined for empty / unknown codes.
+ *  Accepts undefined / null defensively so callers handling legacy
+ *  data (saved listings persisted in localStorage before we added the
+ *  `country` field) don't crash on `iso2.toUpperCase()`. */
+export function getCountry(iso2: string | null | undefined): CountryOption | undefined {
+  if (!iso2 || typeof iso2 !== 'string') return undefined;
   const code = iso2.toUpperCase();
+  if (!code) return undefined;
   return getCountries().find((c) => c.iso2 === code);
 }
 
 /** Currency for a country, e.g. 'US' → 'USD'. Falls back to 'USD'. */
-export function currencyForCountry(iso2: string): string {
+export function currencyForCountry(iso2: string | null | undefined): string {
   return getCountry(iso2)?.currency ?? 'USD';
 }
 
 /** Symbol for a country's currency, e.g. 'US' → '$'. */
-export function currencySymbolForCountry(iso2: string): string {
+export function currencySymbolForCountry(iso2: string | null | undefined): string {
   return getCountry(iso2)?.symbol ?? '$';
 }
 
@@ -150,9 +155,10 @@ const _citiesByCountry = new Map<string, CityOption[]>();
  * (~150k rows total) — we lazy-load per-country and cache so the first
  * read of each country pays the cost once.
  */
-export function getCitiesByCountry(iso2: string): CityOption[] {
-  if (!iso2) return [];
+export function getCitiesByCountry(iso2: string | null | undefined): CityOption[] {
+  if (!iso2 || typeof iso2 !== 'string') return [];
   const code = iso2.toUpperCase();
+  if (!code) return [];
   const cached = _citiesByCountry.get(code);
   if (cached) return cached;
   const raw = City.getCitiesOfCountry(code) ?? [];

@@ -1,7 +1,11 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { getCitiesByCountry, searchCities, type CityOption } from '@/lib/geoData';
+import {
+  getCitiesByCountry,
+  searchCities,
+  type CityOption,
+} from '@/lib/geoData';
 import { cn } from '@/lib/cn';
 import styles from './CitySelectPanel.module.scss';
 
@@ -113,7 +117,9 @@ export function CitySelectPanel({
                   aria-selected={active}
                 >
                   <span className={styles.itemName}>{city.name}</span>
-                  <span className={styles.itemMeta}>{city.stateCode ?? city.iso2}</span>
+                  <span className={styles.itemMeta}>
+                    {city.stateCode ?? city.iso2}
+                  </span>
                 </button>
               </li>
             );

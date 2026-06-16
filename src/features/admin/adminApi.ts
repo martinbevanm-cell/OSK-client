@@ -72,15 +72,17 @@ export const adminApi = baseApi.injectEndpoints({
       ],
     }),
 
-    rejectPropertyAdmin: build.mutation<Property, string>({
-      query: (id) => ({
+    rejectPropertyAdmin: build.mutation<Property, { id: string; reason: string }>({
+      query: ({ id, reason }) => ({
         url: `/admin/properties/${id}/reject`,
         method: 'POST',
+        body: { reason },
       }),
       transformResponse: (r: ApiSuccess<Property>) => r.data,
-      invalidatesTags: (_r, _e, id) => [
-        { type: 'Property', id },
+      invalidatesTags: (_r, _e, arg) => [
+        { type: 'Property', id: arg.id },
         { type: 'PropertyList', id: 'PENDING' },
+        { type: 'PropertyList', id: 'MINE' },
         { type: 'AdminOverview', id: 'TOTAL' },
         { type: 'AuditLog', id: 'FEED' },
       ],
@@ -159,6 +161,22 @@ export const adminApi = baseApi.injectEndpoints({
         { type: 'User', id: 'LIST' },
         { type: 'AdminOverview', id: 'TOTAL' },
         { type: 'AuditLog', id: 'FEED' },
+      ],
+    }),
+
+    /** Hard-delete a user and everything they own. Cascades server-side. */
+    deleteAdminUser: build.mutation<{ deleted: true }, string>({
+      query: (id) => ({
+        url: `/admin/users/${id}`,
+        method: 'DELETE',
+      }),
+      transformResponse: (r: ApiSuccess<{ deleted: true }>) => r.data,
+      invalidatesTags: (_r, _e, id) => [
+        { type: 'User', id },
+        { type: 'User', id: 'LIST' },
+        { type: 'AdminOverview', id: 'TOTAL' },
+        { type: 'AuditLog', id: 'FEED' },
+        { type: 'PropertyList', id: 'PARTIAL' },
       ],
     }),
 
@@ -241,6 +259,7 @@ export const {
   useListAdminPropertiesQuery,
   useListAdminUsersQuery,
   useUpdateAdminUserMutation,
+  useDeleteAdminUserMutation,
   useImpersonateUserMutation,
   useListAdminReviewsQuery,
   useDeleteAdminReviewMutation,

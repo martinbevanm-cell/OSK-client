@@ -62,8 +62,8 @@ export function AdminOverview() {
         <span className={styles.eyebrow}>Admin</span>
         <h1 className={styles.title}>Overview</h1>
         <p className={styles.sub}>
-          Live counts across the platform. Use the sidebar to drill into moderation, users
-          and reviews.
+          Live counts across the platform. Use the sidebar to drill into
+          moderation, users and reviews.
         </p>
       </header>
 
@@ -78,11 +78,17 @@ export function AdminOverview() {
               <>
                 <p className={styles.cardLabel}>{card.label}</p>
                 <p className={styles.cardValue}>{fmt(card.value)}</p>
-                {card.hint ? <p className={styles.cardHint}>{card.hint}</p> : null}
+                {card.hint ? (
+                  <p className={styles.cardHint}>{card.hint}</p>
+                ) : null}
               </>
             );
             return card.href ? (
-              <Link key={card.label} href={card.href} className={styles.cardLink}>
+              <Link
+                key={card.label}
+                href={card.href}
+                className={styles.cardLink}
+              >
                 {body}
                 <span className={styles.cardArrow} aria-hidden="true">
                   →
@@ -101,16 +107,16 @@ export function AdminOverview() {
         <h2 className={styles.tipsTitle}>Triage tips</h2>
         <ul className={styles.tipsList}>
           <li>
-            Aim to clear the moderation queue daily — sellers see a &ldquo;pending&rdquo;
-            banner on every draft they submit.
+            Aim to clear the moderation queue daily — sellers see a
+            &ldquo;pending&rdquo; banner on every draft they submit.
           </li>
           <li>
-            Block, don&rsquo;t delete — blocked users keep their inquiry history so audits
-            stay intact.
+            Block, don&rsquo;t delete — blocked users keep their inquiry
+            history so audits stay intact.
           </li>
           <li>
-            Reviews are pre-approved; remove only spam, harassment, or content that names
-            a private individual.
+            Reviews are pre-approved; remove only spam, harassment, or
+            content that names a private individual.
           </li>
         </ul>
       </aside>

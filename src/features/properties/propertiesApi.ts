@@ -59,7 +59,15 @@ export const propertiesApi = baseApi.injectEndpoints({
     createProperty: build.mutation<Property, CreatePropertyDto>({
       query: (body) => ({ url: '/properties', method: 'POST', body }),
       transformResponse: (r: ApiSuccess<Property>) => r.data,
-      invalidatesTags: [{ type: 'PropertyList', id: 'PARTIAL' }],
+      /* Bust BOTH list caches: PARTIAL is the public catalog feed
+       * (so the new draft eventually shows up there when published)
+       * and MINE is the seller's "My Listings" dashboard — without
+       * the MINE invalidation a first-time seller submitting their
+       * very first listing sees an empty page until a hard refresh. */
+      invalidatesTags: [
+        { type: 'PropertyList', id: 'PARTIAL' },
+        { type: 'PropertyList', id: 'MINE' },
+      ],
     }),
 
     listMyProperties: build.query<Paginated<PropertySummary>, Partial<PropertyFilters>>({
@@ -107,6 +115,20 @@ export const propertiesApi = baseApi.injectEndpoints({
       invalidatesTags: (_r, _e, id) => [
         { type: 'Property', id },
         { type: 'PropertyList', id: 'MINE' },
+      ],
+    }),
+
+    /** Owner (or admin) hard-deletes a property. Cascades server-side
+     *  to its inquiries, threads, messages and reviews, and frees up
+     *  the owner's subscription slot. */
+    deleteProperty: build.mutation<{ deleted: true }, string>({
+      query: (id) => ({ url: `/properties/${id}`, method: 'DELETE' }),
+      transformResponse: (r: ApiSuccess<{ deleted: true }>) => r.data,
+      invalidatesTags: (_r, _e, id) => [
+        { type: 'Property', id },
+        { type: 'PropertyList', id: 'MINE' },
+        { type: 'PropertyList', id: 'PARTIAL' },
+        { type: 'Subscription', id: 'ME' },
       ],
     }),
 
@@ -183,6 +205,7 @@ export const {
   useSubmitPropertyForReviewMutation,
   useMarkPropertySoldMutation,
   useReopenPropertyMutation,
+  useDeletePropertyMutation,
   useUpdatePropertyMutation,
   useRecordPropertyViewMutation,
   useGetMyAnalyticsQuery,

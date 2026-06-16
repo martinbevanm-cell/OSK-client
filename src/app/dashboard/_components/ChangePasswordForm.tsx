@@ -3,7 +3,10 @@
 import { useState, type FormEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { changePasswordSchema, type ChangePasswordDto } from '@contracts';
+import {
+  changePasswordSchema,
+  type ChangePasswordDto,
+} from '@contracts';
 import { useChangePasswordMutation } from '@/features/auth';
 import { getAuthErrorMessage } from '@/features/auth/components/authErrorMessage';
 import { toastPushed } from '@/features/ui';
@@ -58,8 +61,8 @@ export function ChangePasswordForm() {
       <div className={styles.head}>
         <h2 className={styles.title}>Change password</h2>
         <p className={styles.sub}>
-          Changing your password signs out every other device. This tab stays signed in
-          with a fresh session.
+          Changing your password signs out every other device. This tab
+          stays signed in with a fresh session.
         </p>
       </div>
 

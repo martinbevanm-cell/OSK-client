@@ -15,7 +15,9 @@ interface PageParams {
   params: Promise<{ id: string }>;
 }
 
-export async function generateMetadata({ params }: PageParams): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageParams): Promise<Metadata> {
   const { id } = await params;
   const agent = await serverFetch<AgentPublic>(`/agents/${id}`);
   if (!agent) return { title: 'Agent not found' };
@@ -92,9 +94,9 @@ export default async function AgentDetailPage({ params }: PageParams) {
           <h1 className={styles.name}>{agent.name}</h1>
           <p className={styles.meta}>Member since {joined}</p>
           <p className={styles.bio}>
-            {agent.name.split(' ')[0]} is a verified OSK agent — every profile is identity
-            and licence checked before going live. Browse their current inventory or reach
-            out about a specific listing below.
+            {agent.name.split(' ')[0]} is a verified OSK agent — every profile
+            is identity and licence checked before going live. Browse their
+            current inventory or reach out about a specific listing below.
           </p>
         </div>
 
@@ -119,7 +121,9 @@ export default async function AgentDetailPage({ params }: PageParams) {
 
         <section className={marketing.section}>
           <span className={marketing.sectionEyebrow}>How OSK protects you</span>
-          <h2 className={marketing.sectionTitle}>Verified profile, private contact</h2>
+          <h2 className={marketing.sectionTitle}>
+            Verified profile, private contact
+          </h2>
           <div className={marketing.cards}>
             <div className={marketing.card}>
               <span className={marketing.cardIcon} aria-hidden="true">
@@ -135,8 +139,8 @@ export default async function AgentDetailPage({ params }: PageParams) {
               </span>
               <h3 className={marketing.cardTitle}>Identity checked</h3>
               <p className={marketing.cardCopy}>
-                Every agent passes identity and licence verification before their listings
-                appear in OSK search.
+                Every agent passes identity and licence verification before
+                their listings appear in OSK search.
               </p>
             </div>
             <div className={marketing.card}>
@@ -153,8 +157,8 @@ export default async function AgentDetailPage({ params }: PageParams) {
               </span>
               <h3 className={marketing.cardTitle}>Contact stays private</h3>
               <p className={marketing.cardCopy}>
-                Reach out by chat, call, WhatsApp or email — your details are shared only
-                with this agent, never published, never sold.
+                Reach out by chat, call, WhatsApp or email — your details are
+                shared only with this agent, never published, never sold.
               </p>
             </div>
             <div className={marketing.card}>
@@ -172,8 +176,8 @@ export default async function AgentDetailPage({ params }: PageParams) {
               </span>
               <h3 className={marketing.cardTitle}>OSK-backed</h3>
               <p className={marketing.cardCopy}>
-                Every inquiry is logged and auditable — if something feels off, OSK can
-                step in and help resolve it.
+                Every inquiry is logged and auditable — if something feels off,
+                OSK can step in and help resolve it.
               </p>
             </div>
           </div>

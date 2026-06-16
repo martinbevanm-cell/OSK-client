@@ -2,6 +2,7 @@
 export {
   emailApi,
   useGetEmailSettingsQuery,
+  usePreviewEmailQuery,
   useUpdateEmailSettingsMutation,
   useSendTestEmailMutation,
 } from './emailApi';

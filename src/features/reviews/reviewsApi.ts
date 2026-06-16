@@ -39,7 +39,10 @@ export const reviewsApi = baseApi.injectEndpoints({
       ],
     }),
 
-    deleteReview: build.mutation<{ ok: true }, { id: string; propertyId: string }>({
+    deleteReview: build.mutation<
+      { ok: true },
+      { id: string; propertyId: string }
+    >({
       query: ({ id }) => ({ url: `/reviews/${id}`, method: 'DELETE' }),
       transformResponse: (r: ApiSuccess<{ ok: true }>) => r.data,
       invalidatesTags: (_r, _e, arg) => [

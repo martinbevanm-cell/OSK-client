@@ -1,7 +1,10 @@
 import { baseApi } from '@/store/api/baseApi';
 import type {
   ApiSuccess,
+  EmailPreview,
+  EmailPreviewType,
   EmailSettings,
+  EmailTemplateKey,
   SendTestEmailDto,
   UpdateEmailSettingsDto,
 } from '@contracts';
@@ -35,12 +38,30 @@ export const emailApi = baseApi.injectEndpoints({
       }),
       transformResponse: (r: ApiSuccess<{ sent: boolean; to: string }>) => r.data,
     }),
+
+    /**
+     * Sample preview render — pass a (template, type) pair and the
+     * backend returns the exact subject + HTML the seller would
+     * receive with that combo. Used to power the preview iframe in
+     * the admin email manager.
+     */
+    previewEmail: build.query<
+      EmailPreview,
+      { template: EmailTemplateKey; type: EmailPreviewType }
+    >({
+      query: ({ template, type }) => ({
+        url: '/admin/email/preview',
+        params: { template, type },
+      }),
+      transformResponse: (r: ApiSuccess<EmailPreview>) => r.data,
+    }),
   }),
   overrideExisting: false,
 });
 
 export const {
   useGetEmailSettingsQuery,
+  usePreviewEmailQuery,
   useUpdateEmailSettingsMutation,
   useSendTestEmailMutation,
 } = emailApi;

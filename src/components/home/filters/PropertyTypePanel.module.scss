@@ -21,7 +21,7 @@
   inline-size: 13rem;
   flex-shrink: 0;
 
-  @media (width <= 540px) {
+  @media (max-width: 540px) {
     inline-size: 10rem;
   }
 }

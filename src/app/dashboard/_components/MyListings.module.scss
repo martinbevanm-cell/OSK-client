@@ -144,6 +144,81 @@
   }
 }
 
+/* Subtle left-border accent so a scanning eye picks rejected rows
+ * out without the danger colour overwhelming the whole layout. */
+.rowRejected {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    inline-size: 3px;
+    background: var(--color-danger);
+  }
+}
+
+/* Full-row banner that lives above the listing cells. Spans every
+ * grid column so the seller can't miss it on either mobile or md+. */
+.rejectionBanner {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+  padding: space('3') space('4');
+  background: var(--color-danger-soft);
+  border: 1px solid var(--color-danger);
+  border-radius: radius('md');
+  margin-block-end: space('1');
+}
+
+.rejectionHead {
+  display: flex;
+  align-items: center;
+  gap: space('2');
+  color: var(--color-danger);
+}
+
+.rejectionIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 22px;
+  block-size: 22px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  color: var(--color-danger);
+  flex-shrink: 0;
+}
+
+.rejectionTitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-danger);
+}
+
+.rejectionBody {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+  white-space: pre-wrap;
+}
+
+.rejectionHint {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+
+  strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+}
+
 .cell {
   display: flex;
   flex-direction: column;
@@ -213,6 +288,9 @@
   color: var(--text-muted);
 }
 
+/* `.rejectionNote` superseded by the full-width `.rejectionBanner`
+ * above. Kept removed deliberately. */
+
 .price {
   font-family: $font-display;
   font-weight: 600;
@@ -227,6 +305,26 @@
 
   &:hover {
     color: var(--color-primary-hover);
+  }
+}
+
+.deleteBtn {
+  background: transparent;
+  border: 1px solid var(--color-danger);
+  padding: 0.375rem 0.875rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-danger);
+  border-radius: radius('sm');
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:hover:not(:disabled) {
+    background: var(--color-danger-soft);
   }
 }
 

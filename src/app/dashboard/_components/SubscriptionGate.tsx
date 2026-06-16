@@ -22,21 +22,22 @@ export function SubscriptionGate() {
    * the seller publish a fresh listing. */
   if (subscription && subscription.status === 'active') return null;
 
-  const statusCopy = !subscription
-    ? "You don't have an active plan yet."
-    : subscription.status === 'pending-payment'
-      ? 'Your subscription is awaiting payment.'
-      : subscription.status === 'cancelled'
-        ? 'Your subscription was cancelled.'
-        : 'Your subscription has expired.';
+  const statusCopy =
+    !subscription
+      ? "You don't have an active plan yet."
+      : subscription.status === 'pending-payment'
+        ? 'Your subscription is awaiting payment.'
+        : subscription.status === 'cancelled'
+          ? 'Your subscription was cancelled.'
+          : 'Your subscription has expired.';
 
   return (
     <aside className={styles.card} role="status">
       <div className={styles.copy}>
         <h2 className={styles.title}>Pick a plan to publish.</h2>
         <p className={styles.sub}>
-          {statusCopy} To submit a new listing for review, choose a plan that fits how you
-          sell.
+          {statusCopy} To submit a new listing for review, choose a plan
+          that fits how you sell.
         </p>
       </div>
       <Link href="/pricing" className={styles.cta}>

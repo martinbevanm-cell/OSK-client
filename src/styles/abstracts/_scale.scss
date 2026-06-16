@@ -13,6 +13,7 @@ $space: (
   '8': 4rem,
   '9': 6rem,
 );
+
 $radius: (
   'sm': 6px,
   'md': 10px,
@@ -20,6 +21,7 @@ $radius: (
   'xl': 24px,
   'pill': 999px,
 );
+
 $z: (
   'base': 1,
   'sticky': 1100,
@@ -28,6 +30,7 @@ $z: (
   'modal': 1400,
   'toast': 1500,
 );
+
 $container: (
   'narrow': 720px,
   'default': 1200px,
@@ -57,6 +60,7 @@ $font-mono: var(
   'Courier New',
   monospace
 );
+
 $transition-fast: 120ms cubic-bezier(0.4, 0, 0.2, 1);
 $transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
 $transition-slow: 320ms cubic-bezier(0.4, 0, 0.2, 1);

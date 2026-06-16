@@ -283,9 +283,7 @@
   color: var(--color-primary);
   text-decoration: none;
 
-  &:hover {
-    text-decoration: underline;
-  }
+  &:hover { text-decoration: underline; }
 }
 
 .message {

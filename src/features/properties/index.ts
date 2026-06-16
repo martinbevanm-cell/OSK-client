@@ -10,6 +10,7 @@ export {
   useSubmitPropertyForReviewMutation,
   useMarkPropertySoldMutation,
   useReopenPropertyMutation,
+  useDeletePropertyMutation,
   useUpdatePropertyMutation,
 } from './propertiesApi';
 export {

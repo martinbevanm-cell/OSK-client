@@ -1,0 +1,9 @@
+@use 'abstracts' as *;
+
+.widget {
+  /* Turnstile renders its iframe inside this container at its own
+   * intrinsic size. We just center it horizontally inside the form. */
+  display: flex;
+  justify-content: center;
+  min-block-size: 65px;
+}

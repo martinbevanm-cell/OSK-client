@@ -6,13 +6,17 @@
  * (which doesn't serve them), so we prefix them with the API origin. Full
  * URLs (http://, https://, data:, blob:) pass through untouched.
  */
-import { resolveApiBasePath, resolveApiOrigin } from '@/lib/apiBase';
-
-const API_BASE = resolveApiBasePath();
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:5000/api/v1';
 
 /** Origin of the API server, derived from API_BASE_URL (strip the /api/v1). */
 function apiOrigin(): string {
-  return resolveApiOrigin();
+  try {
+    const u = new URL(API_BASE);
+    return `${u.protocol}//${u.host}`;
+  } catch {
+    return 'http://localhost:5000';
+  }
 }
 
 export function resolveMediaUrl(url: string): string {

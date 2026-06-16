@@ -44,7 +44,7 @@ function friendlyMessage(payload: RtkRejection | undefined): string {
   /* Fallback by status when the envelope wasn't surfaced (network etc.). */
   const status = typeof payload?.status === 'number' ? payload.status : 0;
   if (payload?.status === 'FETCH_ERROR')
-    return 'Couldn’t reach the server. Check your network and backend/API configuration.';
+    return 'Can’t reach the server. Check your connection and try again.';
   if (status === 401) return 'You need to sign in to continue.';
   if (status === 403) return 'You don’t have permission to do that.';
   if (status === 404) return 'That resource wasn’t found.';

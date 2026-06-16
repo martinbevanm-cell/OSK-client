@@ -175,6 +175,12 @@
   border: 1px solid var(--border-default);
   border-radius: radius('lg');
   box-shadow: var(--shadow-sm);
+  /* Stop the editor and its child rows from being measured by
+   *  intrinsic content width — without this, a long <select>
+   *  option or unbreakable input field can push the panel past
+   *  the page edge on a phone. */
+  min-inline-size: 0;
+  inline-size: 100%;
 }
 
 .editorHead h2 {
@@ -215,6 +221,13 @@
 
 .select,
 .input {
+  /* `inline-size: 100%` + `min-inline-size: 0` lets these controls
+   *  fit their grid cell on narrow screens. Without this, the form
+   *  fields default to their intrinsic content width (which exceeds
+   *  a phone-width `1fr` track) and the row overflows the viewport
+   *  — that was the source of the horizontally-scrolling page. */
+  inline-size: 100%;
+  min-inline-size: 0;
   padding: space('2') space('3');
   background: var(--bg-inset);
   border: 1px solid var(--border-default);
@@ -262,9 +275,16 @@
 
 .priceRow {
   display: grid;
-  grid-template-columns: 6rem 1fr auto;
+  grid-template-columns: 6rem minmax(0, 1fr) auto;
   gap: space('2');
   align-items: center;
+
+  /* On phones, stack the currency + price + remove vertically so
+   * neither the currency code nor the price input gets squeezed
+   * below a usable size. */
+  @media (width <= 540px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .featureRow {
@@ -273,8 +293,13 @@
   gap: space('2');
   align-items: center;
 
+  /* Mobile: stack each control on its own line. Trying to cram 5
+   * form controls into a 2-column grid on a phone screen leaves
+   * every cell too narrow to use AND makes the page-wide horizontal
+   * overflow we just fixed easy to re-introduce. One column is
+   * taller but every control stays legible and tappable. */
   @media (width <= 720px) {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 

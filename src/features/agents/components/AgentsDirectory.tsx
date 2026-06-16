@@ -127,8 +127,8 @@ export function AgentsDirectory({ initialLimit = 12 }: AgentsDirectoryProps) {
       ) : null}
 
       <p className={cn(styles.muted, styles.footnote)}>
-        OSK verifies every agent before they appear here. Profiles get richer bios,
-        specialties and metrics in a coming release.
+        OSK verifies every agent before they appear here. Profiles get richer
+        bios, specialties and metrics in a coming release.
       </p>
     </section>
   );

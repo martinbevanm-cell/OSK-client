@@ -64,7 +64,10 @@
 .contactLink {
   margin-block-start: space('1');
   font-weight: 500;
-  color: var(--text-primary);
+  /* Match the rest of the footer body text (.link, .contact lines)
+   *  so the phone + email don't stand out as darker. The hover
+   *  state still flips to the brand colour for the affordance. */
+  color: var(--text-secondary);
   text-decoration: none;
   transition: color $transition-fast;
 

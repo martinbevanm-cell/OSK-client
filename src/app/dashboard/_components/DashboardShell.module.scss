@@ -2,8 +2,9 @@
 
 .shell {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   max-inline-size: container('wide');
+  inline-size: 100%;
   margin-inline: auto;
   padding-inline: clamp(#{space('4')}, 4vw, #{space('6')});
   padding-block: space('5') space('9');

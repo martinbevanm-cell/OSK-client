@@ -186,6 +186,80 @@
   }
 }
 
+/* Stats-tile row inside the About tab — value + label as a pair. */
+.statRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: space('2');
+  align-items: end;
+
+  @media (width <= 540px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ─── about-page repeater (values + how-it-works) ─────────────────── */
+.repeaterList {
+  display: flex;
+  flex-direction: column;
+  gap: space('3');
+  margin-block: space('3');
+}
+
+.repeaterRow {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: flex-start;
+  gap: space('3');
+  padding: space('4');
+  background: var(--bg-inset);
+  border: 1px solid var(--border-default);
+  border-radius: radius('md');
+
+  /* Phones: stack the index, fields, and remove button vertically
+   *  so nothing gets squeezed below a usable size. */
+  @media (width <= 640px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.repeaterIndex {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 36px;
+  block-size: 36px;
+  border-radius: radius('pill');
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-family: $font-display;
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+.repeaterFields {
+  display: flex;
+  flex-direction: column;
+  gap: space('2');
+  min-inline-size: 0;
+}
+
+.repeaterRemove {
+  background: transparent;
+  border: 1px solid var(--color-danger);
+  padding: space('2') space('3');
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-danger);
+  border-radius: radius('sm');
+  cursor: pointer;
+  align-self: flex-start;
+
+  &:hover {
+    background: var(--color-danger-soft);
+  }
+}
+
 /* ─── theme picker ───────────────────────────────────────────────────── */
 .themeGrid {
   display: grid;

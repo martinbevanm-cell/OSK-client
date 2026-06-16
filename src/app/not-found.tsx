@@ -19,8 +19,8 @@ export default function NotFoundPage() {
           This <em>listing</em> couldn’t be found.
         </h1>
         <p className={styles.sub}>
-          The page you’re looking for may have been moved, sold, or never existed. Head
-          back to the home page or browse listings instead.
+          The page you’re looking for may have been moved, sold, or never
+          existed. Head back to the home page or browse listings instead.
         </p>
 
         <div className={styles.actions}>

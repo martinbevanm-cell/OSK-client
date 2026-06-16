@@ -7,7 +7,13 @@ const DEFAULT_THEME: ThemeName =
     ? (process.env.NEXT_PUBLIC_DEFAULT_THEME as ThemeName)
     : 'theme-luxe-light';
 
-export type ModalId = 'auth' | 'contact' | 'callback' | 'gallery' | 'filters' | null;
+export type ModalId =
+  | 'auth'
+  | 'contact'
+  | 'callback'
+  | 'gallery'
+  | 'filters'
+  | null;
 
 export interface Toast {
   id: string;
@@ -74,6 +80,10 @@ export const {
   toastPushed,
   toastDismissed,
 } = uiSlice.actions;
-export const { selectTheme, selectActiveModal, selectMobileNavOpen, selectToasts } =
-  uiSlice.selectors;
+export const {
+  selectTheme,
+  selectActiveModal,
+  selectMobileNavOpen,
+  selectToasts,
+} = uiSlice.selectors;
 export const uiReducer = uiSlice.reducer;

@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { PropertyCard } from '@/components/property/PropertyCard';
 import { Button } from '@/components/ui';
@@ -12,12 +13,24 @@ export function SavedListings() {
   const dispatch = useAppDispatch();
   const items = useAppSelector(selectSavedItems);
 
+  /* The saved-list lives in localStorage and is hydrated into the
+   * Redux store synchronously on client boot. That means the server
+   * render shows zero items while the very first client render
+   * already has the persisted ones — a classic React hydration
+   * mismatch (error 418 in prod). We gate the render on a mount
+   * flag so the server and the first client paint agree (both show
+   * the empty state), then the real items appear after mount. */
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const onClearAll = () => {
     dispatch(clearSaved());
     dispatch(toastPushed('info', 'All saved listings cleared.'));
   };
 
-  if (items.length === 0) {
+  if (!mounted || items.length === 0) {
     return (
       <div className={styles.empty}>
         <div className={styles.emptyIcon} aria-hidden="true">

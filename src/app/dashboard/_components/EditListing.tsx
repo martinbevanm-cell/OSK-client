@@ -31,8 +31,8 @@ export function EditListing({ slug }: { slug: string }) {
           <span className={styles.eyebrow}>Edit listing</span>
           <h1 className={styles.title}>Listing not found</h1>
           <p className={styles.sub}>
-            The listing you’re trying to edit doesn’t exist, or you don’t have permission
-            to manage it.
+            The listing you’re trying to edit doesn’t exist, or you don’t have
+            permission to manage it.
           </p>
           <Link href="/dashboard/listings" className={styles.back}>
             ← Back to listings

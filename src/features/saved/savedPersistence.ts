@@ -32,14 +32,26 @@ export function loadSavedItems(): PropertySummary[] {
     if (!Array.isArray(parsed)) return [];
     // Defensive shape check — drop anything that doesn't at least look like
     // a PropertySummary so a stale schema can't corrupt the slice.
-    return parsed.filter(
-      (item): item is PropertySummary =>
-        !!item &&
-        typeof item === 'object' &&
-        'id' in item &&
-        'slug' in item &&
-        'title' in item,
-    );
+    // Also backfill any field added to PropertySummary AFTER the row was
+    // persisted (e.g. `country`) so downstream components don't crash on
+    // undefined / blow up the layout for legacy entries.
+    return parsed
+      .filter(
+        (item): item is Record<string, unknown> =>
+          !!item &&
+          typeof item === 'object' &&
+          'id' in item &&
+          'slug' in item &&
+          'title' in item,
+      )
+      .map((item) => {
+        const country =
+          typeof (item as { country?: unknown }).country === 'string' &&
+          (item as { country: string }).country.length > 0
+            ? (item as { country: string }).country
+            : 'US';
+        return { ...item, country } as PropertySummary;
+      });
   } catch {
     return [];
   }

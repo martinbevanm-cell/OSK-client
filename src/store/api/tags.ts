@@ -23,6 +23,10 @@ export const API_TAGS = [
   'SubscriptionPlan',
   'Subscription',
   'EmailSettings',
+  'CaptchaSettings',
+  'GoogleAuthSettings',
+  'ContactMessage',
+  'NewsletterSubscriber',
 ] as const;
 
 export type ApiTag = (typeof API_TAGS)[number];

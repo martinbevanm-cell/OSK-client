@@ -2,16 +2,20 @@
 
 import { useState } from 'react';
 import {
+  EMAIL_PREVIEW_LABELS,
+  EMAIL_PREVIEW_TYPES,
   EMAIL_PROVIDER_KEYS,
   EMAIL_PROVIDER_LABELS,
   EMAIL_TEMPLATE_KEYS,
   EMAIL_TEMPLATE_LABELS,
   EMAIL_TEMPLATE_DESCRIPTIONS,
+  type EmailPreviewType,
   type EmailProviderKey,
   type EmailTemplateKey,
 } from '@contracts';
 import {
   useGetEmailSettingsQuery,
+  usePreviewEmailQuery,
   useSendTestEmailMutation,
   useUpdateEmailSettingsMutation,
 } from '@/features/email';
@@ -63,6 +67,7 @@ export function EmailManager() {
   const [resendDraft, setResendDraft] = useState<ResendDraft>({});
   const [smtpDraft, setSmtpDraft] = useState<SmtpDraft>({});
   const [testRecipient, setTestRecipient] = useState<string>('');
+  const [previewType, setPreviewType] = useState<EmailPreviewType>('welcome');
 
   if (isLoading || !settings) {
     return (
@@ -285,6 +290,13 @@ export function EmailManager() {
         </div>
       </section>
 
+      {/* ── Live preview ────────────────────────────────────────────── */}
+      <EmailPreviewCard
+        template={effectiveTemplate}
+        type={previewType}
+        onTypeChange={setPreviewType}
+      />
+
       {/* ── Resend credentials ──────────────────────────────────────── */}
       {effectiveProvider === 'resend' ? (
         <section className={styles.card}>
@@ -361,7 +373,18 @@ export function EmailManager() {
                 type="checkbox"
                 checked={smtpDraft.secure ?? settings.smtp.secure}
                 onChange={(e) =>
-                  setSmtpDraft((d) => ({ ...d, secure: e.currentTarget.checked }))
+                  setSmtpDraft((d) => ({
+                    ...d,
+                    secure: e.currentTarget.checked,
+                    // Keep port aligned with transport mode to avoid TLS mismatch.
+                    port: e.currentTarget.checked
+                      ? (d.port ?? settings.smtp.port) === 587
+                        ? 465
+                        : (d.port ?? settings.smtp.port)
+                      : (d.port ?? settings.smtp.port) === 465
+                        ? 587
+                        : (d.port ?? settings.smtp.port),
+                  }))
                 }
               />
               <span>Secure (TLS on port 465)</span>
@@ -470,21 +493,86 @@ function SecretField({
   );
 }
 
+/* ─── live preview card ───────────────────────────────────────────── */
+
+function EmailPreviewCard({
+  template,
+  type,
+  onTypeChange,
+}: {
+  template: EmailTemplateKey;
+  type: EmailPreviewType;
+  onTypeChange: (t: EmailPreviewType) => void;
+}) {
+  const { data, isFetching } = usePreviewEmailQuery({ template, type });
+
+  /* The backend returns a full <!doctype html> document. Drop it
+   * into a sandboxed iframe via srcDoc so its CSS doesn't leak into
+   * the admin page (and so the admin sees exactly what a real
+   * client renders). */
+  return (
+    <section className={styles.card}>
+      <header className={styles.cardHead}>
+        <h2 className={styles.cardTitle}>Live preview</h2>
+        <p className={styles.cardSub}>
+          See what each transactional email will look like to your users using the
+          currently selected template. The dropdown switches between every event the
+          platform sends.
+        </p>
+      </header>
+
+      <div className={styles.previewControls}>
+        <label className={styles.field}>
+          <span className={styles.fieldLabel}>Email type</span>
+          <select
+            className={styles.select}
+            value={type}
+            onChange={(e) => onTypeChange(e.currentTarget.value as EmailPreviewType)}
+          >
+            {EMAIL_PREVIEW_TYPES.map((t) => (
+              <option key={t} value={t}>
+                {EMAIL_PREVIEW_LABELS[t]}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+
+      {data ? (
+        <p className={styles.previewSubject}>
+          <span className={styles.previewSubjectLabel}>Subject:</span>{' '}
+          <strong>{data.subject}</strong>
+        </p>
+      ) : null}
+
+      <div className={styles.previewFrameWrap}>
+        {isFetching && !data ? (
+          <p className={styles.muted}>Rendering preview…</p>
+        ) : (
+          <iframe
+            title={`Email preview — ${type}`}
+            sandbox=""
+            srcDoc={data?.html ?? ''}
+            className={styles.previewFrame}
+          />
+        )}
+      </div>
+    </section>
+  );
+}
+
 /* ─── template preview thumbnails ─────────────────────────────────── */
 
 function TemplatePreview({ templateKey }: { templateKey: EmailTemplateKey }) {
-  const previewVariants: Record<EmailTemplateKey, string> = {
-    warm: styles.templatePreviewWarm || '',
-    clean: styles.templatePreviewClean || '',
-    dark: styles.templatePreviewDark || '',
-    brand: styles.templatePreviewBrand || '',
-  };
+  const variantClass = {
+    warm: styles.templateWarm,
+    clean: styles.templateClean,
+    dark: styles.templateDark,
+    brand: styles.templateBrand,
+  }[templateKey];
 
   return (
-    <div
-      className={cn(styles.templatePreview, previewVariants[templateKey])}
-      aria-hidden="true"
-    >
+    <div className={`${styles.templatePreview} ${variantClass}`} aria-hidden="true">
       <div className={styles.templatePreviewCard}>
         <div className={styles.templatePreviewHeader}>OSK</div>
         <div className={styles.templatePreviewBody}>

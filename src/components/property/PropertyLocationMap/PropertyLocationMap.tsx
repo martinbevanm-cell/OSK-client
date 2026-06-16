@@ -31,7 +31,8 @@ export function PropertyLocationMap({
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  const styleUrl = process.env.NEXT_PUBLIC_MAP_STYLE_URL ?? DEFAULT_STYLE_URL;
+  const styleUrl =
+    process.env.NEXT_PUBLIC_MAP_STYLE_URL ?? DEFAULT_STYLE_URL;
 
   const directionsHref = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
 
@@ -64,7 +65,12 @@ export function PropertyLocationMap({
                     width="200%"
                     height="160%"
                   >
-                    <feDropShadow dx="0" dy="2" stdDeviation="2" floodOpacity="0.3" />
+                    <feDropShadow
+                      dx="0"
+                      dy="2"
+                      stdDeviation="2"
+                      floodOpacity="0.3"
+                    />
                   </filter>
                 </defs>
                 <path
@@ -72,7 +78,12 @@ export function PropertyLocationMap({
                   className={styles.pinBody}
                   d="M16 0C7.16 0 0 7.06 0 15.78 0 27.6 14.39 42.4 15 43.04a1.4 1.4 0 0 0 2 0c.61-.64 15-15.45 15-27.27C32 7.06 24.84 0 16 0z"
                 />
-                <circle className={styles.pinDot} cx="16" cy="15.78" r="5.5" />
+                <circle
+                  className={styles.pinDot}
+                  cx="16"
+                  cy="15.78"
+                  r="5.5"
+                />
               </svg>
             </div>
           </Marker>

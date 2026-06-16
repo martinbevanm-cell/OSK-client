@@ -226,15 +226,15 @@
 
   @include focus-ring;
 
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
   &:hover:not(:disabled) {
     border-color: var(--color-primary);
     background: var(--color-primary-soft);
     color: var(--color-primary);
-  }
-
-  &:disabled {
-    opacity: 0.45;
-    cursor: not-allowed;
   }
 }
 
@@ -279,6 +279,29 @@
   }
 }
 
+.deleteBtn {
+  padding: space('2') space('4');
+  border-radius: radius('pill');
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  background: var(--color-danger);
+  color: var(--text-inverse);
+  border: 1px solid var(--color-danger);
+
+  @include focus-ring;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:hover:not(:disabled) {
+    filter: brightness(0.95);
+  }
+}
+
 /* ─── pager ──────────────────────────────────────────────────────────── */
 .pager {
   display: flex;
@@ -300,13 +323,13 @@
 
   @include focus-ring;
 
-  &:hover:not(:disabled) {
-    border-color: var(--color-primary);
-  }
-
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-primary);
   }
 }
 

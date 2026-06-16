@@ -1,5 +1,10 @@
 import { baseApi } from '@/store/api/baseApi';
-import type { ApiSuccess, Notification, Paginated, PaginationMeta } from '@contracts';
+import type {
+  ApiSuccess,
+  Notification,
+  Paginated,
+  PaginationMeta,
+} from '@contracts';
 
 interface ListMeta extends PaginationMeta {
   unread: number;

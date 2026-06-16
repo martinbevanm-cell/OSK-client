@@ -6,7 +6,7 @@ import { resolveMediaUrl } from '../mediaUrl';
  * so the helper falls back to http://localhost:5000/api/v1 — origin is
  * http://localhost:5000.
  */
-const ORIGIN = 'http://localhost:3000';
+const ORIGIN = 'http://localhost:5000';
 
 describe('resolveMediaUrl', () => {
   it('returns absolute URLs untouched', () => {
@@ -24,14 +24,18 @@ describe('resolveMediaUrl', () => {
   });
 
   it('prefixes paths starting with / with the API origin', () => {
-    expect(resolveMediaUrl('/uploads/abc.jpg')).toBe(`${ORIGIN}/uploads/abc.jpg`);
+    expect(resolveMediaUrl('/uploads/abc.jpg')).toBe(
+      `${ORIGIN}/uploads/abc.jpg`,
+    );
   });
 
   it('prepends a slash to bare relative paths', () => {
-    expect(resolveMediaUrl('uploads/abc.jpg')).toBe(`${ORIGIN}/uploads/abc.jpg`);
+    expect(resolveMediaUrl('uploads/abc.jpg')).toBe(
+      `${ORIGIN}/uploads/abc.jpg`,
+    );
   });
 
-  it("passes empty strings through (don't inject an origin onto nothing)", () => {
+  it('passes empty strings through (don\'t inject an origin onto nothing)', () => {
     expect(resolveMediaUrl('')).toBe('');
   });
 });

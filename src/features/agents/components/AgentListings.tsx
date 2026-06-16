@@ -32,9 +32,7 @@ export function AgentListings({ agentId, initialLimit = 9 }: AgentListingsProps)
     return <p className={styles.muted}>Loading listings…</p>;
   }
   if (isError) {
-    return (
-      <p className={styles.muted}>Couldn&rsquo;t load this agent&rsquo;s listings.</p>
-    );
+    return <p className={styles.muted}>Couldn&rsquo;t load this agent&rsquo;s listings.</p>;
   }
   if (items.length === 0) {
     return (

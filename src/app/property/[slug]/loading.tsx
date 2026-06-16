@@ -18,10 +18,7 @@ export default function PropertyDetailLoading() {
         <div className={styles.main}>
           <div className={styles.lede}>
             <span className={styles.bar} style={{ inlineSize: '7rem' }} />
-            <span
-              className={styles.bar}
-              style={{ inlineSize: '70%', blockSize: '2.4rem' }}
-            />
+            <span className={styles.bar} style={{ inlineSize: '70%', blockSize: '2.4rem' }} />
             <span className={styles.bar} style={{ inlineSize: '50%' }} />
           </div>
 

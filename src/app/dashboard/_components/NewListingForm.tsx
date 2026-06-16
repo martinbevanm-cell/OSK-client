@@ -68,7 +68,10 @@ const FALLBACK_LOCATION: [number, number] = [-74.0086, 40.7163];
  * Resolve [lng, lat] for a `(country, city)` pair using the bundled
  * `country-state-city` dataset. Falls back to country centroid, then NYC.
  */
-function resolveCoords(countryIso2: string, cityName: string): [number, number] {
+function resolveCoords(
+  countryIso2: string,
+  cityName: string,
+): [number, number] {
   const cityMatch = findCity(countryIso2, cityName);
   if (cityMatch && cityMatch.lat != null && cityMatch.lng != null) {
     return [cityMatch.lng, cityMatch.lat];
@@ -128,7 +131,10 @@ export function NewListingForm({ initialProperty }: NewListingFormProps = {}) {
 
   /* Currency + cities derive from the picked country. */
   const currencyCode = useMemo(() => currencyForCountry(country), [country]);
-  const currencySymbol = useMemo(() => currencySymbolForCountry(country), [country]);
+  const currencySymbol = useMemo(
+    () => currencySymbolForCountry(country),
+    [country],
+  );
   const cities = useMemo(() => getCitiesByCountry(country), [country]);
 
   /* Media is managed outside react-hook-form so the uploader can push
@@ -152,10 +158,18 @@ export function NewListingForm({ initialProperty }: NewListingFormProps = {}) {
       type: initialProperty?.type ?? 'home',
       listingKind: initialProperty?.listingKind ?? 'resale',
       price: initialProperty ? String(initialProperty.price) : '',
-      bedrooms: initialProperty?.bedrooms != null ? String(initialProperty.bedrooms) : '',
+      bedrooms:
+        initialProperty?.bedrooms != null
+          ? String(initialProperty.bedrooms)
+          : '',
       bathrooms:
-        initialProperty?.bathrooms != null ? String(initialProperty.bathrooms) : '',
-      areaSqft: initialProperty?.areaSqft != null ? String(initialProperty.areaSqft) : '',
+        initialProperty?.bathrooms != null
+          ? String(initialProperty.bathrooms)
+          : '',
+      areaSqft:
+        initialProperty?.areaSqft != null
+          ? String(initialProperty.areaSqft)
+          : '',
       locality: initialProperty?.locality ?? '',
       city: initialProperty?.city ?? '',
       amenitiesRaw: initialProperty?.amenities?.join(', ') ?? '',
@@ -171,10 +185,18 @@ export function NewListingForm({ initialProperty }: NewListingFormProps = {}) {
       type: initialProperty.type,
       listingKind: initialProperty.listingKind,
       price: String(initialProperty.price),
-      bedrooms: initialProperty.bedrooms != null ? String(initialProperty.bedrooms) : '',
+      bedrooms:
+        initialProperty.bedrooms != null
+          ? String(initialProperty.bedrooms)
+          : '',
       bathrooms:
-        initialProperty.bathrooms != null ? String(initialProperty.bathrooms) : '',
-      areaSqft: initialProperty.areaSqft != null ? String(initialProperty.areaSqft) : '',
+        initialProperty.bathrooms != null
+          ? String(initialProperty.bathrooms)
+          : '',
+      areaSqft:
+        initialProperty.areaSqft != null
+          ? String(initialProperty.areaSqft)
+          : '',
       locality: initialProperty.locality,
       city: initialProperty.city,
       amenitiesRaw: initialProperty.amenities.join(', '),
@@ -291,7 +313,9 @@ export function NewListingForm({ initialProperty }: NewListingFormProps = {}) {
 
     const parsed = createPropertySchema.safeParse(payload);
     if (!parsed.success) {
-      setSubmitError(parsed.error.issues[0]?.message ?? 'Please review the form.');
+      setSubmitError(
+        parsed.error.issues[0]?.message ?? 'Please review the form.',
+      );
       return;
     }
 
@@ -323,9 +347,15 @@ export function NewListingForm({ initialProperty }: NewListingFormProps = {}) {
         (err as { originalStatus?: unknown })?.originalStatus;
       const body = (err as { data?: { error?: { message?: string } } })?.data;
       const message = body?.error?.message ?? '';
-      if (!isEditMode && (status === 403 || /\bplan\b|\bsubscribe\b/i.test(message))) {
+      if (
+        !isEditMode &&
+        (status === 403 || /\bplan\b|\bsubscribe\b/i.test(message))
+      ) {
         dispatch(
-          toastPushed('info', message || 'You need an active plan to publish listings.'),
+          toastPushed(
+            'info',
+            message || 'You need an active plan to publish listings.',
+          ),
         );
         router.push('/pricing');
         return;
@@ -386,14 +416,19 @@ export function NewListingForm({ initialProperty }: NewListingFormProps = {}) {
                 {...register('description', { required: true, minLength: 30 })}
               />
               {errors.description ? (
-                <span className={styles.fieldError}>At least 30 characters.</span>
+                <span className={styles.fieldError}>
+                  At least 30 characters.
+                </span>
               ) : (
                 <span className={styles.fieldHint}>Hint: {descriptionHint}</span>
               )}
             </label>
             <label className={styles.field}>
               <span className={styles.fieldLabel}>Property type</span>
-              <select className={styles.select} {...register('type', { required: true })}>
+              <select
+                className={styles.select}
+                {...register('type', { required: true })}
+              >
                 {PROPERTY_TYPES.map((t) => (
                   <option key={t} value={t}>
                     {TYPE_LABEL[t]}
@@ -500,8 +535,8 @@ export function NewListingForm({ initialProperty }: NewListingFormProps = {}) {
                 <span className={styles.fieldError}>Required.</span>
               ) : (
                 <span className={styles.fieldHint}>
-                  We&rsquo;ll pin the listing to this city on the map. Pricing is in{' '}
-                  {currencyCode}.
+                  We&rsquo;ll pin the listing to this city on the map. Pricing
+                  is in {currencyCode}.
                 </span>
               )}
             </label>
@@ -526,7 +561,10 @@ export function NewListingForm({ initialProperty }: NewListingFormProps = {}) {
           {media.length > 0 ? (
             <ul className={styles.mediaGrid}>
               {media.map((m, i) => (
-                <li key={`${m.url}-${i}`} className={styles.mediaTile}>
+                <li
+                  key={`${m.url}-${i}`}
+                  className={styles.mediaTile}
+                >
                   {m.kind === 'video' ? (
                     <video
                       src={resolveMediaUrl(m.url)}
@@ -542,11 +580,15 @@ export function NewListingForm({ initialProperty }: NewListingFormProps = {}) {
                       className={styles.mediaPreview}
                     />
                   )}
-                  {i === 0 ? <span className={styles.mediaCover}>Cover</span> : null}
+                  {i === 0 ? (
+                    <span className={styles.mediaCover}>Cover</span>
+                  ) : null}
                   <button
                     type="button"
                     className={styles.mediaRemove}
-                    onClick={() => setMedia((prev) => prev.filter((_, idx) => idx !== i))}
+                    onClick={() =>
+                      setMedia((prev) => prev.filter((_, idx) => idx !== i))
+                    }
                     aria-label="Remove media"
                   >
                     ×
@@ -567,7 +609,8 @@ export function NewListingForm({ initialProperty }: NewListingFormProps = {}) {
               {...register('amenitiesRaw')}
             />
             <span className={styles.fieldHint}>
-              Optional — separate items with commas. We&rsquo;ll render each as a chip.
+              Optional — separate items with commas. We&rsquo;ll render each as
+              a chip.
             </span>
           </label>
         </fieldset>
@@ -580,7 +623,11 @@ export function NewListingForm({ initialProperty }: NewListingFormProps = {}) {
 
         <div className={styles.actions}>
           <Button type="submit" size="lg" disabled={isLoading}>
-            {isLoading ? 'Saving…' : isEditMode ? 'Save changes' : 'Create listing'}
+            {isLoading
+              ? 'Saving…'
+              : isEditMode
+                ? 'Save changes'
+                : 'Create listing'}
           </Button>
           <Link href="/dashboard/listings" className={cn(styles.ghost)}>
             Cancel

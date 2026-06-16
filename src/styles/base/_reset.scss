@@ -8,14 +8,25 @@
 }
 
 html {
-  text-size-adjust: 100%;
+  /* stylelint-disable-next-line property-no-vendor-prefix --
+       iOS Safari still needs the WebKit-prefixed form (text-size-adjust
+       without prefix is not supported there as of writing). */
+  -webkit-text-size-adjust: 100%;
   text-rendering: optimizelegibility;
+  /* stylelint-disable-next-line property-no-vendor-prefix --
+       Vendor-prefixed font-smoothing is the only way to get the
+       anti-aliased look in WebKit-based browsers. */
   -webkit-font-smoothing: antialiased;
 }
 
 body {
   min-height: 100dvh;
   line-height: 1.55;
+  /* Defensive guard: never let a stray nowrap / wide table / unscoped
+   * media element produce a horizontal scrollbar across the whole
+   * page. Pages that legitimately need horizontal scroll (admin
+   * tables, etc.) should scroll on their own container, not on body. */
+  overflow-x: hidden;
 }
 
 img,

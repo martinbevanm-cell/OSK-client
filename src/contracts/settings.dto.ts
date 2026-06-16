@@ -48,6 +48,52 @@ export interface SiteSettingsLegal {
   termsUpdatedAt: string;
 }
 
+/** A single value/title pair used by the About page values cards
+ *  and process steps. Edited per-row in the admin editor. */
+export interface SiteSettingsAboutItem {
+  title: string;
+  body: string;
+}
+
+/** A trusted-partner tile on the home page. */
+export interface SiteSettingsPartnerItem {
+  name: string;
+  role: string;
+}
+
+/** Editable copy for the home page "Trusted partners" strip. */
+export interface SiteSettingsPartners {
+  eyebrow: string;
+  title: string;
+  sub: string;
+  items: SiteSettingsPartnerItem[];
+}
+
+/** Editable copy for the About page. Every visible string lives
+ *  here so admins can rewrite the marketing without a deploy. */
+export interface SiteSettingsAbout {
+  header: {
+    eyebrow: string;
+    titlePrefix: string;
+    titleEmphasis: string;
+    lede: string;
+  };
+  values: {
+    eyebrow: string;
+    title: string;
+    items: SiteSettingsAboutItem[];
+  };
+  process: {
+    eyebrow: string;
+    title: string;
+    items: SiteSettingsAboutItem[];
+  };
+  cta: {
+    title: string;
+    body: string;
+  };
+}
+
 /** Returned by GET /settings and PATCH /admin/settings. */
 export interface SiteSettings {
   activeTheme: ThemeName;
@@ -59,6 +105,8 @@ export interface SiteSettings {
   geo: SiteSettingsGeo;
   homeStats: SiteSettingsStat[];
   legal: SiteSettingsLegal;
+  about: SiteSettingsAbout;
+  partners: SiteSettingsPartners;
   updatedAt: string;
 }
 
@@ -72,4 +120,24 @@ export type SiteSettingsPatch = Partial<{
   geo: Partial<SiteSettingsGeo>;
   homeStats: SiteSettingsStat[];
   legal: Partial<SiteSettingsLegal>;
+  about: {
+    header?: Partial<SiteSettingsAbout['header']>;
+    values?: {
+      eyebrow?: string;
+      title?: string;
+      items?: SiteSettingsAboutItem[];
+    };
+    process?: {
+      eyebrow?: string;
+      title?: string;
+      items?: SiteSettingsAboutItem[];
+    };
+    cta?: Partial<SiteSettingsAbout['cta']>;
+  };
+  partners: {
+    eyebrow?: string;
+    title?: string;
+    sub?: string;
+    items?: SiteSettingsPartnerItem[];
+  };
 }>;

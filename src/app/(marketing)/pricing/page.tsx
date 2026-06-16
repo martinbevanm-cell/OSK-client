@@ -21,9 +21,9 @@ export default function PricingPage() {
         </p>
         <h1 className={styles.title}>Pick a plan that fits how you list.</h1>
         <p className={styles.lede}>
-          Every plan ships with the same buyer-side tools. Pick a tier based on how many
-          listings you publish, how many agents you run, and whether you want premium
-          placement.
+          Every plan ships with the same buyer-side tools. Pick a tier
+          based on how many listings you publish, how many agents you
+          run, and whether you want premium placement.
         </p>
       </header>
 

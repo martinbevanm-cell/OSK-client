@@ -1,5 +1,9 @@
 import { baseApi } from '@/store/api/baseApi';
-import type { ApiSuccess, SiteSettings, SiteSettingsPatch } from '@contracts';
+import type {
+  ApiSuccess,
+  SiteSettings,
+  SiteSettingsPatch,
+} from '@contracts';
 
 /**
  * Site-wide settings (theme / logo / contact). Single tag so any mutation
@@ -29,4 +33,7 @@ export const settingsApi = baseApi.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useGetSiteSettingsQuery, useUpdateSiteSettingsMutation } = settingsApi;
+export const {
+  useGetSiteSettingsQuery,
+  useUpdateSiteSettingsMutation,
+} = settingsApi;

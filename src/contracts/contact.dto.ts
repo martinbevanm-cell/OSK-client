@@ -93,3 +93,48 @@ export const updateInquirySchema = z.object({
   status: z.enum(['new', 'contacted', 'callback-requested', 'closed']),
 });
 export type UpdateInquiryDto = z.infer<typeof updateInquirySchema>;
+
+/* ─── Public general-contact form (admin recipients) ─────────────── */
+
+export const CONTACT_TOPICS = [
+  'General inquiry',
+  'Sales',
+  'Support',
+  'Press',
+  'Partnerships',
+] as const;
+export type ContactTopic = (typeof CONTACT_TOPICS)[number];
+
+export const contactGeneralSchema = z.object({
+  name: z.string().min(2, 'Please enter your full name.').max(80),
+  email: z.string().email('Please enter a valid email.').max(200),
+  topic: z.enum(CONTACT_TOPICS),
+  message: z
+    .string()
+    .min(20, 'Tell us a little more — at least 20 characters.')
+    .max(4000),
+  consent: z.literal(true, {
+    errorMap: () => ({ message: 'Please confirm consent to contact you.' }),
+  }),
+  captchaToken: z.string().min(1).max(4000),
+});
+export type ContactGeneralDto = z.infer<typeof contactGeneralSchema>;
+
+export type ContactMessageStatus = 'new' | 'replied' | 'closed';
+
+export interface ContactMessage {
+  id: string;
+  name: string;
+  email: string;
+  topic: ContactTopic;
+  message: string;
+  status: ContactMessageStatus;
+  adminNote: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ContactMessagePatchDto {
+  status?: ContactMessageStatus;
+  adminNote?: string;
+}

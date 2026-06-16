@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useMemo, useState, type FormEvent } from 'react';
+import { useCallback, useEffect, useMemo, useState, type FormEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { updateProfileSchema, type UpdateProfileDto } from '@contracts';
+import { updateProfileSchema } from '@contracts';
 import { z } from 'zod';
 import { useGetMeQuery, useUpdateMeMutation } from '@/features/users';
 import { CountrySelectPanel } from '@/features/geo';
@@ -119,15 +119,22 @@ export function ProfileEditor() {
   );
   const isProfileComplete = missingFields.length === 0;
 
-  function resolveCountryIso(rawCountry?: string): string {
-    const trimmed = rawCountry?.trim();
-    if (!trimmed) return 'US';
-    if (trimmed.length === 2) {
-      const iso2 = trimmed.toUpperCase();
-      return getCountry(iso2) ? iso2 : 'US';
-    }
-    return countryIsoByName.get(trimmed.toLowerCase()) ?? 'US';
-  }
+  /* `useCallback` so the reference is stable across renders that
+   *  don't change `countryIsoByName`. Lets us include it in the
+   *  hydration effect's deps array without triggering an infinite
+   *  re-run loop. */
+  const resolveCountryIso = useCallback(
+    (rawCountry?: string): string => {
+      const trimmed = rawCountry?.trim();
+      if (!trimmed) return 'US';
+      if (trimmed.length === 2) {
+        const iso2 = trimmed.toUpperCase();
+        return getCountry(iso2) ? iso2 : 'US';
+      }
+      return countryIsoByName.get(trimmed.toLowerCase()) ?? 'US';
+    },
+    [countryIsoByName],
+  );
 
   /* Sync form + avatar state when the profile loads. */
   useEffect(() => {
@@ -153,7 +160,7 @@ export function ProfileEditor() {
       setAvatarUrl(me.avatarUrl ?? '');
       setAvatarDirty(false);
     }
-  }, [countryIsoByName, countryNameByIso, me, reset]);
+  }, [countryIsoByName, countryNameByIso, me, reset, resolveCountryIso]);
 
   const onSubmit = async (values: ProfileEditorValues) => {
     try {
@@ -312,7 +319,7 @@ export function ProfileEditor() {
                 <TextField
                   label="Phone"
                   autoComplete="tel"
-                  placeholder="+1 365 955 7829"
+                  placeholder="+1 555 123 4567"
                   required
                   {...register('phone')}
                   error={errors.phone?.message}
@@ -365,7 +372,7 @@ export function ProfileEditor() {
               <TextField
                 label="Address"
                 autoComplete="street-address"
-                placeholder="101 Catherine Street, 6th Floor"
+                placeholder="123 Main Street"
                 required
                 {...register('address')}
                 error={errors.address?.message}

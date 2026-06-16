@@ -203,6 +203,45 @@ const NAV: NavItem[] = [
     ),
   },
   {
+    href: '/admin/contact-messages',
+    label: 'Contact inbox',
+    icon: (
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+        <path
+          d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    ),
+  },
+  {
+    href: '/admin/subscribers',
+    label: 'Subscribers',
+    icon: (
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+        <path
+          d="M3 7h18M3 12h18M3 17h12"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+        />
+        <circle
+          cx="20"
+          cy="17"
+          r="2.2"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+        />
+      </svg>
+    ),
+  },
+  {
     href: '/admin/email',
     label: 'Email',
     icon: (
@@ -228,6 +267,56 @@ const NAV: NavItem[] = [
       </svg>
     ),
   },
+  {
+    href: '/admin/google',
+    label: 'Google sign-in',
+    icon: (
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+        <path
+          d="M21 12c0-.65-.06-1.27-.17-1.86H12v3.52h5.05a4.32 4.32 0 0 1-1.87 2.83v2.35h3.02C19.93 17.17 21 14.83 21 12z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M12 21c2.43 0 4.47-.81 5.96-2.19l-3.02-2.35c-.84.57-1.91.9-2.94.9-2.26 0-4.18-1.53-4.86-3.58H3.94v2.25A8.99 8.99 0 0 0 12 21z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M7.14 13.78A5.42 5.42 0 0 1 6.86 12c0-.62.11-1.22.28-1.78V7.97H3.94A9 9 0 0 0 3 12c0 1.45.34 2.82.94 4.03l3.2-2.25z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M12 6.58c1.32 0 2.5.45 3.43 1.34l2.57-2.57A8.99 8.99 0 0 0 12 3a8.99 8.99 0 0 0-8.06 4.97l3.2 2.25C7.82 8.11 9.74 6.58 12 6.58z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinejoin="round"
+        />
+      </svg>
+    ),
+  },
+  /* Captcha admin tab — commented out for now. Uncomment to re-enable.
+   * Backend routes and the admin page remain intact and reachable via
+   * /admin/captcha directly. */
+  // {
+  //   href: '/admin/captcha',
+  //   label: 'Captcha',
+  //   icon: (
+  //     <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+  //       <rect x="4" y="9" width="16" height="11" rx="2" fill="none" stroke="currentColor" strokeWidth="1.75" />
+  //       <path d="M8 9V7a4 4 0 018 0v2" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+  //       <circle cx="12" cy="14" r="1.5" fill="currentColor" />
+  //     </svg>
+  //   ),
+  // },
   {
     href: '/admin/audit',
     label: 'Audit log',

@@ -101,18 +101,24 @@ export function Header() {
           <HeaderAuth />
         </div>
 
-        <button
-          type="button"
-          className={cn(styles.ham, open && styles.hamOpen)}
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          aria-expanded={open}
-          aria-controls="primary-mobile-nav"
-          onClick={() => setOpen((o) => !o)}
-        >
-          <span />
-          <span />
-          <span />
-        </button>
+        {/* Mobile-only bell + hamburger pair. The bell sits OUTSIDE
+         *  `.actions` (which is desktop-only) so signed-in users can
+         *  glance at their unread count without opening the drawer. */}
+        <div className={styles.mobileActions}>
+          <NotificationsBell />
+          <button
+            type="button"
+            className={cn(styles.ham, open && styles.hamOpen)}
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-expanded={open}
+            aria-controls="primary-mobile-nav"
+            onClick={() => setOpen((o) => !o)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+        </div>
       </div>
 
       <div

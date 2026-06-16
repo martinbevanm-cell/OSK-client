@@ -61,23 +61,8 @@ const VALUES = [
     copy: 'Your details stay between you and the owner. We never sell personal data, and consent is logged for every channel you opt into.',
     icon: (
       <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-        <rect
-          x="4"
-          y="11"
-          width="16"
-          height="10"
-          rx="2"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.75"
-        />
-        <path
-          d="M8 11V7a4 4 0 1 1 8 0v4"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.75"
-          strokeLinecap="round"
-        />
+        <rect x="4" y="11" width="16" height="10" rx="2" fill="none" stroke="currentColor" strokeWidth="1.75" />
+        <path d="M8 11V7a4 4 0 1 1 8 0v4" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
       </svg>
     ),
   },
@@ -93,8 +78,8 @@ export function WhyOsk() {
           A quieter, more <em>honest</em> way to buy.
         </h2>
         <p className={styles.sub}>
-          We built OSK to be the platform we&rsquo;d want to use ourselves — curated,
-          direct, and respectful of your time.
+          We built OSK to be the platform we&rsquo;d want to use ourselves —
+          curated, direct, and respectful of your time.
         </p>
       </header>
 

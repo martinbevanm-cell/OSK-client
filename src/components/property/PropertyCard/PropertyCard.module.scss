@@ -16,7 +16,6 @@
   &:hover {
     transform: translateY(-4px);
     border-color: var(--border-strong);
-
     @include elevation('lg');
   }
 }
@@ -75,7 +74,6 @@
   font-size: 1rem;
   font-weight: 600;
   color: var(--text-primary);
-
   @include line-clamp(1);
 
   a:hover {

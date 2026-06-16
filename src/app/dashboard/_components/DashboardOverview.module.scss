@@ -103,6 +103,9 @@
   border: 1px solid var(--border-default);
   border-radius: radius('lg');
   box-shadow: var(--shadow-sm);
+  /* Cap the card to its grid track so a long row inside can't
+   *  bleed past the page edge on mobile. */
+  min-inline-size: 0;
 }
 
 .cardHead {
@@ -160,10 +163,17 @@
 }
 
 .rowMain {
+  /* `flex: 1 1 0` lets this column shrink past its content's intrinsic
+   * width, which is what `white-space: nowrap` on the title would
+   * otherwise prevent — that's the bug that produced the page-wide
+   * horizontal scrollbar on mobile. `min-inline-size: 0` is the
+   * second half of the same fix (flex children default to
+   * `min-width: auto = min-content`, which is the title text). */
+  flex: 1 1 0;
+  min-inline-size: 0;
   display: flex;
   flex-direction: column;
   gap: 2px;
-  min-inline-size: 0;
 }
 
 .rowTitle {
@@ -171,6 +181,9 @@
   font-size: 0.9375rem;
   font-weight: 600;
   color: var(--text-primary);
+  /* Belt-and-suspenders — explicit max-inline-size so the nowrap text
+   *  can never push its parent beyond its own measured width. */
+  max-inline-size: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -180,10 +193,17 @@
   margin: 0;
   font-size: 0.8125rem;
   color: var(--text-muted);
+  max-inline-size: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .price {
   margin: 0;
+  /* Stop the price column from being squeezed into a wrap when the
+   *  row is tight — give it a small floor and don't let it grow. */
+  flex: 0 0 auto;
   font-family: $font-display;
   font-size: 0.9375rem;
   font-weight: 600;

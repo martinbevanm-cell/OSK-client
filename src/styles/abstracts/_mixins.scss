@@ -6,11 +6,9 @@
 /// Mobile-first media query. Usage: @include respond('lg') { ... }
 @mixin respond($name) {
   $value: map.get(bp.$breakpoints, $name);
-
-  @if not $value {
+  @if $value == null {
     @error 'respond(): unknown breakpoint `#{$name}`.';
   }
-
   @media (min-width: $value) {
     @content;
   }

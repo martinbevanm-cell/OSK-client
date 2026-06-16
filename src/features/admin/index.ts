@@ -8,6 +8,7 @@ export {
   useListAdminPropertiesQuery,
   useListAdminUsersQuery,
   useUpdateAdminUserMutation,
+  useDeleteAdminUserMutation,
   useImpersonateUserMutation,
   useListAdminReviewsQuery,
   useDeleteAdminReviewMutation,

@@ -60,7 +60,9 @@ export function PropertyCard({ property, priority = false }: PropertyCardProps) 
       </div>
 
       <div className={styles.body}>
-        <p className={styles.price}>{formatPrice(property.price, property.currency)}</p>
+        <p className={styles.price}>
+          {formatPrice(property.price, property.currency)}
+        </p>
         <h3 className={styles.title}>
           <Link href={href}>{property.title}</Link>
         </h3>

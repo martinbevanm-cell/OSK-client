@@ -21,3 +21,5 @@ export * from './pricing.dto';
 export * from './payment.dto';
 export * from './subscription.dto';
 export * from './email.dto';
+export * from './captcha.dto';
+export * from './googleAuth.dto';

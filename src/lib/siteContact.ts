@@ -1,34 +1,50 @@
 /**
- * Single source of truth for OSK's public-facing contact details. Every
- * surface that shows the address / phone / email pulls from here so a
- * future rebrand or HQ move is one diff, not twenty.
+ * Empty defaults for the public-facing contact block. The real values
+ * come from `GET /settings` (admin-editable). These constants only
+ * stand in when the backend is unreachable on the very first paint of
+ * a fresh deploy — they're intentionally generic so a stale fallback
+ * doesn't broadcast someone else's address.
+ *
+ * Every consumer must tolerate empty strings here and either hide the
+ * surface or fall back gracefully.
  */
 export const SITE_CONTACT = {
   companyName: 'OSK',
-  email: 'hello@osk.dev',
+  email: '',
   phone: {
     /** Used for tel: links — digits and a leading + only. */
-    tel: '+13659557829',
+    tel: '',
     /** Used for display — keep the formatting humans expect. */
-    display: '+1 (365) 955-7829',
+    display: '',
   },
   address: {
-    line1: '101 Catherine Street, 6th Floor',
-    city: 'Ottawa',
-    region: 'Ontario',
-    postalCode: 'K2P 2K9',
-    country: 'Canada',
+    line1: '',
+    city: '',
+    region: '',
+    postalCode: '',
+    country: '',
   },
 } as const;
 
-/** One-line address ("101 Catherine Street, 6th Floor, Ottawa, Ontario K2P 2K9, Canada"). */
+/** Compose a single-line address from whatever non-empty parts exist. */
 export function formatAddressOneLine(): string {
   const a = SITE_CONTACT.address;
-  return `${a.line1}, ${a.city}, ${a.region} ${a.postalCode}, ${a.country}`;
+  return [
+    a.line1,
+    [a.city, a.region].filter(Boolean).join(', '),
+    [a.postalCode, a.country].filter(Boolean).join(' '),
+  ]
+    .filter((s) => s.trim().length > 0)
+    .join(', ');
 }
 
-/** Multi-line address rows for stacking in a <address> block. */
+/** Multi-line address rows for stacking in a <address> block. Empty
+ *  rows are skipped so a partial config doesn't leave blank lines. */
 export function addressLines(): string[] {
   const a = SITE_CONTACT.address;
-  return [a.line1, `${a.city}, ${a.region} ${a.postalCode}`, a.country];
+  return [
+    a.line1,
+    [a.city, a.region].filter(Boolean).join(', '),
+    [a.postalCode, a.country].filter(Boolean).join(' '),
+  ].filter((s) => s.trim().length > 0);
 }

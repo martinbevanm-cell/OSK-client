@@ -1,9 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { inquirySchema, type InquiryDto } from '@contracts';
 import { useSubmitInquiryMutation } from '@/features/contact';
+import { SignupCaptcha, useGetCaptchaConfigQuery } from '@/features/captcha';
 import { toastPushed } from '@/features/ui';
 import { useAppDispatch } from '@/store/hooks';
 import { Button } from '@/components/ui';
@@ -21,11 +23,23 @@ interface InquiryFormProps {
 export function InquiryForm({ propertyId, onDone }: InquiryFormProps) {
   const dispatch = useAppDispatch();
   const [submitInquiry, { isLoading }] = useSubmitInquiryMutation();
+  /* Captcha state — same shape as the auth forms. When the admin
+   * disables captcha, `captchaRequired` is false and the field
+   * passes through unset; the backend's verifyToken short-circuits
+   * to success in that case. */
+  const { data: captchaConfig } = useGetCaptchaConfigQuery();
+  const captchaRequired = Boolean(
+    captchaConfig?.enabled && captchaConfig.provider !== 'none',
+  );
+  const [captchaToken, setCaptchaToken] = useState('');
+  const [captchaMissing, setCaptchaMissing] = useState(false);
+  const [captchaResetKey, setCaptchaResetKey] = useState(0);
 
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<InquiryDto>({
     resolver: zodResolver(inquirySchema),
@@ -35,19 +49,33 @@ export function InquiryForm({ propertyId, onDone }: InquiryFormProps) {
       email: '',
       message: '',
       consent: true,
-      // The real CAPTCHA widget (hCaptcha / Turnstile) sets this token.
-      captchaToken: 'dev-captcha-token',
+      /* Filled by the real captcha widget below. The contract demands
+       * a non-empty string when captcha is enabled — we set this from
+       * the widget callback before submit. */
+      captchaToken: '',
     },
   });
 
   const onSubmit = handleSubmit(async (values) => {
+    if (captchaRequired && !captchaToken) {
+      setCaptchaMissing(true);
+      return;
+    }
+    setCaptchaMissing(false);
     try {
-      await submitInquiry(values).unwrap();
+      await submitInquiry({
+        ...values,
+        captchaToken: captchaRequired ? captchaToken : 'disabled',
+      }).unwrap();
       dispatch(toastPushed('success', 'Message sent — the owner will be in touch.'));
       reset();
+      setCaptchaToken('');
+      setCaptchaResetKey((n) => n + 1);
       onDone?.();
     } catch {
       /* failure toast is raised globally by the listener middleware */
+      setCaptchaToken('');
+      setCaptchaResetKey((n) => n + 1);
     }
   });
 
@@ -98,7 +126,21 @@ export function InquiryForm({ propertyId, onDone }: InquiryFormProps) {
         {errors.message && <span className={styles.error}>{errors.message.message}</span>}
       </div>
 
-      <div className={styles.captcha}>Spam protection (CAPTCHA) mounts here</div>
+      {captchaRequired ? (
+        <SignupCaptcha
+          resetKey={captchaResetKey}
+          onToken={(token) => {
+            setCaptchaToken(token);
+            /* Keep RHF's hidden field aligned so the schema validator
+             *  passes — the contract demands a non-empty string. */
+            setValue('captchaToken', token || '');
+            if (token) setCaptchaMissing(false);
+          }}
+        />
+      ) : null}
+      {captchaMissing ? (
+        <span className={styles.error}>Please complete the captcha to continue.</span>
+      ) : null}
 
       <label className={styles.consent}>
         <input type="checkbox" {...register('consent')} />
@@ -106,7 +148,11 @@ export function InquiryForm({ propertyId, onDone }: InquiryFormProps) {
       </label>
       {errors.consent && <span className={styles.error}>{errors.consent.message}</span>}
 
-      <Button type="submit" disabled={isLoading} fullWidth>
+      <Button
+        type="submit"
+        disabled={isLoading || (captchaRequired && !captchaToken)}
+        fullWidth
+      >
         {isLoading ? 'Sending…' : 'Send message'}
       </Button>
     </form>

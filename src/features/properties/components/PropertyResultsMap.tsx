@@ -24,7 +24,8 @@ export function PropertyResultsMap({ properties }: PropertyResultsMapProps) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  const styleUrl = process.env.NEXT_PUBLIC_MAP_STYLE_URL ?? DEFAULT_STYLE_URL;
+  const styleUrl =
+    process.env.NEXT_PUBLIC_MAP_STYLE_URL ?? DEFAULT_STYLE_URL;
 
   const center = useMemo(() => {
     if (properties.length === 0) return null;
@@ -41,7 +42,8 @@ export function PropertyResultsMap({ properties }: PropertyResultsMapProps) {
     }
     /* a rough zoom that fits the bbox; works fine for the U.S.-wide set */
     const span = Math.max(east - west, north - south);
-    const zoom = span > 50 ? 2.5 : span > 20 ? 3.5 : span > 8 ? 4.5 : span > 2 ? 6 : 10;
+    const zoom =
+      span > 50 ? 2.5 : span > 20 ? 3.5 : span > 8 ? 4.5 : span > 2 ? 6 : 10;
     return {
       longitude: (west + east) / 2,
       latitude: (south + north) / 2,
@@ -76,7 +78,12 @@ export function PropertyResultsMap({ properties }: PropertyResultsMapProps) {
           {properties.map((p) => {
             const [lng, lat] = p.location.coordinates;
             return (
-              <Marker key={p.id} longitude={lng} latitude={lat} anchor="bottom">
+              <Marker
+                key={p.id}
+                longitude={lng}
+                latitude={lat}
+                anchor="bottom"
+              >
                 <button
                   type="button"
                   className={styles.pill}

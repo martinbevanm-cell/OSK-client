@@ -75,8 +75,8 @@ export function CityShowcase() {
           Find a home in your <em>favorite city.</em>
         </h2>
         <p className={styles.sub}>
-          Browse hand-vetted homes across America&rsquo;s most sought-after markets — from
-          coastal towers to canyon retreats.
+          Browse hand-vetted homes across the world&rsquo;s most sought-after markets —
+          from coastal towers to canyon retreats.
         </p>
       </header>
 

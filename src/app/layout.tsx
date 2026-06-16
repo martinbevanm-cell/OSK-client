@@ -4,6 +4,7 @@ import { THEMES, type SiteSettings, type ThemeName } from '@contracts';
 import { StoreProvider } from '@/store/StoreProvider';
 import { ThemeProvider, ThemeScript } from '@/components/theme';
 import { AuthBootstrap, ImpersonationBanner } from '@/features/auth';
+import { GoogleSessionBootstrap } from '@/features/googleAuth';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { Newsletter } from '@/components/layout/Newsletter';
@@ -88,6 +89,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body suppressHydrationWarning>
         <StoreProvider>
           <ThemeProvider serverTheme={activeTheme}>
+            {/* GoogleSessionBootstrap runs BEFORE AuthBootstrap so a
+                user who just returned from Google's OAuth callback
+                already has their access token in the store by the time
+                useSessionQuery fires — saves a refresh round-trip. */}
+            <GoogleSessionBootstrap />
             <AuthBootstrap />
             <ImpersonationBanner />
             <a href="#main-content" className="skip-link">

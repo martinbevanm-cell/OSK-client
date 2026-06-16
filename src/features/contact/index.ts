@@ -6,4 +6,8 @@ export {
   useRequestCallbackMutation,
   useGetWhatsAppLinkQuery,
   useLazyGetWhatsAppLinkQuery,
+  useSubmitContactGeneralMutation,
+  useListContactMessagesQuery,
+  useUpdateContactMessageMutation,
+  useReplyToContactMessageMutation,
 } from './contactApi';
