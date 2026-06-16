@@ -3,9 +3,9 @@ import { NextResponse } from 'next/server';
 export function middleware(request) {
   const host = request.headers.get('host');
 
-  // Check if accessing via the specific Vercel production URL
-  if (host && host.endsWith('osklisting.vercel.app')) {
-    // Returning a structured JSON response is safer for Vercel's Edge Runtime
+  // ONLY block if the visitor is explicitly typing the raw production Vercel address.
+  // This safely leaves your custom domain (osklisting.com) completely untouched.
+  if (host === 'osklisting.vercel.app') {
     return new NextResponse(
       JSON.stringify({ success: false, message: 'Access Denied' }),
       { 
@@ -18,7 +18,7 @@ export function middleware(request) {
   return NextResponse.next();
 }
 
+// Optimized matcher stops Next.js from processing internal system files
 export const config = {
-  // Exclude static Next.js assets to prevent edge build failures
   matcher: '/((?!_next/static|_next/image|favicon.ico).*)',
 };
